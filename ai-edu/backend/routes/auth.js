@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const { db } = require('../db');
 const TURNSTILE_CONFIG = require('../config/turnstile');
 
@@ -9,9 +10,42 @@ const router = express.Router();
 // SALT_ROUNDS for bcrypt
 const SALT_ROUNDS = 12;
 
-// JWT Secret
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+// JWT Secret - MUST be set via environment variable in production
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('FATAL: JWT_SECRET environment variable is required in production');
+  }
+  console.warn('WARNING: Using insecure default JWT_SECRET. Set JWT_SECRET env var in production!');
+}
+const effectiveJWT_SECRET = JWT_SECRET || 'dev-only-secret-do-not-use-in-production';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+
+// Rate limiters for auth endpoints
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // 10 attempts per window
+  message: { error: '登录尝试过于频繁，请 15 分钟后再试' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => {
+    // Skip rate limit for localhost in development
+    const host = req.headers['x-forwarded-host'] || req.headers.host || '';
+    return host.includes('localhost') || host.includes('127.0.0.1');
+  }
+});
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 registrations per hour
+  message: { error: '注册过于频繁，请稍后再试' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => {
+    const host = req.headers['x-forwarded-host'] || req.headers.host || '';
+    return host.includes('localhost') || host.includes('127.0.0.1');
+  }
+});
 
 // Check if request is from localhost (skip Turnstile verification)
 const isLocalhost = (req) => {
@@ -44,12 +78,13 @@ function generateToken(user) {
       username: user.username,
       role: user.role,
       email: user.email,
-      jti: Date.now().toString(36)
+      jti: Date.now().toString(36) + Math.random().toString(36).substring(2, 10)
     },
-    JWT_SECRET,
+    effectiveJWT_SECRET,
     {
       expiresIn: JWT_EXPIRES_IN,
-      issuer: 'ai-edu-backend'
+      issuer: 'ai-edu-backend',
+      algorithm: 'HS256'
     }
   );
 }
@@ -66,6 +101,12 @@ function isTokenBlacklisted(jti) {
  * 验证 Cloudflare Turnstile token
  */
 async function verifyTurnstileToken(token, remoteIp = null) {
+  // If Turnstile is not configured, skip verification
+  if (!TURNSTILE_CONFIG.secretKey) {
+    console.warn('Turnstile secret key not configured, skipping verification');
+    return true;
+  }
+
   try {
     const params = new URLSearchParams();
     params.append('secret', TURNSTILE_CONFIG.secretKey);
@@ -100,7 +141,7 @@ function authenticate(req, res, next) {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET, { issuer: 'ai-edu-backend' });
+    const decoded = jwt.verify(token, effectiveJWT_SECRET, { issuer: 'ai-edu-backend', algorithms: ['HS256'] });
 
     // 检查 Token 是否在黑名单
     if (decoded.jti && isTokenBlacklisted(decoded.jti)) {
@@ -150,7 +191,7 @@ function requireRole(...allowedRoles) {
  * POST /api/auth/register
  * 注册新用户
  */
-router.post('/register', async (req, res) => {
+router.post('/register', registerLimiter, async (req, res) => {
   try {
     const { username, email, password, displayName, role = 'student', turnstileToken } = req.body;
 
@@ -230,7 +271,7 @@ router.post('/register', async (req, res) => {
  * POST /api/auth/login
  * 用户登录
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
   try {
     const { username, password, turnstileToken } = req.body;
 
