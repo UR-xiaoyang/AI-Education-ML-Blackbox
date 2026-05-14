@@ -1,0 +1,164 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  width: 50%;
+  max-width: 600px;
+  min-width: 320px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.modal-prompt {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modal-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  border: 1px solid var(--glass-border);
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--text-primary);
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.modal-textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.modal-submit {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+/* ============================================================================
+   完成选择界面样式
+   ============================================================================ */
+
+.completion-modal {
+  text-align: center;
+}
+
+.completion-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.completion-message {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.completion-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.completion-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
+  padding: 16px 20px !important;
+  min-height: 72px !important;
+  text-align: left !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-sizing: border-box !important;
+}
+
+.completion-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-blue);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.completion-btn.btn-primary {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+  border: none;
+}
+
+.completion-btn.btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+}
+
+.completion-btn .btn-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0 !important;
+}
+
+.completion-btn.btn-primary .btn-icon {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.completion-btn .btn-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.completion-btn .btn-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.completion-btn.btn-primary .btn-label {
+  color: #fff;
+}
+
+.completion-btn .btn-sublabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.completion-btn.btn-primary .btn-sublabel {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.completion-btn-secondary {
+  opacity: 0.7;
+}
+
+.completion-btn-secondary:hover {
+  opacity: 1;
+}

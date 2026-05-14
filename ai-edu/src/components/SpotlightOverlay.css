@@ -1,0 +1,90 @@
+/* SpotlightOverlay.css */
+
+.spotlight-overlay-mask {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
+  /* 挖孔区域 pointer-events: none，让点击穿透到下方元素 */
+  pointer-events: none;
+  transition: clip-path 0.3s ease-in-out;
+}
+
+.spotlight-target-active {
+  /* 提升目标元素的层级，使其浮出水面 */
+  position: relative;
+  z-index: 10002 !important;
+  /* 允许用户与高亮元素进行交互 */
+  pointer-events: auto !important;
+}
+
+/* 确保模式切换按钮在高亮状态下始终可点击 */
+#dt-btn-mode-toggle.spotlight-target-active {
+  z-index: 10005 !important;
+  pointer-events: auto !important;
+}
+
+.spotlight-overlay-fallback {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10005;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.guidance-popover {
+  padding: 16px 20px;
+  border-radius: 12px;
+  max-width: 320px;
+  width: max-content;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: var(--glass-bg);
+  border: 1px solid var(--accent-blue);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: white;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* 确保弹窗始终在可视区域内 */
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.guidance-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.guidance-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.guidance-message {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.mt-3 { margin-top: 12px; }
+.w-full { width: 100%; }
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.9) translate(-50%, 0); }
+  100% { opacity: 1; transform: scale(1) translate(-50%, 0); }
+}
+
+/* 调整当气泡在上方时的动画变换原点 */
+.guidance-popover[style*="-100%"] {
+  animation: popInTop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popInTop {
+  0% { opacity: 0; transform: scale(0.9) translate(-50%, -100%); }
+  100% { opacity: 1; transform: scale(1) translate(-50%, -100%); }
+}

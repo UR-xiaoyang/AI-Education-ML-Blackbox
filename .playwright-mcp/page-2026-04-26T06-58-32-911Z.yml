@@ -1,0 +1,98 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e62]:
+      - button "返回实验选择" [ref=e63] [cursor=pointer]
+      - button "📈 线性回归" [ref=e64] [cursor=pointer]:
+        - generic [ref=e65]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e66] [cursor=pointer]:
+        - generic [ref=e67]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e68] [cursor=pointer]:
+        - generic [ref=e69]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e70] [cursor=pointer]:
+        - generic [ref=e71]: 🧠
+        - text: 神经网络
+      - button "⚠️ 故障诊断" [ref=e72] [cursor=pointer]:
+        - generic [ref=e73]: ⚠️
+        - text: 故障诊断
+      - button "💬 LLM 专题" [ref=e74] [cursor=pointer]:
+        - generic [ref=e75]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e76] [cursor=pointer]:
+        - generic [ref=e77]: 🎯
+        - text: YOLO 专题
+  - main [ref=e79]:
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - heading "📊 拟合曲线可视化" [level=3] [ref=e83]
+          - generic [ref=e145]: ⚠️ 梯度爆炸：参数更新步长过大，导致数值溢出
+        - generic [ref=e85]:
+          - generic [ref=e146]:
+            - generic [ref=e147]: ↘ Loss 曲线
+            - generic [ref=e148]: "Epoch: 1 / 500"
+          - generic [ref=e149]: ⚠️ 梯度爆炸
+          - img [ref=e150]
+          - generic [ref=e154]:
+            - generic [ref=e155]: "训练: 78360.0073"
+            - generic [ref=e157]: "验证: 78360.0073"
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - heading "🔍 当前状态" [level=3] [ref=e89]
+          - generic [ref=e90]:
+            - generic [ref=e91]: 训练轮次
+            - generic [ref=e92]: 1 / 500
+            - generic [ref=e93]: 当前 Loss
+            - generic [ref=e94]: "78360.0073"
+            - generic [ref=e95]: 模型状态
+            - generic [ref=e96]: ⏹️ 已停止
+          - generic [ref=e159]:
+            - generic [ref=e160]: ⚠️ 检测到故障
+            - generic [ref=e161]: 梯度爆炸
+            - generic [ref=e162]:
+              - generic [ref=e163]: 💡 解决方案
+              - list [ref=e164]:
+                - listitem [ref=e165]: 降低学习率（如从 0.5 降到 0.1）
+                - listitem [ref=e166]: 启用梯度裁剪，限制参数更新步长
+                - listitem [ref=e167]: 使用更小的初始化权重
+                - listitem [ref=e168]: 尝试 Adam 或 RMSprop 等自适应优化器
+        - generic [ref=e97]:
+          - heading "⚙️ 控制面板" [level=3] [ref=e98]
+          - generic [ref=e99]:
+            - generic [ref=e100]: 数据集类型
+            - combobox [ref=e101]:
+              - option "标准数据" [selected]
+              - option "噪音数据"
+              - option "离群点数据"
+              - option "污染数据"
+              - option "稀疏数据"
+          - generic [ref=e102]:
+            - generic [ref=e103]: "学习率 (LR): 0.5"
+            - slider [ref=e104]: "0.5"
+          - generic [ref=e105]:
+            - generic [ref=e106]: "隐藏层节点: 8"
+            - slider [ref=e107]: "8"
+          - generic [ref=e108]:
+            - generic [ref=e109]: "训练轮数: 500"
+            - slider [ref=e110]: "500"
+          - generic [ref=e111]:
+            - generic [ref=e112]: 激活函数
+            - combobox [ref=e113]:
+              - option "ReLU (推荐)" [selected]
+              - option "Sigmoid (易梯度消失)"
+              - option "Tanh"
+              - option "Leaky ReLU"
+          - generic [ref=e114]:
+            - checkbox "梯度裁剪" [checked] [ref=e115]
+            - generic [ref=e116] [cursor=pointer]: 梯度裁剪
+          - generic [ref=e117]:
+            - button "▶️ 开始训练" [ref=e118] [cursor=pointer]
+            - button "🔄 重置" [ref=e119] [cursor=pointer]

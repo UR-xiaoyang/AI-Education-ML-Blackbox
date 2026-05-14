@@ -1,0 +1,206 @@
+/* LLMGenerationPanel.css */
+.llm-generation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.llm-generation-panel .panel-header {
+  display: flex;
+  align-items: center;
+}
+
+.llm-generation-panel .panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+/* 提示词输入 */
+.prompt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prompt-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-primary, #e2e8f0);
+  font-size: 13px;
+  font-family: inherit;
+  resize: none;
+  transition: border-color 0.2s ease;
+}
+
+.prompt-input:focus {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.prompt-input::placeholder {
+  color: var(--text-muted, #64748b);
+}
+
+/* 生成控制按钮 */
+.generation-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.generation-controls .btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.generation-controls .btn-primary {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.generation-controls .btn-primary:hover {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+.generation-controls .btn-secondary {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-secondary, #94a3b8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.generation-controls .btn-secondary:hover {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+/* 生成结果 */
+.generation-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.generated-text {
+  padding: 12px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  min-height: 60px;
+}
+
+.token-stream {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.generated-token {
+  padding: 4px 8px;
+  background: rgba(34, 197, 94, 0.2);
+  border-radius: 4px;
+  font-size: 12px;
+  color: #22c55e;
+  animation: tokenAppear 0.3s ease;
+}
+
+@keyframes tokenAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: var(--text-muted, #64748b);
+  font-style: italic;
+}
+
+/* 概率分布 */
+.prob-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prob-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prob-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prob-token {
+  width: 60px;
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prob-bar-container {
+  flex: 1;
+  height: 8px;
+  background: rgba(148, 163, 184, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prob-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.prob-value {
+  width: 45px;
+  font-size: 10px;
+  color: var(--text-muted, #64748b);
+  text-align: right;
+  font-family: monospace;
+}
+
+/* Temperature 说明 */
+.temp-explanation {
+  margin-top: auto;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.temp-explanation p {
+  margin: 0;
+  font-size: 10px;
+  color: var(--text-secondary, #94a3b8);
+  line-height: 1.5;
+}
+
+.temp-low {
+  color: #22c55e;
+}
+
+.temp-high {
+  color: #f97316;
+}
