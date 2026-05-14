@@ -1,0 +1,78 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e12]:
+      - button "返回实验选择" [ref=e13] [cursor=pointer]
+      - button "📈 线性回归" [ref=e14] [cursor=pointer]:
+        - generic [ref=e15]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]: 🧠
+        - text: 神经网络
+      - button "⚠️ 故障诊断" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]: ⚠️
+        - text: 故障诊断
+      - button "💬 LLM 专题" [ref=e24] [cursor=pointer]:
+        - generic [ref=e25]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e26] [cursor=pointer]:
+        - generic [ref=e27]: 🎯
+        - text: YOLO 专题
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - heading "📊 拟合曲线可视化" [level=3] [ref=e33]
+        - paragraph [ref=e96]: 暂无训练数据
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - heading "🔍 当前状态" [level=3] [ref=e52]
+          - generic [ref=e53]:
+            - generic [ref=e54]: 训练轮次
+            - generic [ref=e55]: 0 / 500
+            - generic [ref=e56]: 当前 Loss
+            - generic [ref=e57]: "-"
+            - generic [ref=e58]: 模型状态
+            - generic [ref=e59]: ⏹️ 已停止
+        - generic [ref=e73]:
+          - heading "⚙️ 控制面板" [level=3] [ref=e74]
+          - generic [ref=e75]:
+            - generic [ref=e76]: 数据集类型
+            - combobox [ref=e77]:
+              - option "标准数据" [selected]
+              - option "噪音数据"
+              - option "离群点数据"
+              - option "污染数据"
+              - option "稀疏数据"
+          - generic [ref=e78]:
+            - generic [ref=e79]: "学习率 (LR): 0.1"
+            - slider [ref=e80]: "0.1"
+          - generic [ref=e81]:
+            - generic [ref=e82]: "隐藏层节点: 8"
+            - slider [ref=e83]: "8"
+          - generic [ref=e84]:
+            - generic [ref=e85]: "训练轮数: 500"
+            - slider [ref=e86]: "500"
+          - generic [ref=e87]:
+            - generic [ref=e88]: 激活函数
+            - combobox [ref=e89]:
+              - option "ReLU (推荐)" [selected]
+              - option "Sigmoid (易梯度消失)"
+              - option "Tanh"
+              - option "Leaky ReLU"
+          - generic [ref=e90]:
+            - checkbox "梯度裁剪" [checked] [ref=e91]
+            - generic [ref=e92] [cursor=pointer]: 梯度裁剪
+          - generic [ref=e93]:
+            - button "▶️ 开始训练" [ref=e94] [cursor=pointer]
+            - button "🔄 重置" [active] [ref=e95] [cursor=pointer]

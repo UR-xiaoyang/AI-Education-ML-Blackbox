@@ -1,0 +1,89 @@
+/* LLMLossChart.css */
+.llm-loss-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.llm-loss-chart .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.llm-loss-chart .panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.llm-loss-chart .badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(244, 114, 182, 0.2);
+  color: #f472b6;
+}
+
+.chart-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.chart-container canvas {
+  display: block;
+}
+
+/* 损失统计 */
+.loss-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+  background: rgba(244, 114, 182, 0.1);
+  border-radius: 6px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted, #64748b);
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  font-family: monospace;
+}
+
+.stat-value.current {
+  color: #f472b6;
+}
+
+.stat-value.best {
+  color: #22c55e;
+}
+
+/* 说明 */
+.llm-loss-chart .chart-explanation {
+  margin-top: auto;
+  padding: 8px;
+  background: rgba(244, 114, 182, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid rgba(244, 114, 182, 0.5);
+}
+
+.llm-loss-chart .chart-explanation p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+  line-height: 1.5;
+}

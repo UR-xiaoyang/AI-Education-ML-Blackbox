@@ -1,0 +1,235 @@
+/* LLMControlPanel.css */
+.llm-control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.llm-control-panel .panel-header {
+  display: flex;
+  align-items: center;
+}
+
+.llm-control-panel .panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-label {
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.section-label strong {
+  color: #38bdf8;
+  font-family: monospace;
+}
+
+/* 模式切换 */
+.mode-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-btn:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.mode-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+/* 主题选择 */
+.theme-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-btn {
+  padding: 8px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.theme-btn:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.theme-btn.active {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: #a78bfa;
+  color: #a78bfa;
+}
+
+/* 滑块 */
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.2);
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #38bdf8;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-muted, #64748b);
+}
+
+/* 按钮 */
+.llm-control-panel .btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.llm-control-panel .btn-primary {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.llm-control-panel .btn-primary:hover {
+  background: rgba(56, 189, 248, 0.3);
+}
+
+.llm-control-panel .btn-secondary {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-secondary, #94a3b8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.llm-control-panel .btn-secondary:hover {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.llm-control-panel .btn-warning {
+  background: rgba(250, 204, 21, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+}
+
+.llm-control-panel .btn-warning:hover {
+  background: rgba(250, 204, 21, 0.3);
+}
+
+.llm-control-panel .btn-ghost {
+  background: transparent;
+  color: var(--text-muted, #64748b);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.llm-control-panel .btn-ghost:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-secondary, #94a3b8);
+}
+
+/* 训练控制按钮组 */
+.training-controls {
+  flex-direction: row;
+}
+
+.training-controls .btn {
+  flex: 1;
+}
+
+/* 训练状态 */
+.training-status {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(56, 189, 248, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.1);
+}
+
+.status-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.status-label {
+  font-size: 10px;
+  color: var(--text-muted, #64748b);
+}
+
+.status-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #38bdf8;
+  font-family: monospace;
+}
+
+/* 推理说明 */
+.inference-info {
+  padding: 10px;
+  background: rgba(168, 85, 247, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(168, 85, 247, 0.1);
+}
+
+.inference-info p {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+  line-height: 1.5;
+}
+
+.inference-info p:last-child {
+  margin-bottom: 0;
+}

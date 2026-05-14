@@ -1,0 +1,222 @@
+/* AttentionViz.css */
+.attention-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: auto;
+}
+
+.attention-viz .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.attention-viz .panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.attention-viz .badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(168, 85, 247, 0.2);
+  color: #a78bfa;
+}
+
+.attention-viz .section-label {
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.attention-viz .empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--text-muted, #64748b);
+  font-size: 13px;
+}
+
+/* 热力图 */
+.attention-heatmap {
+  margin-bottom: 8px;
+}
+
+.heatmap-container {
+  display: flex;
+  gap: 4px;
+}
+
+.row-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 0;
+}
+
+.row-label {
+  font-size: 9px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary, #94a3b8);
+  padding-right: 4px;
+}
+
+.heatmap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.heatmap-row {
+  display: flex;
+  gap: 1px;
+}
+
+.heatmap-cell {
+  width: 14px;
+  height: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.2);
+  z-index: 10;
+}
+
+.cell-value {
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.col-labels {
+  display: flex;
+  gap: 1px;
+  margin-top: 2px;
+  justify-content: flex-start;
+}
+
+.col-label {
+  font-size: 9px;
+  width: 14px;
+  text-align: center;
+  color: var(--text-secondary, #94a3b8);
+  transform: rotate(-45deg);
+  transform-origin: top left;
+  white-space: nowrap;
+}
+
+/* 多头注意力 */
+.multi-head-attention {
+  margin: 8px 0;
+}
+
+.head-heatmaps {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.head-heatmap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.head-label {
+  font-size: 9px;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.mini-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mini-row {
+  display: flex;
+  gap: 1px;
+}
+
+.mini-cell {
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+}
+
+/* 注意力摘要 */
+.attention-summary {
+  margin: 8px 0;
+}
+
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 4px;
+}
+
+.from-token {
+  color: #38bdf8;
+}
+
+.arrow {
+  color: var(--text-muted, #64748b);
+}
+
+.to-token {
+  color: #f97316;
+}
+
+.weight {
+  color: var(--text-muted, #64748b);
+  font-size: 10px;
+  margin-left: auto;
+}
+
+/* 说明文字 */
+.attention-explanation {
+  margin-top: auto;
+  padding: 8px;
+  background: rgba(168, 85, 247, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid rgba(168, 85, 247, 0.5);
+}
+
+.attention-explanation p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+  line-height: 1.5;
+}

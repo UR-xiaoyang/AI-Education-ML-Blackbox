@@ -1,0 +1,128 @@
+/* LLMFlowViz.css */
+.llm-flow-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.llm-flow-viz .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.llm-flow-viz .panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.llm-flow-viz .badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.llm-flow-viz .badge.idle {
+  background: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+.llm-flow-viz .badge.training {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  animation: badgePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* 流程图 */
+.flow-diagram {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.flow-diagram svg {
+  display: block;
+}
+
+.llm-flow-viz .stage-node {
+  cursor: pointer;
+}
+
+.llm-flow-viz .stage-node circle:first-of-type {
+  transition: all 0.3s ease;
+}
+
+.llm-flow-viz .stage-node:hover circle:first-of-type {
+  filter: brightness(1.2);
+}
+
+.llm-flow-viz .stage-icon {
+  font-size: 16px;
+}
+
+.llm-flow-viz .stage-label {
+  font-size: 10px;
+  fill: var(--text-secondary, #94a3b8);
+}
+
+.llm-flow-viz .connector {
+  opacity: 0.6;
+}
+
+/* Token 显示 */
+.flow-section-label {
+  font-size: 11px;
+  fill: var(--text-secondary, #94a3b8);
+}
+
+.llm-flow-viz .token-text {
+  font-size: 10px;
+  fill: #e2e8f0;
+}
+
+.llm-flow-viz .token-more {
+  font-size: 10px;
+  fill: var(--text-muted, #64748b);
+}
+
+/* 流程说明 */
+.flow-explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.step-desc {
+  font-size: 11px;
+  color: var(--text-secondary, #94a3b8);
+}
