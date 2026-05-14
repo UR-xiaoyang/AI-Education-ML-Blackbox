@@ -1,24 +1,37 @@
 const jwt = require('jsonwebtoken');
 const { db } = require('../db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+// JWT Secret - MUST be set via environment variable in production
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('FATAL: JWT_SECRET environment variable is required in production');
+  }
+  console.warn('WARNING: Using default JWT_SECRET. Set JWT_SECRET env var in production!');
+}
+const effectiveJWT_SECRET = JWT_SECRET || 'dev-only-secret-do-not-use-in-production';
+
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 
 /**
  * 生成 JWT Token
  */
 function generateToken(user) {
-  const payload = {
-    userId: user.id,
-    username: user.username,
-    role: user.role,
-    email: user.email
-  };
-
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-    issuer: 'ai-edu-backend'
-  });
+  return jwt.sign(
+    {
+      userId: user.id,
+      username: user.username,
+      role: user.role,
+      email: user.email,
+      jti: Date.now().toString(36) + Math.random().toString(36).substring(2, 10)
+    },
+    effectiveJWT_SECRET,
+    {
+      expiresIn: JWT_EXPIRES_IN,
+      issuer: 'ai-edu-backend',
+      algorithm: 'HS256'
+    }
+  );
 }
 
 /**
@@ -45,7 +58,10 @@ async function authenticate(req, res, next) {
     const token = authHeader.split(' ')[1];
 
     // 验证 Token 签名和过期时间
-    const decoded = jwt.verify(token, JWT_SECRET, { issuer: 'ai-edu-backend' });
+    const decoded = jwt.verify(token, effectiveJWT_SECRET, {
+      issuer: 'ai-edu-backend',
+      algorithms: ['HS256']
+    });
 
     // 检查 Token 是否在黑名单中
     if (decoded.jti && isTokenBlacklisted(decoded.jti)) {
@@ -113,7 +129,10 @@ function ifAuthenticated(req, res, next) {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET, { issuer: 'ai-edu-backend' });
+    const decoded = jwt.verify(token, effectiveJWT_SECRET, {
+      issuer: 'ai-edu-backend',
+      algorithms: ['HS256']
+    });
     // Token 有效，跳过登录页
     return res.status(200).json({
       authenticated: true,
@@ -131,7 +150,7 @@ function ifAuthenticated(req, res, next) {
 }
 
 module.exports = {
-  JWT_SECRET,
+  JWT_SECRET: effectiveJWT_SECRET,
   JWT_EXPIRES_IN,
   generateToken,
   authenticate,

@@ -1,9 +1,12 @@
 // Cloudflare Turnstile Configuration
 // Get your keys from: https://dash.cloudflare.com/turnstile
+//
+// SECURITY: Keys should be set via environment variables in production.
+// Never commit real keys to version control.
 
 const TURNSTILE_CONFIG = {
-  siteKey: '0x4AAAAAADCIV_KC4Dyc2waK',
-  secretKey: '0x4AAAAAADCIV6awjGmy82q_mBQ_zktl2dw',
+  siteKey: process.env.TURNSTILE_SITE_KEY || '',
+  secretKey: process.env.TURNSTILE_SECRET_KEY || '',
   verifyUrl: 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
 };
 
