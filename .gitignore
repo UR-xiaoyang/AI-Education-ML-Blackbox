@@ -5,3 +5,24 @@ ai-edu/dist/
 *.log
 .DS_Store
 .env
+
+# Arduino / ESP32 构建产物
+ai-edu/.tools/
+*.cpp.o
+*.cpp.d
+*.c.d
+*.c.o
+*.bin
+*.elf
+*.cache
+
+# 部署打包
+*.tar
+*.tar.gz
+ai-edu/deploy-package/
+ai-edu/ai-edu-docker-deploy.tar.gz
+ai-edu/.security-backup-*/
+
+# Playwright 临时快照
+.playwright-mcp/
+ai-edu/.playwright-mcp/
