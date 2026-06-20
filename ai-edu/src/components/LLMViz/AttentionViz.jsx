@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VOCAB } from '../../utils/miniLLMEngine';
 import './AttentionViz.css';
 
 export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 }) {
+  const [selectedHead, setSelectedHead] = useState('avg');
+  const [selectedCell, setSelectedCell] = useState(null);
   const vocabInfo = useMemo(() => {
     const vocab = VOCAB;
     const vocabToId = {};
@@ -41,6 +43,12 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
     return avgWeights;
   }, [attentionWeights, tokenTexts.length]);
 
+  const displayedAttentionWeights = useMemo(() => {
+    if (!attentionWeights || attentionWeights.length === 0) return null;
+    if (selectedHead === 'avg') return avgAttentionWeights;
+    return attentionWeights[selectedHead] || avgAttentionWeights;
+  }, [attentionWeights, avgAttentionWeights, selectedHead]);
+
   // 获取热力图颜色
   const getHeatColor = (value) => {
     // 0: 浅绿 -> 0.5: 黄色 -> 1: 红色
@@ -57,9 +65,9 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
 
   // 找出每个位置最关注的 token
   const mostAttended = useMemo(() => {
-    if (!avgAttentionWeights) return [];
+    if (!displayedAttentionWeights) return [];
 
-    return avgAttentionWeights.map((row, i) => {
+    return displayedAttentionWeights.map((row, i) => {
       let maxIdx = 0;
       let maxVal = 0;
       for (let j = 0; j < row.length; j++) {
@@ -70,7 +78,7 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
       }
       return { from: i, to: maxIdx, value: maxVal };
     });
-  }, [avgAttentionWeights]);
+  }, [displayedAttentionWeights]);
 
   if (!tokens || tokens.length === 0) {
     return (
@@ -105,6 +113,13 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
         <span className="badge">{numHeads} 头注意力</span>
       </div>
 
+      <div className="head-selector">
+        <button className={selectedHead === 'avg' ? 'active' : ''} onClick={() => setSelectedHead('avg')}>平均</button>
+        {attentionWeights.map((_, h) => (
+          <button key={h} className={selectedHead === h ? 'active' : ''} onClick={() => setSelectedHead(h)}>Head {h + 1}</button>
+        ))}
+      </div>
+
       {/* 注意力热力图 */}
       <div className="attention-heatmap">
         <span className="section-label">注意力权重热力图 (行=Query, 列=Key):</span>
@@ -120,13 +135,14 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
           <div className="heatmap-grid">
             {/* 热力图 */}
             <div className="heatmap">
-              {avgAttentionWeights.map((row, i) => (
+              {displayedAttentionWeights.map((row, i) => (
                 <div key={i} className="heatmap-row">
                   {row.map((val, j) => (
                     <div
                       key={j}
-                      className="heatmap-cell"
+                      className={`heatmap-cell ${selectedCell?.from === i && selectedCell?.to === j ? 'selected' : ''}`}
                       style={{ backgroundColor: getHeatColor(val) }}
+                      onClick={() => setSelectedCell({ from: i, to: j, value: val })}
                       title={`Query: "${tokenTexts[i]}" → Key: "${tokenTexts[j]}" = ${val.toFixed(3)}`}
                     >
                       {val > 0.5 && (
@@ -178,6 +194,11 @@ export default function AttentionViz({ tokens, attentionWeights, numHeads = 4 })
       {/* 注意力解释 */}
       <div className="attention-summary">
         <span className="section-label">注意力解读:</span>
+        {selectedCell && (
+          <div className="selected-attention">
+            你选中了 <strong>"{tokenTexts[selectedCell.from]}"</strong> 关注 <strong>"{tokenTexts[selectedCell.to]}"</strong>，权重为 <strong>{(selectedCell.value * 100).toFixed(1)}%</strong>。
+          </div>
+        )}
         <div className="summary-items">
           {mostAttended.map((item, i) => (
             <div key={i} className="summary-item">

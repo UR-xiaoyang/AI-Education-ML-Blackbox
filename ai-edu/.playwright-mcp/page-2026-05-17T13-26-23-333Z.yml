@@ -1,0 +1,125 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e108]:
+      - button "← 退出课程" [ref=e109] [cursor=pointer]
+      - generic [ref=e110]: 📚 第 1/5 课 · 线性回归
+    - generic [ref=e111]:
+      - button "退出课程" [ref=e112] [cursor=pointer]
+      - button "返回实验选择" [ref=e113] [cursor=pointer]
+      - button "📈 线性回归" [ref=e114] [cursor=pointer]:
+        - generic [ref=e115]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归 🔒" [ref=e116]:
+        - generic [ref=e117]: 🟠🔵
+        - text: 逻辑回归 🔒
+      - button "🌲 决策树 🔒" [ref=e118]:
+        - generic [ref=e119]: 🌲
+        - text: 决策树 🔒
+      - button "🧠 神经网络 🔒" [ref=e120]:
+        - generic [ref=e121]: 🧠
+        - text: 神经网络 🔒
+      - button "💬 LLM 专题 🔒" [ref=e122]:
+        - generic [ref=e123]: 💬
+        - text: LLM 专题 🔒
+      - button "🎯 YOLO 专题 🔒" [ref=e124]:
+        - generic [ref=e125]: 🎯
+        - text: YOLO 专题 🔒
+  - generic [ref=e126]:
+    - generic [ref=e127]: 📚 课程进度：第 1/5 课
+    - generic [ref=e128]:
+      - generic "📈 线性回归 (进行中)" [ref=e129]
+      - generic "🟠🔵 逻辑回归 (未开始)" [ref=e130]
+      - generic "🌲 决策树 (未开始)" [ref=e131]
+      - generic "🧠 神经网络 (未开始)" [ref=e132]
+      - generic "⚠️ 故障诊断 (未开始)" [ref=e133]
+    - generic [ref=e134]: 📈 线性回归
+  - generic [ref=e135]:
+    - generic [ref=e136]:
+      - strong [ref=e137]: 📚 📈 线性回归：
+      - text: 从散点和拟合直线开始,理解损失函数与梯度下降。
+    - generic [ref=e138]: 1 / 12
+  - main [ref=e140]:
+    - generic [ref=e141]:
+      - generic [ref=e143]:
+        - img [ref=e144]
+        - generic [ref=e154]: ✨ 点已添加！继续添加更多点吧
+      - generic [ref=e155]:
+        - generic [ref=e156]:
+          - generic [ref=e157]:
+            - heading "AI 黑盒实验室" [level=2] [ref=e158]
+            - paragraph [ref=e159]: 揭开机器学习：从数据到模型
+          - generic [ref=e160]:
+            - generic [ref=e161]:
+              - generic [ref=e162]: 学习进度
+              - generic [ref=e163]: 60%
+            - generic [ref=e166]:
+              - generic [ref=e167]: ✓ 收集数据
+              - generic [ref=e168]: ✓ 理解误差
+              - generic [ref=e169]: ▶ 开始训练
+              - generic [ref=e170]: ○ 训练完成
+              - generic [ref=e171]: ○ 推理测试
+          - generic [ref=e172]:
+            - button "🏋️ 训练模式" [ref=e173] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e174] [cursor=pointer]
+          - generic [ref=e175]:
+            - heading "STEP 第三步：梯度下降 (Gradient Descent)" [level=3] [ref=e176]:
+              - generic [ref=e177]: STEP
+              - text: 第三步：梯度下降 (Gradient Descent)
+            - paragraph [ref=e178]: 点击「自动训练」看魔法发生！系统正在背后默默用「梯度下降」算法微调那条绿色的直线。你可以看到误差值急剧下降。
+          - generic [ref=e179]:
+            - generic [ref=e180]:
+              - generic [ref=e181]: 模型公式 (Model)
+              - generic [ref=e182]: y = wx + b
+              - generic [ref=e183]:
+                - text: "w: -0.6112"
+                - text: "b: 0.8805"
+            - generic [ref=e184]:
+              - generic [ref=e185]: 误差总和 (Loss)
+              - generic [ref=e186]: "0.0502"
+              - generic [ref=e187]: 🟡 良好
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - generic [ref=e190]: 学习步长 (学习率)
+              - generic [ref=e191]: "0.10"
+            - slider [ref=e192] [cursor=pointer]: "0.1"
+          - generic [ref=e193]:
+            - button "单步 (Step)" [ref=e194] [cursor=pointer]
+            - button "✨ 自动训练" [ref=e195] [cursor=pointer]
+          - generic [ref=e196]:
+            - button "🧹 清空测试集" [ref=e197] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e198] [cursor=pointer]
+        - generic [ref=e199]:
+          - img [ref=e200]
+          - generic [ref=e202]: ↘ Loss 曲线
+          - generic [ref=e204]: 🟡 良好
+          - generic [ref=e205]: "当前: 0.0502"
+      - generic [ref=e206]:
+        - generic [ref=e238]:
+          - generic [ref=e239]: 梯度下降
+          - generic [ref=e240]:
+            - text: w = w − lr × ∂Loss/∂w
+            - text: b = b − lr × ∂Loss/∂b
+          - generic [ref=e241]: "∂w: -0.3594 ∂b: -0.4965"
+          - generic [ref=e242]: "变化: w +0.0359, b +0.0496"
+        - generic [ref=e212]:
+          - generic [ref=e213]:
+            - generic [ref=e214]:
+              - heading "数据集" [level=3] [ref=e215]
+              - paragraph [ref=e216]: 共 3 个样本
+            - button "清空" [ref=e217] [cursor=pointer]
+          - generic [ref=e218]:
+            - generic [ref=e219]:
+              - generic [ref=e220]: X 范围
+              - generic [ref=e221]: 0.46 – 0.83
+            - generic [ref=e222]:
+              - generic [ref=e223]: Y 范围
+              - generic [ref=e224]: 0.60 – 0.71
+          - generic [ref=e225]:
+            - button "📝 输入" [ref=e226] [cursor=pointer]
+            - button "📄 导入" [ref=e227] [cursor=pointer]
+            - button "📋 列表" [ref=e228] [cursor=pointer]
+      - generic [ref=e230]:
+        - generic [ref=e231]: 💡
+        - paragraph [ref=e232]: 学习率(lr)控制每一步迈多远。拖动"学习步长"滑块,观察:lr 变小时,梯度值不变但每步变化量变小;lr 变大时,每步变化量变大(但过大则会震荡)。
+      - complementary [ref=e236]:
+        - button "🧭" [ref=e237] [cursor=pointer]

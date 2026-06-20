@@ -13,46 +13,42 @@ const useAchievementStore = create(
       achievements: [], // 已解锁的成就 ID 数组
       unlockedLabs: [], // 已完成的实验室
       totalLabsCompleted: 0,
-      
+
       // 最新解锁的成就（用于显示动画）
       latestUnlock: null,
-      
-      // 添加 XP
-      addXP: (amount) => {
-        set(state => ({ xp: state.xp + amount }));
-      },
-      
-      // 解锁成就
+
+      // 解锁成就（XP 立即发放）
       unlockAchievement: (achievementId) => {
         const state = get();
         if (state.achievements.includes(achievementId)) {
           return false; // 已经解锁
         }
-        
+
         const achievement = getAchievementById(achievementId);
         if (!achievement) return false;
-        
+
         set(state => ({
           achievements: [...state.achievements, achievementId],
+          // XP 立即发放
           xp: state.xp + achievement.xp,
           latestUnlock: achievement
         }));
-        
+
         // 清除最新解锁状态（3秒后）
         setTimeout(() => {
           set({ latestUnlock: null });
         }, 3000);
-        
+
         return true;
       },
-      
+
       // 标记实验室完成
       completeLab: (labId) => {
         const state = get();
         if (state.unlockedLabs.includes(labId)) {
           return; // 已经完成
         }
-        
+
         set(state => ({
           unlockedLabs: [...state.unlockedLabs, labId],
           totalLabsCompleted: state.totalLabsCompleted + 1
@@ -113,7 +109,15 @@ const useAchievementStore = create(
     }),
     {
       name: 'ai-edu-achievements',
-      version: 1
+      version: 2,
+      onRehydrateStorage: () => (state) => {
+        // 迁移 v1 数据：将 pendingXP 合并到 xp（修复旧数据问题）
+        if (state && state.pendingXP && state.pendingXP.length > 0) {
+          const pendingSum = state.pendingXP.reduce((sum, x) => sum + x, 0);
+          state.xp = (state.xp || 0) + pendingSum;
+          state.pendingXP = [];
+        }
+      }
     }
   )
 );

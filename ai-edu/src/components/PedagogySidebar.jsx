@@ -11,9 +11,12 @@ export const PedagogySidebar = ({
   currentGuideStep = null,
   onGuideNextStep = null,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [reflectionAnswer, setReflectionAnswer] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showQuizResult, setShowQuizResult] = useState(false);
   const [reportExpanded, setReportExpanded] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const reflectionPanelRef = useRef(null);
 
   const studentAnswers = usePedagogyStore(state => state.studentAnswers);
@@ -35,6 +38,9 @@ export const PedagogySidebar = ({
   const currentReflection = reflectionModeActive && pendingReflections.length > 0
     ? pendingReflections[currentReflectionIndex]
     : null;
+
+  // Quiz options from current reflection (all reflections are now quiz type)
+  const quizOptions = currentReflection?.options || [];
 
   // Auto-scroll to reflection panel when it becomes active
   useEffect(() => {
@@ -238,31 +244,53 @@ export const PedagogySidebar = ({
       {/* Reflection Input Panel - shown when reflection mode is active */}
       {currentReflection && (
         <div className="reflection-panel" ref={reflectionPanelRef}>
-          <h4>💭 现象反思 <span style={{ fontSize: '0.75em', opacity: 0.7 }}>
+          <h4>💭 知识检测 <span style={{ fontSize: '0.75em', opacity: 0.7 }}>
             ({currentReflectionIndex + 1}/{pendingReflections.length})
           </span></h4>
           <p className="reflection-question">{currentReflection.questionText}</p>
-          <textarea
-            className="reflection-textarea"
-            value={reflectionAnswer}
-            onChange={(e) => setReflectionAnswer(e.target.value)}
-            placeholder={`请在此输入你的反思与推导（不要害怕答错，说出你的直觉，至少 ${currentReflection.minChars} 字）...`}
-          />
-          <button
-            className="btn btn-primary reflection-submit"
-            onClick={() => {
-              if (reflectionAnswer.trim().length < currentReflection.minChars) {
-                alert(`请更深入地描述你的思考（至少 ${currentReflection.minChars} 个字符）。这有助于你真正理解背后的原理！`);
-                return;
-              }
-              const allDone = submitPendingReflection(reflectionAnswer);
-              setReflectionAnswer('');
-            }}
-          >
-            {currentReflectionIndex < pendingReflections.length - 1
-              ? '提交并继续下一题'
-              : '提交并完成反思'}
-          </button>
+
+          {/* Quiz Mode - Multiple Choice */}
+          <div className="quiz-options">
+            {!showQuizResult ? (
+              /* Show options */
+              quizOptions.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSelectedOption(index);
+                    setShowQuizResult(true);
+                  }}
+                  className={`quiz-option-btn ${selectedOption === index ? 'selected' : ''}`}
+                >
+                  <span className="quiz-option-letter">{String.fromCharCode(65 + index)}</span>
+                  <span className="quiz-option-text">{option.text}</span>
+                </button>
+              ))
+            ) : (
+              /* Show result */
+              <div className={`quiz-result ${quizOptions[selectedOption]?.isCorrect ? 'correct' : 'wrong'}`}>
+                <div className="quiz-result-header">
+                  {quizOptions[selectedOption]?.isCorrect ? '✅ 回答正确！' : '💡 答案解析'}
+                </div>
+                {currentReflection.explanation && (
+                  <p className="quiz-explanation">{currentReflection.explanation}</p>
+                )}
+                <button
+                  className="btn btn-primary"
+                  style={{ marginTop: '10px' }}
+                  onClick={() => {
+                    // Submit the answer
+                    const selectedOpt = quizOptions[selectedOption];
+                    submitPendingReflection?.(`${String.fromCharCode(65 + selectedOption)}. ${selectedOpt.text}`);
+                    setSelectedOption(null);
+                    setShowQuizResult(false);
+                  }}
+                >
+                  {currentReflectionIndex < pendingReflections.length - 1 ? '继续下一题 →' : '完成反思 →'}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -281,7 +309,6 @@ export const PedagogySidebar = ({
       {/* Experiment Report Section */}
       <div className="report-section">
         <h4 onClick={() => {
-          if (!reportContent) generateReport();
           setReportExpanded(!reportExpanded);
         }} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
           📋 实验报告
@@ -293,18 +320,37 @@ export const PedagogySidebar = ({
         {reportExpanded && (
           <div className="report-content">
             <div className="report-text">
-              <pre>{reportContent || '点击展开按钮生成报告...'}</pre>
+              {isGeneratingReport ? (
+                <div style={{ textAlign: 'center', padding: '20px', color: 'var(--accent-blue)' }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>✨</div>
+                  <div>AI 正在生成实验报告...</div>
+                  <div style={{ fontSize: '0.8rem', marginTop: '8px', opacity: 0.7 }}>
+                    请稍候
+                  </div>
+                </div>
+              ) : (
+                <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{reportContent || '点击"生成报告"按钮开始...'}</pre>
+              )}
             </div>
             <div className="report-actions">
               <button
                 className="btn"
-                onClick={() => generateReport()}
+                onClick={async () => {
+                  setIsGeneratingReport(true);
+                  try {
+                    await generateReport();
+                  } finally {
+                    setIsGeneratingReport(false);
+                  }
+                }}
+                disabled={isGeneratingReport}
               >
-                刷新报告
+                {isGeneratingReport ? '生成中...' : '生成 AI 报告'}
               </button>
               <button
                 className="btn btn-primary"
                 onClick={() => downloadReport()}
+                disabled={isGeneratingReport || !reportContent}
               >
                 下载报告
               </button>

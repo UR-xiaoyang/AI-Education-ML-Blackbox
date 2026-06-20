@@ -20,11 +20,22 @@ export interface InterceptorRule {
 }
 
 /**
+ * 选择题选项配置
+ */
+export interface QuizOption {
+  text: string;        // 选项文本
+  isCorrect?: boolean; // 是否为正确答案（用于自动判分）
+}
+
+/**
  * 简答题反思配置
  */
 export interface ReflectionConfig {
   questionText: string;
-  minChars?: number;
+  minChars?: number;           // 简答题才需要
+  type?: 'text' | 'choice';   // 默认 'text'
+  options?: QuizOption[];      // 选择题选项
+  explanation?: string;       // 选择后的解释
 }
 
 /**
@@ -106,8 +117,15 @@ export const nnExperiments = [
         guidanceText: '第一次训练完成!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '神经网络训练的本质是什么?Loss下降代表什么?试着推理一下:Loss是如何计算出来的?',
-          minChars: 10
+          type: 'choice',
+          questionText: '神经网络训练的本质是什么?Loss下降代表什么?',
+          options: [
+            { text: '让模型记住所有训练数据点', isCorrect: false },
+            { text: '通过梯度下降调整参数，使 Loss 最小化', isCorrect: true },
+            { text: '让神经元数量越来越多', isCorrect: false },
+            { text: '减少训练数据的数量', isCorrect: false }
+          ],
+          explanation: '训练的本质是：模型通过计算预测值与真实值的误差(Loss)，然后利用梯度信息调整参数，逐步使 Loss 降低。Loss 下降说明模型在逐步学习到更好的规律。'
         }
       },
       {
@@ -187,8 +205,15 @@ export const nnExperiments = [
         guidanceText: '梯度爆炸!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '学习率过大为什么会导致训练失败?想象一下你在山顶下山,如果每一步迈得太大,可能会发生什么?',
-          minChars: 10
+          type: 'choice',
+          questionText: '学习率过大为什么会导致训练失败?',
+          options: [
+            { text: '导致梯度消失，模型停止学习', isCorrect: false },
+            { text: '每步更新过大，参数在最优解两侧来回跳跃甚至失控', isCorrect: true },
+            { text: '模型容量不足，无法拟合数据', isCorrect: false },
+            { text: '激活函数失效', isCorrect: false }
+          ],
+          explanation: '学习率过大时，每一步参数更新步长太大，导致参数在"最优解"两侧来回跳跃，最终失控(NaN)。想象从山顶下山，步子迈太大会跳过山谷，冲上山坡。'
         }
       },
       {
@@ -258,8 +283,15 @@ export const nnExperiments = [
         guidanceText: '更强的拟合能力!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '神经元数量越多，模型的"记忆"能力越强。但这种"强记忆"一定是好事吗？如果模型在训练数据上Loss接近0，但在新数据上表现很差，可能发生了什么？',
-          minChars: 10
+          type: 'choice',
+          questionText: '神经元数量越多，模型的"记忆"能力越强。但这种"强记忆"一定是好事吗？',
+          options: [
+            { text: '是的，神经元越多越好，记忆越精确', isCorrect: false },
+            { text: '可能是坏事，过多的神经元可能导致过拟合', isCorrect: true },
+            { text: '不是好事，会导致梯度消失', isCorrect: false },
+            { text: '无所谓，神经元数量不影响模型性能', isCorrect: false }
+          ],
+          explanation: '过多的神经元会导致"过拟合"——模型在训练数据上表现很好，但在新数据上表现差。就像学生死记硬背所有题目，但遇到新题就不会做了。'
         }
       },
       {
@@ -311,8 +343,15 @@ export const nnExperiments = [
         guidanceText: '陷入僵局!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '为什么即使增加再多神经元,线性的神经网络也无法分开异或数据?提示:线性函数的叠加仍然是什么?',
-          minChars: 10
+          type: 'choice',
+          questionText: '为什么即使增加再多神经元，线性的神经网络也无法分开异或数据?',
+          options: [
+            { text: '因为神经元数量不够多', isCorrect: false },
+            { text: '因为线性函数的叠加仍然是线性的，无法表达非线性模式', isCorrect: true },
+            { text: '因为学习率设置不对', isCorrect: false },
+            { text: '因为数据点太少', isCorrect: false }
+          ],
+          explanation: '线性函数的叠加仍然是线性的！无论多少层线性神经元，它们的组合效果等价于一个线性变换，无法表达非线性模式(如XOR)。激活函数正是为了给网络引入非线性。'
         }
       },
       {
@@ -341,8 +380,15 @@ export const nnExperiments = [
         guidanceText: '激活函数生效了!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '激活函数为什么重要?它让神经网络获得了什么能力?试着举例说明:为什么没有激活函数,即使增加再多神经元也无法解决 XOR 问题?',
-          minChars: 10
+          type: 'choice',
+          questionText: '激活函数为什么重要?它让神经网络获得了什么能力?',
+          options: [
+            { text: '加快训练速度', isCorrect: false },
+            { text: '让神经网络能够表达非线性模式', isCorrect: true },
+            { text: '减少内存占用', isCorrect: false },
+            { text: '防止梯度消失', isCorrect: false }
+          ],
+          explanation: '激活函数为神经网络引入了非线性！有了非线性，即使简单的3层网络也能表达任意复杂的模式。这就是为什么ReLU能让网络解决XOR问题——它打破了"线性叠加仍是线性"的限制。'
         }
       },
       {
@@ -433,8 +479,15 @@ export const nnExperiments = [
         guidanceText: '泛化能力!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '什么是过拟合?它和"死记硬背"有什么相似之处?在现实应用中,过拟合的模型可能会有什么问题?',
-          minChars: 10
+          type: 'choice',
+          questionText: '什么是过拟合?它和"死记硬背"有什么相似之处?',
+          options: [
+            { text: '模型在训练数据上表现差', isCorrect: false },
+            { text: '模型在训练数据上表现很好，但新数据上表现差，像死记硬背一样', isCorrect: true },
+            { text: '训练时间太长导致Loss不变', isCorrect: false },
+            { text: '学习率设置过小', isCorrect: false }
+          ],
+          explanation: '过拟合就像学生死记硬背所有题目答案——在练习卷上得满分，但考试遇到新题就傻眼。模型记住了训练数据中的"噪音"，而不是真正的规律。'
         }
       },
       {
@@ -526,8 +579,15 @@ export const linearRegressionScenarios: Experiment[] = [
         guidanceText: '线性回归掌握完毕!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
+          type: 'choice',
           questionText: '线性回归的核心是什么?Loss(均方误差)和梯度下降分别起什么作用?',
-          minChars: 10
+          options: [
+            { text: '线性回归就是画一条穿过所有点的直线', isCorrect: false },
+            { text: 'Loss衡量预测误差，梯度下降指导参数往误差更小的方向调整', isCorrect: true },
+            { text: 'Loss决定学习率大小，梯度下降计算最终结果', isCorrect: false },
+            { text: '线性回归不需要Loss，梯度下降自动找到最佳直线', isCorrect: false }
+          ],
+          explanation: '线性回归的核心是：Loss(均方误差)告诉我们"现在有多错"，梯度下降告诉我们"下一步应该往哪走"。两者配合，模型就能逐步从随机起点收敛到最优解。'
         }
       },
       {
@@ -601,8 +661,15 @@ export const logisticRegressionScenarios: Experiment[] = [
         guidanceText: '逻辑回归掌握完毕!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '逻辑回归和线性回归的本质区别是什么?Sigmoid 函数在其中起了什么作用?',
-          minChars: 10
+          type: 'choice',
+          questionText: '逻辑回归和线性回归的本质区别是什么?Sigmoid函数在其中起了什么作用?',
+          options: [
+            { text: '逻辑回归可以处理多个类别', isCorrect: false },
+            { text: '逻辑回归输出概率，Sigmoid将连续值映射到0-1之间', isCorrect: true },
+            { text: '逻辑回归使用不同的损失函数', isCorrect: false },
+            { text: '逻辑回归需要更多训练数据', isCorrect: false }
+          ],
+          explanation: 'Sigmoid函数就像一个"分类开关"，将线性组合的结果(-∞到+∞)映射到(0,1)区间。输出值可以解释为"属于类别1的概率"，概率大于0.5就预测为正类，否则为负类。'
         }
       },
       {
@@ -675,8 +742,15 @@ export const decisionTreeScenarios: Experiment[] = [
         guidanceText: '决策树掌握完毕!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
+          type: 'choice',
           questionText: '为什么决策树深度过大会导致过拟合?它和线性模型过拟合的表现有什么不同?',
-          minChars: 10
+          options: [
+            { text: '决策树太深会导致梯度消失', isCorrect: false },
+            { text: '决策树太深会记住每个训练样本的细节，包括噪音，表现为不规则的切分边界', isCorrect: true },
+            { text: '决策树太深会让训练变慢', isCorrect: false },
+            { text: '决策树深度不影响过拟合', isCorrect: false }
+          ],
+          explanation: '决策树通过不断切分特征空间来分类。深度太大时，树会为少数几个样本甚至单个异常点创造专门的分支。这就像为每个学生量身定做考试题——无法应对新问题。过拟合的决策树边界往往是不规则的小方块。'
         }
       },
       {
@@ -902,8 +976,15 @@ export const faultScenarios: Experiment[] = [
         guidanceText: '故障诊断掌握完毕!',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '请总结四种训练故障(梯度爆炸、梯度消失、过拟合、数据污染)的特征表现和应对策略。如果让你设计一个自动化的训练监控系统,你会关注哪些指标?',
-          minChars: 20
+          type: 'choice',
+          questionText: '以下哪种情况最可能是"梯度爆炸"?',
+          options: [
+            { text: 'Loss几乎不变，训练停滞', isCorrect: false },
+            { text: 'Loss突然变成NaN或极大值，训练崩溃', isCorrect: true },
+            { text: '训练Loss低但测试Loss高', isCorrect: false },
+            { text: '预测结果全错', isCorrect: false }
+          ],
+          explanation: '梯度爆炸的特征是Loss突然飙升到NaN或极大值，表示参数更新失控。过大的学习率导致每一步更新步长过大，参数在最优解两侧来回跳跃最终失控。'
         }
       },
       {
@@ -1241,13 +1322,13 @@ export const llmScenarios: Experiment[] = [
       },
       {
         id: 'llm_step_3_first_train',
-        targetId: 'llm-loss-chart',
+        targetIds: ['llm-train-step-button', 'llm-train-toggle-button'],
         guidanceText: '点击"单步训练"按钮,观察损失曲线(Loss)的变化。Loss 表示模型预测的误差,数值越低越好。你也可以点击"开始训练"进行连续训练。',
         triggerCondition: TriggerCondition.ON_CLICK
       },
       {
         id: 'llm_step_4_observe_loss',
-        targetId: 'llm-loss-chart',
+        targetIds: ['llm-learning-rate-slider', 'llm-loss-chart'],
         guidanceText: '观察损失曲线是否在下降?如果损失下降,说明模型正在学习!调整学习率滑块,看看不同学习率对训练速度的影响。',
         triggerCondition: TriggerCondition.VALUE_CHANGE,
         targetValue: 0.1,
@@ -1255,9 +1336,9 @@ export const llmScenarios: Experiment[] = [
       },
       {
         id: 'llm_step_5_switch_mode',
-        targetId: 'llm-control-panel',
-        guidanceText: '训练一段时间后,切换到"推理模式"。这里我们将可视化 LLM 的内部工作原理:Token 嵌入和注意力机制。',
-        triggerCondition: TriggerCondition.NEXT_BUTTON
+        targetId: 'llm-mode-inference',
+        guidanceText: '训练一段时间后,点击"推理模式"。这里我们将可视化 LLM 的内部工作原理:Token 嵌入和注意力机制。',
+        triggerCondition: TriggerCondition.ON_CLICK
       },
       {
         id: 'llm_step_6_token_embedding',
@@ -1285,7 +1366,7 @@ export const llmScenarios: Experiment[] = [
       },
       {
         id: 'llm_step_10_temperature',
-        targetId: 'llm-generation-panel',
+        targetIds: ['llm-temperature-slider', 'llm-generation-panel'],
         guidanceText: '调整 Temperature(温度)参数。低温度让模型更"确定",总是选择最可能的词;高温度让模型更"随机",产生更多样化的输出。',
         triggerCondition: TriggerCondition.VALUE_CHANGE,
         targetValue: 1.0,
@@ -1293,11 +1374,18 @@ export const llmScenarios: Experiment[] = [
       },
       {
         id: 'llm_step_11_reflection',
-        guidanceText: '思考一下:Transformer 是如何做到理解上下文并生成合理文本的?',
+        guidanceText: '思考一下:Transformer是如何做到理解上下文并生成合理文本的?',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '请用自己的话解释:Token 嵌入和注意力机制分别解决了什么问题?',
-          minChars: 15
+          type: 'choice',
+          questionText: 'Token嵌入和注意力机制分别解决了什么问题?',
+          options: [
+            { text: 'Token嵌入用于分词，注意力机制用于翻译', isCorrect: false },
+            { text: 'Token嵌入将词转换为向量表示语义，注意力机制让模型关注相关的词', isCorrect: true },
+            { text: 'Token嵌入压缩文本，注意力机制加密信息', isCorrect: false },
+            { text: '两者功能相同，都是为了加快训练速度', isCorrect: false }
+          ],
+          explanation: 'Token嵌入解决了"让计算机理解词义"的问题——语义相似的词在向量空间中距离更近。注意力机制解决了"理解上下文关系"的问题——让模型学会关注与当前词最相关的其他词，而不是盲目处理所有输入。'
         }
       },
       {
@@ -1357,11 +1445,18 @@ export const yoloScenarios: Experiment[] = [
       },
       {
         id: 'yolo_step_7_reflection',
-        guidanceText: 'YOLO 为什么不是直接输出最终框?',
+        guidanceText: 'YOLO为什么不是直接输出最终框?',
         triggerCondition: TriggerCondition.REFLECTION_SUBMIT,
         requireReflection: {
-          questionText: '请总结一下:为什么目标检测必须先有标注?置信度阈值和 NMS 分别解决了什么问题?',
-          minChars: 12
+          type: 'choice',
+          questionText: '置信度阈值和NMS分别解决了什么问题?',
+          options: [
+            { text: '置信度阈值用于过滤低质量框，NMS用于去除重复框', isCorrect: true },
+            { text: '置信度阈值用于调整模型精度，NMS用于加速推理', isCorrect: false },
+            { text: '两者都是用来训练模型的', isCorrect: false },
+            { text: '置信度阈值用于数据增强，NMS用于特征提取', isCorrect: false }
+          ],
+          explanation: 'YOLO在图像上划分网格，每个格子预测多个候选框。置信度阈值(如0.5)过滤掉"我不确定这里有物体"的低置信度框；NMS(非极大值抑制)处理"这里有多个重叠的框，该留哪个"的问题，保留IoU最大的框。'
         }
       },
       {

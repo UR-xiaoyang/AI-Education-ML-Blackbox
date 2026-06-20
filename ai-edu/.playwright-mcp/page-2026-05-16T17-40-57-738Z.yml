@@ -1,0 +1,164 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e463]:
+      - button "← 退出课程" [ref=e464] [cursor=pointer]
+      - generic [ref=e465]: 📚 第 2/5 课 · 逻辑回归
+    - generic [ref=e466]:
+      - button "退出课程" [ref=e467] [cursor=pointer]
+      - button "返回实验选择" [ref=e468] [cursor=pointer]
+      - button "📈 线性回归" [ref=e469] [cursor=pointer]:
+        - generic [ref=e470]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e471] [cursor=pointer]:
+        - generic [ref=e472]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树 🔒" [ref=e473]:
+        - generic [ref=e474]: 🌲
+        - text: 决策树 🔒
+      - button "🧠 神经网络 🔒" [ref=e475]:
+        - generic [ref=e476]: 🧠
+        - text: 神经网络 🔒
+      - button "💬 LLM 专题 🔒" [ref=e477]:
+        - generic [ref=e478]: 💬
+        - text: LLM 专题 🔒
+      - button "🎯 YOLO 专题 🔒" [ref=e479]:
+        - generic [ref=e480]: 🎯
+        - text: YOLO 专题 🔒
+  - generic [ref=e481]:
+    - generic [ref=e482]: 📚 课程进度：第 2/5 课
+    - generic [ref=e483]:
+      - generic "📈 线性回归 (未开始)" [ref=e484]
+      - generic "🟠🔵 逻辑回归 (进行中)" [ref=e485]
+      - generic "🌲 决策树 (未开始)" [ref=e486]
+      - generic "🧠 神经网络 (未开始)" [ref=e487]
+      - generic "⚠️ 故障诊断 (未开始)" [ref=e488]
+    - generic [ref=e489]: 🟠🔵 逻辑回归
+  - generic [ref=e490]:
+    - generic [ref=e491]:
+      - strong [ref=e492]: 📚 🟠🔵 逻辑回归：
+      - text: 观察分类边界如何移动,理解二分类与交叉熵损失。
+    - generic [ref=e493]: 2 / 9
+  - main [ref=e495]:
+    - generic [ref=e496]:
+      - generic [ref=e498]:
+        - img [ref=e499]
+        - generic:
+          - text: 💡 点击左键添加 类别 0 (橙色)
+          - text: 鼠标右键添加 类别 1 (蓝色)
+      - generic [ref=e502]:
+        - generic [ref=e503]:
+          - generic [ref=e504]:
+            - heading "逻辑回归 (二元分类)" [level=2] [ref=e505]
+            - paragraph [ref=e506]: 画出楚河汉界，把两类数据分隔开来
+          - generic [ref=e507]:
+            - button "🏋️ 训练模式" [ref=e508] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e509] [cursor=pointer]
+          - generic [ref=e510]:
+            - heading "STEP 第一步：收集两类数据" [level=3] [ref=e511]:
+              - generic [ref=e512]: STEP
+              - text: 第一步：收集两类数据
+            - paragraph [ref=e513]: 逻辑回归不是用来「画一条拟合线」的，而是用来做分类(Classification)。请用鼠标左键和右键在画布上分散地点击，摆放橙色和蓝色两支队伍。
+          - generic [ref=e514]:
+            - generic [ref=e515]:
+              - generic [ref=e516]: 决策边界公式
+              - generic [ref=e517]: w1·x + w2·y + b = 0
+              - generic [ref=e518]:
+                - text: "w1: -0.131"
+                - text: "w2: 0.133"
+                - text: "b: 0.632"
+            - generic [ref=e519]:
+              - generic [ref=e520]: 交叉熵损失 (BCE)
+              - generic [ref=e521]: "0.0000"
+          - generic [ref=e522]:
+            - generic [ref=e523]:
+              - generic [ref=e524]: 学习步长 (学习率)
+              - generic [ref=e525]: "1.00"
+            - slider [ref=e526] [cursor=pointer]: "1"
+          - generic [ref=e527]:
+            - button "单步 (Step)" [ref=e528] [cursor=pointer]
+            - button "✨ 自动训练" [ref=e529] [cursor=pointer]
+          - generic [ref=e530]:
+            - button "🧹 清空测试集" [ref=e531] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e532] [cursor=pointer]
+        - paragraph [ref=e534]: 暂无训练数据
+      - generic [ref=e536]:
+        - generic [ref=e537]:
+          - generic [ref=e538]:
+            - heading "数据集" [level=3] [ref=e539]
+            - paragraph [ref=e540]: 共 0 个样本
+          - button "清空" [ref=e541] [cursor=pointer]
+        - generic [ref=e542]:
+          - generic [ref=e543]:
+            - generic [ref=e544]: 类别 0
+            - generic [ref=e545]: "0"
+          - generic [ref=e546]:
+            - generic [ref=e547]: 类别 1
+            - generic [ref=e548]: "0"
+          - generic [ref=e549]:
+            - generic [ref=e550]: 总计
+            - generic [ref=e551]: "0"
+        - generic [ref=e552]:
+          - generic [ref=e553]: 快速生成
+          - generic [ref=e554]:
+            - button "同心圆" [ref=e555] [cursor=pointer]
+            - button "异或" [ref=e556] [cursor=pointer]
+            - button "双月牙" [ref=e557] [cursor=pointer]
+            - button "螺旋" [ref=e558] [cursor=pointer]
+        - generic [ref=e559]:
+          - button "📝 输入" [ref=e560] [cursor=pointer]
+          - button "📄 导入" [ref=e561] [cursor=pointer]
+          - button "📋 列表" [ref=e562] [cursor=pointer]
+      - generic [ref=e563]:
+        - generic [ref=e564]:
+          - generic [ref=e565]: 💡
+          - paragraph [ref=e566]: 左键点击添加橙色点(类别0),右键点击添加蓝色点(类别1)。将两类数据大致分开摆放。
+        - generic [ref=e567]:
+          - generic [ref=e618]: 请分别用鼠标左键和右键添加两种颜色的数据点！
+          - button "明白了，下一步" [active] [ref=e568] [cursor=pointer]
+      - complementary [ref=e570]:
+        - generic [ref=e571]:
+          - heading "🧭 教学助手" [level=3] [ref=e572]
+          - button "◀" [ref=e573] [cursor=pointer]
+        - generic [ref=e574]:
+          - generic [ref=e575]: 逻辑回归分类
+          - generic [ref=e576]: 步骤 1 / 9
+        - generic [ref=e578]:
+          - generic "左键点击添加橙色点(类别0),右键点击添加蓝色点(类别1)。将两类数据大致分开摆放。" [ref=e579]:
+            - generic [ref=e580]: "1"
+            - generic [ref=e581]: ●
+            - generic [ref=e582]: 左键点击添加橙色点(类别0),右键点击添加蓝色点(类别1)。将两类数据...
+          - generic "紫线是随机初始化的分类边界。橙蓝色点错在边界两侧会产生惩罚,Loss 值越大说明分错越多。" [ref=e583]:
+            - generic [ref=e584]: "2"
+            - generic [ref=e585]: ○
+            - generic [ref=e586]: 紫线是随机初始化的分类边界。橙蓝色点错在边界两侧会产生惩罚,Loss ...
+          - generic "点击\"自动训练\",观察紫线如何旋转和平移,逐步将两类数据分开。" [ref=e587]:
+            - generic [ref=e588]: "3"
+            - generic [ref=e589]: ○
+            - generic [ref=e590]: 点击"自动训练",观察紫线如何旋转和平移,逐步将两类数据分开。
+          - generic "仔细观察:左侧紫色的分类边界如何持续调整,右侧的 Loss 如何逐步下降..." [ref=e591]:
+            - generic [ref=e592]: "4"
+            - generic [ref=e593]: ○
+            - generic [ref=e594]: 仔细观察:左侧紫色的分类边界如何持续调整,右侧的 Loss 如何逐步下...
+          - generic "训练完成!请仔细观察:1 紫色分类边界是否将两类数据分开了?2 右侧的 Loss 值是多少?(Loss 越小说明分类越准确)思考一下:这条分类边界是如何\"找到\"的?" [ref=e595]:
+            - generic [ref=e596]: "5"
+            - generic [ref=e597]: ○
+            - generic [ref=e598]: 训练完成!请仔细观察:1 紫色分类边界是否将两类数据分开了?2 右侧的...
+          - generic "切换到\"预测推理\"模式,点击画布放置测试点,观察模型如何判断未知点的类别。" [ref=e599]:
+            - generic [ref=e600]: "6"
+            - generic [ref=e601]: ○
+            - generic [ref=e602]: 切换到"预测推理"模式,点击画布放置测试点,观察模型如何判断未知点的类...
+          - generic "请在左侧画布上点击放置几个测试点,观察模型对这些未知点预测的类别(橙色或蓝色)。完成后点击下一步继续。" [ref=e603]:
+            - generic [ref=e604]: "7"
+            - generic [ref=e605]: ○
+            - generic [ref=e606]: 请在左侧画布上点击放置几个测试点,观察模型对这些未知点预测的类别(橙色...
+          - generic "逻辑回归掌握完毕!" [ref=e607]:
+            - generic [ref=e608]: "8"
+            - generic [ref=e609]: ○
+            - generic [ref=e610]: 逻辑回归掌握完毕!
+          - generic "恭喜完成逻辑回归章节!" [ref=e611]:
+            - generic [ref=e612]: "9"
+            - generic [ref=e613]: ○
+            - generic [ref=e614]: 恭喜完成逻辑回归章节!
+        - heading "📋 实验报告 ▶" [level=4] [ref=e616] [cursor=pointer]:
+          - text: 📋 实验报告
+          - generic [ref=e617]: ▶

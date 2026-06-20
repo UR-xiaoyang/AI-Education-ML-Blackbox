@@ -1,0 +1,172 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e134]:
+      - generic [ref=e135]: 👑 系统管理员
+      - button "A admin" [ref=e136] [cursor=pointer]:
+        - generic [ref=e137]: A
+        - generic [ref=e138]: admin
+      - button "⚙️" [ref=e139] [cursor=pointer]
+      - button "🏫" [ref=e140] [cursor=pointer]
+      - button "📋" [active] [ref=e141] [cursor=pointer]
+      - button "🚪" [ref=e142] [cursor=pointer]
+    - generic [ref=e143]:
+      - button "返回实验选择" [ref=e144] [cursor=pointer]
+      - button "📈 线性回归" [ref=e145] [cursor=pointer]:
+        - generic [ref=e146]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e147] [cursor=pointer]:
+        - generic [ref=e148]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e149] [cursor=pointer]:
+        - generic [ref=e150]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e151] [cursor=pointer]:
+        - generic [ref=e152]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e153] [cursor=pointer]:
+        - generic [ref=e154]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e155] [cursor=pointer]:
+        - generic [ref=e156]: 🎯
+        - text: YOLO 专题
+  - main [ref=e158]:
+    - generic [ref=e159]:
+      - generic [ref=e161]:
+        - img [ref=e162]
+        - generic [ref=e255]: ✨ 点已添加！继续添加更多点吧
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - heading "AI 黑盒实验室" [level=2] [ref=e168]
+            - paragraph [ref=e169]: 揭开机器学习：从数据到模型
+          - generic [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]: 学习进度
+              - generic [ref=e173]: 100%
+            - generic [ref=e176]:
+              - generic [ref=e177]: ✓ 收集数据
+              - generic [ref=e178]: ✓ 理解误差
+              - generic [ref=e179]: ✓ 开始训练
+              - generic [ref=e180]: ✓ 训练完成
+              - generic [ref=e181]: ▶ 推理测试
+          - generic [ref=e182]:
+            - button "🏋️ 训练模式" [ref=e183] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e184] [cursor=pointer]
+          - generic [ref=e185]:
+            - heading "STEP 开始推断 (Inference Phase)" [level=3] [ref=e449]:
+              - generic [ref=e187]: STEP
+              - text: 开始推断 (Inference Phase)
+            - paragraph [ref=e188]: 欢迎进入实战环节！现在你在画布上点击，放下的将不再是训练标签，而是向模型发出的一次「提问」（即给定的X坐标求Y）。看看模型生成的紫色预测点是否合理。
+          - generic [ref=e189]:
+            - generic [ref=e190]:
+              - generic [ref=e191]: 模型公式 (Model)
+              - generic [ref=e192]: y = wx + b
+              - generic [ref=e193]:
+                - text: "w: -0.5000"
+                - text: "b: 0.6992"
+            - generic [ref=e194]:
+              - generic [ref=e195]: 误差总和 (Loss)
+              - generic [ref=e196]: "0.0000"
+              - generic [ref=e257]: ✅ 优秀
+          - generic [ref=e197]:
+            - generic [ref=e198]:
+              - generic [ref=e199]: 学习步长 (学习率)
+              - generic [ref=e200]: "0.10"
+            - slider [ref=e201] [cursor=pointer]: "0.1"
+          - generic [ref=e202]:
+            - button "单步 (Step)" [disabled] [ref=e203]
+            - button "✨ 自动训练" [disabled] [ref=e450]
+          - generic [ref=e205]:
+            - button "🧹 清空测试集" [ref=e206] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e207] [cursor=pointer]
+        - generic [ref=e208]:
+          - img [ref=e315]
+          - generic [ref=e318]: ↘ Loss 曲线
+          - generic [ref=e320]: ✅ 优秀
+          - generic [ref=e322]: "当前: 0.0000"
+      - generic [ref=e210]:
+        - generic [ref=e504]:
+          - generic [ref=e505]: 梯度下降
+          - generic [ref=e506]:
+            - text: w = w − lr × ∂Loss/∂w
+            - text: b = b − lr × ∂Loss/∂b
+          - generic [ref=e507]: "∂w: 0.0000 ∂b: -0.0000"
+          - generic [ref=e508]: "变化: w +0.0000, b +0.0000"
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - heading "数据集" [level=3] [ref=e218]
+              - paragraph [ref=e219]: 共 3 个样本
+            - button "清空" [ref=e220] [cursor=pointer]
+          - generic [ref=e221]:
+            - generic [ref=e222]:
+              - generic [ref=e223]: X 范围
+              - generic [ref=e224]: 0.20 – 0.60
+            - generic [ref=e225]:
+              - generic [ref=e226]: Y 范围
+              - generic [ref=e227]: 0.40 – 0.60
+          - generic [ref=e228]:
+            - button "📝 输入" [ref=e229] [cursor=pointer]
+            - button "📄 导入" [ref=e230] [cursor=pointer]
+            - button "📋 列表" [ref=e231] [cursor=pointer]
+      - generic [ref=e232]:
+        - generic [ref=e233]:
+          - generic [ref=e234]:
+            - generic [ref=e235]: 🐰
+            - generic [ref=e236]:
+              - generic [ref=e237]: 学习伴侣
+              - generic [ref=e238]: 随时为你提供帮助
+          - generic [ref=e239]:
+            - generic [ref=e240]: 🎉
+            - generic [ref=e241]:
+              - paragraph [ref=e242]: Loss 已经很低了！试试切换到"预测推理"模式
+              - generic [ref=e243]: "💡 建议: 推理测试"
+        - button "✕" [ref=e247] [cursor=pointer]
+  - generic [ref=e509]:
+    - button "✕" [ref=e510] [cursor=pointer]
+    - generic [ref=e511]:
+      - generic [ref=e512]:
+        - heading "📋 操作日志" [level=1] [ref=e513]
+        - button "🗑️ 清理90天前日志" [ref=e514] [cursor=pointer]
+      - generic [ref=e515]:
+        - button "📋 日志列表" [ref=e516] [cursor=pointer]
+        - button "📊 统计报表" [ref=e517] [cursor=pointer]
+      - generic [ref=e519]:
+        - generic [ref=e520]:
+          - generic [ref=e521]: 操作类型
+          - combobox [ref=e522]:
+            - option "全部操作" [selected]
+            - option "登录"
+            - option "登出"
+            - option "注册"
+            - option "修改角色"
+            - option "启用用户"
+            - option "禁用用户"
+            - option "管理员创建用户"
+            - option "更新组织"
+            - option "删除组织"
+            - option "加入组织"
+        - generic [ref=e523]:
+          - generic [ref=e524]: 用户ID
+          - spinbutton [ref=e525]
+        - generic [ref=e526]:
+          - generic [ref=e527]: 开始日期
+          - textbox [ref=e528]
+        - generic [ref=e529]:
+          - generic [ref=e530]: 结束日期
+          - textbox [ref=e531]
+        - button "🔍 搜索" [ref=e532] [cursor=pointer]
+      - generic [ref=e533]: 暂无日志记录
+  - generic [ref=e88] [cursor=pointer]:
+    - generic [ref=e89]: "1"
+    - generic [ref=e91]:
+      - generic [ref=e92]: 机器学习小白
+      - generic [ref=e93]: 0 (+120) XP
+    - generic [ref=e95]:
+      - generic [ref=e96]: 🏆
+      - generic [ref=e97]: "6"

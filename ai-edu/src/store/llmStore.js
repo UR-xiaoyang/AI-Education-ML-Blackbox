@@ -46,7 +46,7 @@ export const TRAINING_THEMES = {
 const useLLMStore = create((set, get) => ({
   // 模型配置
   config: {
-    vocabSize: 96,  // 使用部分词表
+    vocabSize: getVocabInfo().size,
     embedDim: 32,
     numHeads: 4,
     contextLen: 32,
@@ -67,10 +67,12 @@ const useLLMStore = create((set, get) => ({
   selectedTheme: 'qa',
   currentCorpus: TRAINING_THEMES.qa.corpus,
   currentTrainingIndex: 0,
+  tokenizerMode: 'word',
 
   // 可视化状态
   mode: 'train',  // 'train' | 'inference'
   currentTokens: [],
+  currentText: '',
   embeddings: null,
   attentionWeights: null,
 
@@ -86,13 +88,13 @@ const useLLMStore = create((set, get) => ({
 
   // ========== 初始化 ==========
   initializeModel: () => {
-    const { config, currentCorpus } = get();
+    const { config, currentCorpus, tokenizerMode } = get();
     const model = initLLMModel(config);
     const vocabInfo = getVocabInfo();
 
     // 设置初始 tokens 用于可视化
     const firstSample = currentCorpus[0];
-    const tokens = tokenize(firstSample);
+    const tokens = tokenize(firstSample, tokenizerMode);
     const tokensWithEos = [...tokens, vocabInfo.vocabToId['<EOS>']];
 
     set({
@@ -102,6 +104,7 @@ const useLLMStore = create((set, get) => ({
       lossHistory: [],
       trainingStep: 0,
       currentTokens: tokensWithEos,
+      currentText: firstSample,
     });
 
     return model;
@@ -115,7 +118,7 @@ const useLLMStore = create((set, get) => ({
     if (theme) {
       // 更新 currentTokens 为新主题的第一个样本
       const firstSample = theme.corpus[0];
-      const tokens = tokenize(firstSample);
+      const tokens = tokenize(firstSample, get().tokenizerMode);
       const vocabInfo = get().vocabInfo;
       const tokensWithEos = [...tokens, vocabInfo?.vocabToId['<EOS>'] ?? 3];
 
@@ -126,17 +129,18 @@ const useLLMStore = create((set, get) => ({
         lossHistory: [],
         trainingStep: 0,
         currentTokens: tokensWithEos,
+        currentText: firstSample,
       });
     }
   },
 
   trainStep: () => {
-    const { model, currentCorpus, currentTrainingIndex, learningRate } = get();
+    const { model, currentCorpus, currentTrainingIndex, learningRate, tokenizerMode } = get();
     if (!model || currentCorpus.length === 0) return null;
 
     // 获取当前训练样本
     const sampleText = currentCorpus[currentTrainingIndex];
-    const tokens = tokenize(sampleText);
+    const tokens = tokenize(sampleText, tokenizerMode);
 
     // 添加 EOS token
     const vocabInfo = get().vocabInfo;
@@ -153,6 +157,7 @@ const useLLMStore = create((set, get) => ({
       trainingStep: get().trainingStep + 1,
       lossHistory: [...get().lossHistory.slice(-200), result.loss],
       currentTokens: tokensWithEos,
+      currentText: sampleText,
       embeddings: result.embeddings,
       attentionWeights: result.attentionWeights,
       currentTrainingIndex: nextIndex,
@@ -161,9 +166,91 @@ const useLLMStore = create((set, get) => ({
     return result;
   },
 
+  trainSteps: (count = 10) => {
+    let result = null;
+    for (let i = 0; i < count; i++) {
+      result = get().trainStep();
+      if (!result) break;
+    }
+    return result;
+  },
+
+  previewText: (text) => {
+    const { tokenizerMode } = get();
+    const vocabInfo = get().vocabInfo || getVocabInfo();
+    const tokens = tokenize(text, tokenizerMode);
+    set({
+      currentText: text,
+      currentTokens: [...tokens, vocabInfo.vocabToId['<EOS>']],
+    });
+  },
+
+  setTrainingCorpus: (corpus) => {
+    const cleanedCorpus = corpus.map(text => text.replace(/<EOS>/g, '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+    const firstSample = cleanedCorpus[0] || '';
+    const { tokenizerMode } = get();
+    const vocabInfo = get().vocabInfo || getVocabInfo();
+    const tokens = firstSample ? tokenize(firstSample, tokenizerMode) : [];
+
+    set({
+      currentCorpus: cleanedCorpus,
+      currentTrainingIndex: 0,
+      lossHistory: [],
+      trainingStep: 0,
+      currentText: firstSample,
+      currentTokens: firstSample ? [...tokens, vocabInfo.vocabToId['<EOS>']] : [],
+      embeddings: null,
+      attentionWeights: null,
+    });
+  },
+
   setIsTraining: (isTraining) => set({ isTraining }),
 
   setTemperature: (temp) => set({ temperature: temp }),
+
+  clearGeneration: () => set({
+    generatedTokens: [],
+    generatedText: '',
+    generationProbs: [],
+  }),
+
+  setTokenizerMode: (tokenizerMode) => {
+    const { selectedTheme, currentCorpus, vocabInfo, promptTokens, model, mode } = get();
+    const vocab = vocabInfo || getVocabInfo();
+    const firstSample = currentCorpus[0] || TRAINING_THEMES[selectedTheme].corpus[0];
+    const trainingTokens = tokenize(firstSample, tokenizerMode);
+    const tokensWithEos = [...trainingTokens, vocab.vocabToId['<EOS>']];
+
+    const nextState = {
+      tokenizerMode,
+      currentTokens: tokensWithEos,
+      currentText: firstSample,
+      lossHistory: [],
+      trainingStep: 0,
+      currentTrainingIndex: 0,
+      generatedTokens: [],
+      generatedText: '',
+      generationProbs: [],
+    };
+
+    if (mode === 'inference' && promptTokens.length > 0 && model) {
+      const text = promptTokens
+        .filter(id => id > 3)
+        .map(id => vocab.idToVocab[id] || '')
+        .join(' ');
+      const nextPromptTokens = [vocab.vocabToId['<BOS>'], ...tokenize(text, tokenizerMode)];
+      const forwardResult = llmForward(nextPromptTokens, model);
+      Object.assign(nextState, {
+        promptTokens: nextPromptTokens,
+        currentTokens: nextPromptTokens,
+        currentText: text,
+        embeddings: forwardResult.embeddings,
+        attentionWeights: forwardResult.attentionWeights,
+      });
+    }
+
+    set(nextState);
+  },
 
   // ========== 推理/生成 ==========
   setMode: (mode) => {
@@ -176,7 +263,7 @@ const useLLMStore = create((set, get) => ({
   },
 
   setPrompt: (text) => {
-    const tokens = tokenize(text);
+    const tokens = tokenize(text, get().tokenizerMode);
     const vocabInfo = get().vocabInfo;
     const tokensWithBos = [vocabInfo.vocabToId['<BOS>'], ...tokens];
 
@@ -187,11 +274,12 @@ const useLLMStore = create((set, get) => ({
       set({
         promptTokens: tokensWithBos,
         currentTokens: tokensWithBos,
+        currentText: text,
         embeddings: forwardResult.embeddings,
         attentionWeights: forwardResult.attentionWeights,
       });
     } else {
-      set({ promptTokens: tokensWithBos });
+      set({ promptTokens: tokensWithBos, currentText: text });
     }
   },
 
@@ -229,25 +317,26 @@ const useLLMStore = create((set, get) => ({
     const sum = exps.reduce((a, b) => a + b, 0);
     const probs = exps.map(e => e / sum);
 
-    // 采样
-    const random = Math.random();
+    // 教学演示中只从可见词元采样，避免频繁抽到 <EOS>/<PAD> 看起来像没有生成。
+    const candidateIds = probs
+      .map((prob, id) => ({ id, prob }))
+      .filter(item => item.id > vocabInfo.vocabToId['<EOS>']);
+    const candidateProbSum = candidateIds.reduce((sum, item) => sum + item.prob, 0);
+    const random = Math.random() * candidateProbSum;
     let cumulative = 0;
-    let nextToken = vocabInfo.vocabToId['<EOS>'];
+    let nextToken = candidateIds[0]?.id ?? vocabInfo.vocabToId['<UNK>'];
 
-    for (let i = 0; i < probs.length; i++) {
-      cumulative += probs[i];
+    for (const item of candidateIds) {
+      cumulative += item.prob;
       if (random <= cumulative) {
-        nextToken = i;
+        nextToken = item.id;
         break;
       }
     }
 
-    if (nextToken === vocabInfo.vocabToId['<EOS>'] || nextToken === vocabInfo.vocabToId['<PAD>']) {
-      return null;  // 停止生成
-    }
-
-    // 更新可视化状态
+    // 更新生成结果和可视化状态
     set({
+      generatedTokens: [...generatedTokens, nextToken],
       attentionWeights: forwardResult.attentionWeights,
       generationProbs: probs,
     });
@@ -267,6 +356,7 @@ const useLLMStore = create((set, get) => ({
       lossHistory: [],
       currentTrainingIndex: 0,
       currentTokens: [],
+      currentText: '',
       embeddings: null,
       attentionWeights: null,
       generatedTokens: [],

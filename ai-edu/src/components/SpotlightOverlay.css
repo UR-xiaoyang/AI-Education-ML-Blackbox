@@ -5,9 +5,20 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10000;
-  /* 挖孔区域 pointer-events: none，让点击穿透到下方元素 */
-  pointer-events: none;
+  /* 非孔洞区域必须拦截点击，防止事件穿透到下方元素 */
+  pointer-events: auto;
+  cursor: not-allowed;
   transition: clip-path 0.3s ease-in-out;
+}
+
+/* 挖孔区域（spotlight 聚焦的目标）pointer-events: none，让点击穿透到该元素 */
+.spotlight-hole {
+  position: fixed;
+  z-index: 10001;
+  /* 完全透明，不遮挡视觉 */
+  background: transparent;
+  /* 孔洞区域允许点击操作 */
+  pointer-events: none;
 }
 
 .spotlight-target-active {

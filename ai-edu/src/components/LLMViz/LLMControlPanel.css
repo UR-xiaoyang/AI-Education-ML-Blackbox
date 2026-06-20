@@ -34,6 +34,24 @@
   font-family: monospace;
 }
 
+.tokenizer-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(15, 23, 42, 0.72);
+  color: var(--text-primary, #e2e8f0);
+  font-size: 13px;
+  outline: none;
+}
+
+.tokenizer-desc {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-secondary, #94a3b8);
+}
+
 /* 模式切换 */
 .mode-toggle {
   display: flex;
@@ -179,10 +197,12 @@
 /* 训练控制按钮组 */
 .training-controls {
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .training-controls .btn {
   flex: 1;
+  min-width: 86px;
 }
 
 /* 训练状态 */

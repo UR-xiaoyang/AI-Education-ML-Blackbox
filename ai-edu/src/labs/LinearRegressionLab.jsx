@@ -4,7 +4,6 @@ import ControlPanel from '../components/ControlPanel';
 import LossChart from '../components/LossChart';
 import DatasetPanel from '../components/DatasetPanel';
 import LearningCompanion from '../components/LearningCompanion';
-import QuizModal, { QUIZ_QUESTIONS } from '../components/QuizModal';
 import { computeLoss, gradientDescentStep, computeGradients } from '../utils/mlEngine';
 import { useScenarioEngine } from '../hooks/useScenarioEngine';
 import { linearRegressionScenarios } from '../store/scenarioConfig';
@@ -36,14 +35,6 @@ export default function LinearRegressionLab({ scenarioEnabled = false }) {
   const [prevW, setPrevW] = useState(null); // 上一步的 w（用于展示变化量）
   const [prevB, setPrevB] = useState(null); // 上一步的 b（用于展示变化量）
   const [gradients, setGradients] = useState({ wGradient: 0, bGradient: 0 });
-
-  // 测验状态
-  const [quizState, setQuizState] = useState({
-    isOpen: false,
-    quizKey: null,
-    answeredCorrectly: false
-  });
-  const [quizHistory, setQuizHistory] = useState([]); // 记录已答过的测验
 
   // 实时计算当前的误差 (必须放在成就useEffect之前)
   const currentLoss = computeLoss(points, w, b);
@@ -126,49 +117,6 @@ export default function LinearRegressionLab({ scenarioEnabled = false }) {
       return null;
     }
   );
-
-  // 测验触发逻辑
-  useEffect(() => {
-    if (scenarioEnabled) return; // 引导模式下不触发自习测验
-    
-    // 条件：添加了 >= 3 个点，且还没有答过第一个测验
-    if (points.length >= 3 && !quizHistory.includes('LINEAR_STEP_1')) {
-      setQuizState({ isOpen: true, quizKey: 'LINEAR_STEP_1', answeredCorrectly: false });
-    }
-    // 条件：Loss 开始下降后，且还没有答过第二个测验
-    else if (lossHistory.length > 5 && currentLoss < 1.0 && !quizHistory.includes('LINEAR_STEP_2')) {
-      setQuizState({ isOpen: true, quizKey: 'LINEAR_STEP_2', answeredCorrectly: false });
-    }
-    // 条件：Loss < 0.15 且还没有答过第三个测验
-    else if (currentLoss < 0.15 && currentLoss > 0 && !quizHistory.includes('LINEAR_STEP_3')) {
-      setQuizState({ isOpen: true, quizKey: 'LINEAR_STEP_3', answeredCorrectly: false });
-    }
-    // 条件：切换到推理模式
-    else if (mode === 'INFERENCE' && testPoints.length === 0 && !quizHistory.includes('INFERENCE')) {
-      setQuizState({ isOpen: true, quizKey: 'INFERENCE', answeredCorrectly: false });
-    }
-  }, [points.length, lossHistory.length, currentLoss, mode, scenarioEnabled, quizHistory]);
-
-  // 处理测验回答
-  const handleQuizAnswer = (isCorrect) => {
-    setQuizState(prev => ({ ...prev, answeredCorrectly: isCorrect }));
-    
-    // 触发测验相关成就
-    if (!achievements.includes('FIRST_QUIZ')) {
-      triggerAchievement('FIRST_QUIZ', '学而不厌', '📝', 15);
-    }
-    if (isCorrect && !achievements.includes('CORRECT_QUIZ')) {
-      triggerAchievement('CORRECT_QUIZ', '答如泉涌', '🧠', 25);
-    }
-  };
-
-  // 关闭测验
-  const handleQuizClose = () => {
-    if (quizState.quizKey) {
-      setQuizHistory(prev => [...prev, quizState.quizKey]);
-    }
-    setQuizState({ isOpen: false, quizKey: null, answeredCorrectly: false });
-  };
 
   // 动画帧引用
   const reqRef = useRef();
@@ -395,7 +343,7 @@ export default function LinearRegressionLab({ scenarioEnabled = false }) {
 
   // Compact inline gradient panel for single-page layout
   const GradientPanel = () => (
-    <div className="glass-panel" style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+    <div id="lr-gradient-descent-panel" className="glass-panel" style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
       <div style={{ fontSize: '0.75rem', color: 'var(--accent-green)', fontWeight: 'bold' }}>
         梯度下降
       </div>
@@ -519,19 +467,6 @@ export default function LinearRegressionLab({ scenarioEnabled = false }) {
           isTraining={isAutoTraining}
           mode={mode}
           labType="LINEAR"
-        />
-      )}
-
-      {/* 交互式小测验 - 仅在非引导模式下显示 */}
-      {!scenarioEnabled && quizState.isOpen && quizState.quizKey && (
-        <QuizModal
-          isOpen={quizState.isOpen}
-          onClose={handleQuizClose}
-          question={QUIZ_QUESTIONS[quizState.quizKey]?.question}
-          options={QUIZ_QUESTIONS[quizState.quizKey]?.options}
-          correctIndex={QUIZ_QUESTIONS[quizState.quizKey]?.correctIndex}
-          explanation={QUIZ_QUESTIONS[quizState.quizKey]?.explanation}
-          onAnswer={handleQuizAnswer}
         />
       )}
 

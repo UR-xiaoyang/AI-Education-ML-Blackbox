@@ -3,6 +3,7 @@ import { useScenarioEngine } from '../hooks/useScenarioEngine';
 import { yoloScenarios } from '../store/scenarioConfig';
 import { SpotlightOverlay } from '../components/SpotlightOverlay';
 import { PedagogySidebar } from '../components/PedagogySidebar';
+import LearningCompanion from '../components/LearningCompanion';
 
 const GT_OBJECTS = [
   { id: 'person', label: '人', color: '#fbbf24', x: 16, y: 14, w: 24, h: 50, shape: 'person' },
@@ -778,6 +779,17 @@ export default function YOLOLab({ scenarioEnabled = false }) {
             />
           </div>
         </>
+      )}
+
+      {!scenarioEnabled && (
+        <LearningCompanion
+          pointsCount={labeledTargets.length}
+          lossHistoryLength={trainingSteps}
+          currentLoss={mainPerson ? 1 - mainPerson.iou : null}
+          isTraining={false}
+          mode="TRAIN"
+          labType="YOLO"
+        />
       )}
     </div>
   );

@@ -1,8 +1,16 @@
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
+const bcrypt = require('bcryptjs');
 
 const DB_MODE = process.env.DB_MODE || 'sqlite'; // 'sqlite' or 'postgres'
 const DB_PATH = path.join(__dirname, 'data', 'ai_edu.db');
+const dataDir = path.dirname(DB_PATH);
+
+// Ensure data directory exists before opening SQLite database
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
 
 // Initialize SQLite database
 const db = new Database(DB_PATH);
@@ -124,13 +132,70 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_organization_members_org ON organization_members(organization_id);
   CREATE INDEX IF NOT EXISTS idx_organization_members_user ON organization_members(user_id);
   CREATE INDEX IF NOT EXISTS idx_organizations_invite_code ON organizations(invite_code);
+
+  -- 操作日志表
+  CREATE TABLE IF NOT EXISTS operation_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    target_type VARCHAR(50),
+    target_id INTEGER,
+    details TEXT,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  );
+
+  -- 操作日志索引
+  CREATE INDEX IF NOT EXISTS idx_operation_logs_user ON operation_logs(user_id);
+  CREATE INDEX IF NOT EXISTS idx_operation_logs_action ON operation_logs(action);
+  CREATE INDEX IF NOT EXISTS idx_operation_logs_created ON operation_logs(created_at);
+
+  -- 系统设置表
+  CREATE TABLE IF NOT EXISTS system_settings (
+    key VARCHAR(100) PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
 `);
 
-// Ensure data directory exists
-const fs = require('fs');
-const dataDir = path.dirname(DB_PATH);
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+const defaultSettings = [
+  ['allow_registration', process.env.ALLOW_REGISTRATION || 'false'],
+  ['turnstile_enabled', process.env.TURNSTILE_ENABLED || 'false'],
+  ['turnstile_site_key', process.env.TURNSTILE_SITE_KEY || ''],
+  ['turnstile_secret_key', process.env.TURNSTILE_SECRET_KEY || '']
+];
+
+const insertSetting = db.prepare('INSERT OR IGNORE INTO system_settings (key, value) VALUES (?, ?)');
+defaultSettings.forEach(([key, value]) => insertSetting.run(key, value));
+
+function ensureDefaultAdmin() {
+  const existingAdmin = db.prepare("SELECT id FROM users WHERE role = 'admin' LIMIT 1").get();
+  if (existingAdmin) {
+    return;
+  }
+
+  const username = process.env.DEFAULT_ADMIN_USERNAME || 'admin';
+  const email = process.env.DEFAULT_ADMIN_EMAIL || 'admin@example.com';
+  const password = process.env.DEFAULT_ADMIN_PASSWORD || 'Admin@123456';
+  const displayName = process.env.DEFAULT_ADMIN_DISPLAY_NAME || '系统管理员';
+
+  const existingUser = db.prepare('SELECT id, role FROM users WHERE username = ? OR email = ?').get(username, email);
+  if (existingUser) {
+    console.warn(`WARNING: Default admin was not created because username/email already exists with role "${existingUser.role}".`);
+    return;
+  }
+
+  const passwordHash = bcrypt.hashSync(password, 12);
+  db.prepare(
+    `INSERT INTO users (username, email, password_hash, role, display_name) VALUES (?, ?, ?, 'admin', ?)`
+  ).run(username, email, passwordHash, displayName);
+
+  console.warn('WARNING: Default admin account created. Change DEFAULT_ADMIN_PASSWORD after first login.');
+  console.warn(`Default admin username: ${username}`);
 }
+
+ensureDefaultAdmin();
 
 module.exports = { db, DB_MODE };

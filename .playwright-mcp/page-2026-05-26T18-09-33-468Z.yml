@@ -1,0 +1,95 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e88]:
+      - button "返回实验选择" [ref=e89] [cursor=pointer]
+      - button "📈 线性回归" [ref=e90] [cursor=pointer]:
+        - generic [ref=e91]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e92] [cursor=pointer]:
+        - generic [ref=e93]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e94] [cursor=pointer]:
+        - generic [ref=e95]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e96] [cursor=pointer]:
+        - generic [ref=e97]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e98] [cursor=pointer]:
+        - generic [ref=e99]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e100] [cursor=pointer]:
+        - generic [ref=e101]: 🎯
+        - text: YOLO 专题
+  - main [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e106]:
+        - img [ref=e107]
+        - generic:
+          - text: 💡 点击左键添加 橙色组(0)
+          - text: 鼠标右键添加 蓝色组(1)
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - heading "决策树与随机森林" [level=2] [ref=e112]
+          - paragraph [ref=e113]: 观察决策树如何使用一刀切的方法进行空间分割
+        - generic [ref=e114]:
+          - button "🏋️ 训练模式" [ref=e115] [cursor=pointer]
+          - button "🛸 预测推理" [ref=e116] [cursor=pointer]
+        - generic [ref=e117]:
+          - heading "STEP 第一步：种植两类数据" [level=3] [ref=e118]:
+            - generic [ref=e119]: STEP
+            - text: 第一步：种植两类数据
+          - paragraph [ref=e120]: 在画布上左键添加橙色阵营(0)，鼠标右键添加蓝色阵营(1)。与之前不同，我们将不使用数学公式，而是使用空间切割法(基于信息增益或基尼系数)。
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - generic [ref=e123]: 模型当前实际深度
+            - generic [ref=e124]: 0 层
+          - generic [ref=e162]: 最大 1 层
+        - generic [ref=e163]:
+          - generic [ref=e165]: 最大树深度 (Max Depth):1
+          - slider [ref=e166] [cursor=pointer]: "1"
+          - paragraph [ref=e167]: 💡 提示：深度越浅越容易**欠拟合**，深度越深越容易**过拟合**。向右猛拉来感受人工智能的"死记硬背"。
+        - generic [ref=e168]:
+          - button "🧹 清空测试集" [ref=e169] [cursor=pointer]
+          - button "🔄 全局重置" [ref=e170] [cursor=pointer]
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - generic [ref=e174]:
+            - heading "数据集" [level=3] [ref=e175]
+            - paragraph [ref=e176]: 共 0 个样本
+          - button "清空" [ref=e177] [cursor=pointer]
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - generic [ref=e180]: 类别 0
+            - generic [ref=e181]: "0"
+          - generic [ref=e182]:
+            - generic [ref=e183]: 类别 1
+            - generic [ref=e184]: "0"
+          - generic [ref=e185]:
+            - generic [ref=e186]: 总计
+            - generic [ref=e187]: "0"
+        - generic [ref=e188]:
+          - generic [ref=e189]: 快速生成
+          - generic [ref=e190]:
+            - button "同心圆" [ref=e191] [cursor=pointer]
+            - button "异或" [ref=e192] [cursor=pointer]
+            - button "双月牙" [ref=e193] [cursor=pointer]
+        - generic [ref=e194]:
+          - button "📝 输入" [ref=e195] [cursor=pointer]
+          - button "📄 导入" [ref=e196] [cursor=pointer]
+          - button "📋 列表" [ref=e197] [cursor=pointer]
+      - generic [ref=e198]:
+        - generic [ref=e200]:
+          - generic [ref=e201]: 🌱
+          - generic [ref=e202]:
+            - paragraph [ref=e203]: 先添加两类数据点。决策树会用横竖切分线把空间切成小区域。
+            - generic [ref=e204]: "💡 建议: 添加两类数据"
+        - generic [ref=e206]:
+          - button "💬" [ref=e207] [cursor=pointer]
+          - button "卡通学习伴侣" [ref=e208] [cursor=pointer]:
+            - img "卡通学习伴侣" [ref=e209]

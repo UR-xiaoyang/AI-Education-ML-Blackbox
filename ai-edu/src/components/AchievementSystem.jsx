@@ -1,26 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import useAchievementStore from '../store/achievementStore';
 
 /**
  * 成就系统 - 游戏化学习体验
- * 
+ *
  * 特性：
  * - 积分系统 (XP)
  * - 等级系统
  * - 徽章收集
- * - 成就解锁动画
+ * - 成就解锁动画（仅在获得经验时出现）
  * - 响应式设计
  */
-export default function AchievementSystem({ 
-  xp = 0, 
-  achievements = [], 
+export default function AchievementSystem({
+  xp: xpProp,
+  achievements: achievementsProp,
   onAchievementClick,
   onStatsClick,
   currentLab = 'LINEAR'
 }) {
   const [showPanel, setShowPanel] = useState(false);
-  const [newAchievement, setNewAchievement] = useState(null); // 最新解锁的成就
+  const [newAchievement, setNewAchievement] = useState(null);
   const [showUnlockAnimation, setShowUnlockAnimation] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [showXpBar, setShowXpBar] = useState(false);
+  const [xpGainAmount, setXpGainAmount] = useState(0);
+  const prevXpRef = useRef(0);
+
+  // 直接从 store 获取最新数据，而非依赖 props
+  const xp = useAchievementStore((state) => state.xp);
+  const achievements = useAchievementStore((state) => state.achievements);
+  const latestUnlock = useAchievementStore((state) => state.latestUnlock);
+
+  // 监听 XP 变化，显示通知和状态栏
+  useEffect(() => {
+    if (xp > prevXpRef.current) {
+      const gained = xp - prevXpRef.current;
+      setXpGainAmount(gained);
+      setShowNotification(true);
+      setShowXpBar(true);
+      // 5秒后自动隐藏通知和状态栏
+      const timer = setTimeout(() => {
+        setShowNotification(false);
+        setShowXpBar(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+    prevXpRef.current = xp;
+  }, [xp]);
+
+  // 监听新成就解锁
+  useEffect(() => {
+    if (latestUnlock) {
+      setShowNotification(true);
+      setShowXpBar(true);
+    }
+  }, [latestUnlock]);
 
   // 检测移动设备
   useEffect(() => {
@@ -66,6 +101,12 @@ export default function AchievementSystem({
           70% { transform: translateY(10px) scale(0.95); }
           100% { transform: translateY(0) scale(1); opacity: 1; }
         }
+        @keyframes notificationSlideIn {
+          0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+          15% { transform: translateX(-50%) translateY(0); opacity: 1; }
+          85% { transform: translateX(-50%) translateY(0); opacity: 1; }
+          100% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+        }
         @keyframes shimmer {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
@@ -76,103 +117,143 @@ export default function AchievementSystem({
         }
       `}</style>
 
-      {/* 顶部状态栏 - 响应式 */}
-      <div 
-        style={{
-          position: 'fixed',
-          top: isMobile ? '70px' : '80px',
-          left: isMobile ? '10px' : '50%',
-          right: isMobile ? '10px' : 'auto',
-          transform: isMobile ? 'none' : 'translateX(-50%)',
-          zIndex: 10002,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: isMobile ? 'space-between' : 'center',
-          gap: isMobile ? '8px' : '16px',
-          background: 'rgba(20, 20, 40, 0.95)',
-          padding: isMobile ? '8px 12px' : '10px 20px',
-          borderRadius: isMobile ? '16px' : '30px',
-          border: '1px solid rgba(99, 102, 241, 0.4)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
-          cursor: 'pointer',
-          flexWrap: 'wrap',
-          maxWidth: isMobile ? '100%' : '400px'
-        }}
-        onClick={() => setShowPanel(true)}
-      >
-        {/* 等级徽章 */}
-        <div style={{
-          width: isMobile ? '32px' : '40px',
-          height: isMobile ? '32px' : '40px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: isMobile ? '1rem' : '1.2rem',
-          fontWeight: 'bold',
-          color: '#fff',
-          boxShadow: '0 0 15px rgba(251, 191, 36, 0.5)',
-          flexShrink: 0
-        }}>
-          {level}
-        </div>
-
-        {/* XP 进度条 - 移动端隐藏文字 */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '4px', 
-          minWidth: isMobile ? '80px' : '120px',
-          flex: isMobile ? '1' : 'none'
-        }}>
-          <div style={{
-            fontSize: isMobile ? '0.65rem' : '0.75rem',
-            color: 'rgba(255, 255, 255, 0.7)',
+      {/* XP/成就通知 - 仅在获得经验时显示 */}
+      {showNotification && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 10006,
             display: 'flex',
-            justifyContent: 'space-between'
-          }}>
-            <span style={{ display: isMobile ? 'none' : 'inline' }}>{levelName}</span>
-            <span style={{ color: '#fbbf24' }}>{xp} XP</span>
-          </div>
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            background: 'rgba(20, 20, 40, 0.95)',
+            padding: '12px 24px',
+            borderRadius: '20px',
+            border: '1px solid rgba(99, 102, 241, 0.4)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+            animation: 'notificationSlideIn 5s ease-in-out forwards',
+            cursor: 'pointer'
+          }}
+          onClick={() => {
+            setShowNotification(false);
+            setShowPanel(true);
+          }}
+        >
+          <span style={{ fontSize: '1.2rem' }}>✨</span>
+          <span style={{ fontSize: '0.9rem', color: '#fff' }}>
+            获得 <strong style={{ color: '#fbbf24' }}>+{xpGainAmount} XP</strong>
+          </span>
+          {latestUnlock && (
+            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
+              解锁成就：{latestUnlock.icon} {latestUnlock.name}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* 成就状态栏 - 仅在获得经验时显示，数秒后消失 */}
+      {showXpBar && (
+        <div
+          style={{
+            position: 'fixed',
+            top: isMobile ? '70px' : '80px',
+            left: isMobile ? '10px' : '50%',
+            right: isMobile ? '10px' : 'auto',
+            transform: isMobile ? 'none' : 'translateX(-50%)',
+            zIndex: 10002,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isMobile ? 'space-between' : 'center',
+            gap: isMobile ? '8px' : '16px',
+            background: 'rgba(20, 20, 40, 0.95)',
+            padding: isMobile ? '8px 12px' : '10px 20px',
+            borderRadius: isMobile ? '16px' : '30px',
+            border: '1px solid rgba(99, 102, 241, 0.4)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+            cursor: 'pointer',
+            flexWrap: 'wrap',
+            maxWidth: isMobile ? '100%' : '400px'
+          }}
+          onClick={() => setShowPanel(true)}
+        >
+          {/* 等级徽章 */}
           <div style={{
-            width: '100%',
-            height: '6px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: '3px',
-            overflow: 'hidden'
+            width: isMobile ? '32px' : '40px',
+            height: isMobile ? '32px' : '40px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: isMobile ? '1rem' : '1.2rem',
+            fontWeight: 'bold',
+            color: '#fff',
+            boxShadow: '0 0 15px rgba(251, 191, 36, 0.5)',
+            flexShrink: 0
+          }}>
+            {level}
+          </div>
+
+          {/* XP 进度条 - 移动端隐藏文字 */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            minWidth: isMobile ? '80px' : '120px',
+            flex: isMobile ? '1' : 'none'
           }}>
             <div style={{
-              width: `${(xpInCurrentLevel / xpNeededForNextLevel) * 100}%`,
-              height: '100%',
-              background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+              fontSize: isMobile ? '0.65rem' : '0.75rem',
+              color: 'rgba(255, 255, 255, 0.7)',
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+              <span style={{ display: isMobile ? 'none' : 'inline' }}>{levelName}</span>
+              <span>{xp} XP</span>
+            </div>
+            <div style={{
+              width: '100%',
+              height: '6px',
+              background: 'rgba(255, 255, 255, 0.1)',
               borderRadius: '3px',
-              transition: 'width 0.5s ease-out'
-            }} />
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                width: `${(xpInCurrentLevel / xpNeededForNextLevel) * 100}%`,
+                height: '100%',
+                background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+                borderRadius: '3px',
+                transition: 'width 0.5s ease-out'
+              }} />
+            </div>
+          </div>
+
+          {/* 徽章数量 */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '4px' : '6px',
+            padding: isMobile ? '4px 8px' : '6px 12px',
+            background: 'rgba(251, 191, 36, 0.15)',
+            borderRadius: isMobile ? '10px' : '15px',
+            border: '1px solid rgba(251, 191, 36, 0.3)',
+            flexShrink: 0
+          }}>
+            <span style={{ fontSize: isMobile ? '0.9rem' : '1.1rem' }}>🏆</span>
+            <span style={{
+              fontSize: isMobile ? '0.75rem' : '0.85rem',
+              fontWeight: 'bold',
+              color: '#fbbf24'
+            }}>
+              {achievements.length}
+            </span>
           </div>
         </div>
-
-        {/* 徽章数量 */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: isMobile ? '4px' : '6px',
-          padding: isMobile ? '4px 8px' : '6px 12px',
-          background: 'rgba(251, 191, 36, 0.15)',
-          borderRadius: isMobile ? '10px' : '15px',
-          border: '1px solid rgba(251, 191, 36, 0.3)',
-          flexShrink: 0
-        }}>
-          <span style={{ fontSize: isMobile ? '0.9rem' : '1.1rem' }}>🏆</span>
-          <span style={{ 
-            fontSize: isMobile ? '0.75rem' : '0.85rem', 
-            fontWeight: 'bold', 
-            color: '#fbbf24' 
-          }}>
-            {achievements.length}
-          </span>
-        </div>
-      </div>
+      )}
 
       {/* 成就面板 */}
       {showPanel && (

@@ -160,12 +160,40 @@ export const SpotlightOverlay = ({ onNextStep, showPopover = true }) => {
 
   return (
     <>
+      {/* 遮罩层：阻挡所有非孔洞区域的点击 */}
       <div
         className="spotlight-overlay-mask"
         style={{
           clipPath: `path('${pathData}')`
         }}
       />
+
+      {/* 透明点击穿透层：在每个孔洞区域上方覆盖透明 div，允许点击穿透到目标元素 */}
+      {targetRects.map(rect => (
+        <div
+          key={`hole-${rect.id}`}
+          className="spotlight-hole"
+          style={{
+            top: rect.top - padding,
+            left: rect.left - padding,
+            width: rect.width + padding * 2,
+            height: rect.height + padding * 2,
+          }}
+          onClick={(e) => {
+            // 点击穿透到下方的目标元素
+            e.stopPropagation();
+            const targetEl = document.getElementById(rect.id);
+            if (targetEl) {
+              const clickEvent = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+              });
+              targetEl.dispatchEvent(clickEvent);
+            }
+          }}
+        />
+      ))}
 
       {/* 气泡提示层：根据目标位置动态计算显示位置 */}
       {showPopover && (
@@ -191,20 +219,29 @@ const GuidancePopover = ({ targetRect, message, requireAction, onNext }) => {
   const requireReflection = !!reflectionConfig;
   const prerequisiteWarning = spotlight.prerequisiteWarning;
 
-  const [reflectionText, setReflectionText] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showQuizResult, setShowQuizResult] = useState(false);
 
-  const minChars = reflectionConfig?.minChars || 10;
-  const isTextValid = reflectionText.trim().length >= minChars;
+  const quizOptions = reflectionConfig?.options || [];
 
-  const handleSubmit = () => {
-    if (isTextValid) {
+  const handleQuizSelect = (index) => {
+    setSelectedOption(index);
+    setShowQuizResult(true);
+    // 不立即提交，让用户看到反馈
+  };
+
+  const handleQuizContinue = () => {
+    if (selectedOption !== null) {
+      const selectedOpt = quizOptions[selectedOption];
       addStudentAnswer({
         stepIndex: currentStepIndex,
         question: reflectionConfig.questionText,
-        answer: reflectionText,
+        answer: `${String.fromCharCode(65 + selectedOption)}. ${selectedOpt.text}`,
+        isCorrect: selectedOpt.isCorrect === true,
         timestamp: Date.now()
       });
-      setReflectionText('');
+      setSelectedOption(null);
+      setShowQuizResult(false);
       onNext();
     }
   };
@@ -346,34 +383,97 @@ const GuidancePopover = ({ targetRect, message, requireAction, onNext }) => {
       </div>
       
       {requireReflection ? (
-        <div className="mt-3" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <textarea
-            style={{
-              width: '100%',
-              padding: '8px',
-              fontSize: '14px',
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              color: 'white',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: '4px',
-              resize: 'none'
-            }}
-            rows="3"
-            placeholder={`请输入你的观察与思考（至少 ${minChars} 个字）...`}
-            value={reflectionText}
-            onChange={(e) => setReflectionText(e.target.value)}
-          />
-          <div style={{ textAlign: 'right', fontSize: '12px', color: isTextValid ? '#4ade80' : '#f87171' }}>
-            {reflectionText.length} / {minChars} 字
-          </div>
-          <button
-            className="btn btn-primary btn-sm w-full"
-            onClick={handleSubmit}
-            disabled={!isTextValid}
-            style={{ opacity: isTextValid ? 1 : 0.5, cursor: isTextValid ? 'pointer' : 'not-allowed' }}
-          >
-            提交并继续
-          </button>
+        /* 选择题模式 */
+        <div className="mt-3" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {!showQuizResult ? (
+            /* 显示选项 */
+            quizOptions.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleQuizSelect(index)}
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '8px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '14px',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '10px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(99, 102, 241, 0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }}
+              >
+                <span style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  background: 'rgba(99, 102, 241, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  flexShrink: 0
+                }}>
+                  {String.fromCharCode(65 + index)}
+                </span>
+                <span style={{ lineHeight: 1.4 }}>{option.text}</span>
+              </button>
+            ))
+          ) : (
+            /* 显示结果和解释 */
+            <div style={{
+              background: selectedOption !== null && quizOptions[selectedOption]?.isCorrect
+                ? 'rgba(34, 197, 94, 0.15)'
+                : 'rgba(251, 191, 36, 0.15)',
+              border: `1px solid ${selectedOption !== null && quizOptions[selectedOption]?.isCorrect ? 'rgba(34, 197, 94, 0.4)' : 'rgba(251, 191, 36, 0.4)'}`,
+              borderRadius: '8px',
+              padding: '12px'
+            }}>
+              <div style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: selectedOption !== null && quizOptions[selectedOption]?.isCorrect ? '#4ade80' : '#fbbf24',
+                marginBottom: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                {selectedOption !== null && quizOptions[selectedOption]?.isCorrect ? '✅ 回答正确！' : '💡 答案解析'}
+              </div>
+              {reflectionConfig.explanation && (
+                <p style={{
+                  fontSize: '13px',
+                  color: 'rgba(255, 255, 255, 0.85)',
+                  lineHeight: 1.5,
+                  margin: 0
+                }}>
+                  {reflectionConfig.explanation}
+                </p>
+              )}
+            </div>
+          )}
+          {showQuizResult && (
+            <button
+              className="btn btn-primary btn-sm w-full"
+              onClick={handleQuizContinue}
+              style={{ marginTop: '4px' }}
+            >
+              继续 →
+            </button>
+          )}
         </div>
       ) : !requireAction ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

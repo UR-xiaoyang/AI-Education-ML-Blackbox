@@ -26,28 +26,6 @@ export default function ControlPanel({
     setPrevLoss(loss);
   }, [loss, prevLoss]);
 
-  // 外部传入的 points 数量（通过 stepDesc 来推断）
-  const isStep1 = stepTitle?.includes('第一步') || stepTitle?.includes('收集数据');
-  const isStep2 = stepTitle?.includes('第二步') || stepTitle?.includes('理解误差');
-  const isStep3 = stepTitle?.includes('第三步') || stepTitle?.includes('梯度下降');
-  const isStep4 = stepTitle?.includes('第四步') || stepTitle?.includes('训练完成');
-  const isInferenceMode = mode === 'INFERENCE';
-
-  // 计算进度
-  const getProgress = () => {
-    if (isInferenceMode) return 100;
-    if (isStep4) return 90;
-    if (isStep3) return 60;
-    if (isStep2) return 40;
-    if (isStep1) return 20;
-    return 0;
-  };
-
-  const progress = getProgress();
-  const progressLabels = ['收集数据', '理解误差', '开始训练', '训练完成', '推理测试'];
-  const currentStepIndex = isInferenceMode ? 4 : isStep4 ? 3 : isStep3 ? 2 : isStep2 ? 1 : 0;
-
-  // 自动训练时的按钮动画
   const [trainButtonPulse, setTrainButtonPulse] = useState(false);
   useEffect(() => {
     if (isAutoTraining) {
@@ -66,54 +44,6 @@ export default function ControlPanel({
         <p style={{ color: 'var(--text-secondary)', margin: '4px 0 0 0', fontSize: '0.85rem' }}>
           揭开机器学习：从数据到模型
         </p>
-      </div>
-
-      {/* 进度条 */}
-      <div style={{
-        background: 'rgba(0,0,0,0.3)',
-        borderRadius: '12px',
-        padding: '12px',
-        border: '1px solid rgba(255,255,255,0.1)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>学习进度</span>
-          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-blue)' }}>
-            {progress}%
-          </span>
-        </div>
-        {/* 进度条背景 */}
-        <div style={{
-          height: '8px',
-          background: 'rgba(255,255,255,0.1)',
-          borderRadius: '4px',
-          overflow: 'hidden',
-          marginBottom: '10px'
-        }}>
-          <div style={{
-            width: `${progress}%`,
-            height: '100%',
-            background: 'linear-gradient(90deg, var(--accent-blue), var(--accent-green))',
-            borderRadius: '4px',
-            transition: 'width 0.5s ease-out',
-            boxShadow: '0 0 10px var(--accent-blue)'
-          }} />
-        </div>
-        {/* 步骤指示器 */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {progressLabels.map((label, i) => (
-            <div key={label} style={{
-              fontSize: '0.65rem',
-              color: i <= currentStepIndex ? 'var(--accent-green)' : 'var(--text-secondary)',
-              fontWeight: i <= currentStepIndex ? 'bold' : 'normal',
-              textAlign: 'center',
-              flex: 1,
-              opacity: i <= currentStepIndex ? 1 : 0.5,
-              transition: 'all 0.3s ease'
-            }}>
-              {i < currentStepIndex ? '✓' : i === currentStepIndex ? '▶' : '○'} {label}
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* 鼓励文案 */}

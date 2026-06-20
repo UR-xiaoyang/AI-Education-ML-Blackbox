@@ -22,6 +22,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SystemManagementPage } from './pages/SystemManagementPage';
 import { OrganizationManagement } from './pages/OrganizationManagement';
+import OperationLogsPage from './pages/OperationLogsPage';
 import useAchievementStore from './store/achievementStore';
 import './index.css';
 import './App.css';
@@ -82,7 +83,7 @@ function App() {
 
   // Auth state
   const { isAuthenticated, user, logout } = useAuthStore();
-  const [showAuthModal, setShowAuthModal] = useState(false); // 'login' | 'register' | 'profile' | 'systemManagement' | null
+  const [showAuthModal, setShowAuthModal] = useState(false); // 'login' | 'register' | 'profile' | 'systemManagement' | 'operationLogs' | null
   const [showTeacherDashboard, setShowTeacherDashboard] = useState(false); // 教师大屏
   const [showLearningStats, setShowLearningStats] = useState(false); // 学习数据中心
   const [showHelp, setShowHelp] = useState(false); // 快捷键帮助
@@ -112,6 +113,10 @@ function App() {
   const resumeSimulation = usePedagogyStore((state) => state.resumeSimulation);
 
   const hasSelectedExperiment = activeTab !== null;
+
+  // Achievement store state (放在组件顶层，避免 Hooks 顺序变化)
+  const achievementXP = useAchievementStore((state) => state.xp);
+  const achievementList = useAchievementStore((state) => state.achievements);
 
   // Derive which labs are unlocked in curriculum mode
   const curriculumUnlockedLabs = useMemo(() => {
@@ -212,6 +217,10 @@ function App() {
   const nextLabTitle = hasNextLab ? curriculumSequence[currentCurriculumIndex + 1]?.title : '';
 
   const handleNextLab = () => {
+    // 完成课程，发放所有待发放的 XP
+    if (currentCurriculumLabId) {
+      useAchievementStore.getState().completeLab(currentCurriculumLabId);
+    }
     setCompletionChoiceMode(false);
     setHasCompletedAtLeastOneLab(false); // 重置：进入下一章后，按钮消失直到完成该章节
     setCurriculumSelfStudy(true); // 进入教学模式
@@ -220,12 +229,14 @@ function App() {
   };
 
   const handleFreeExplore = () => {
+    // 退出教学模式时不发放 XP（用户没有完成课程）
     setCompletionChoiceMode(false);
     setCurriculumSelfStudy(false);
     resumeSimulation();
   };
 
   const handleRestartTutorial = () => {
+    // 重启教程不发放 XP
     setCompletionChoiceMode(false);
     setHasCompletedAtLeastOneLab(false); // 重置标志
     // 重新开始教程：只重置教学进度，保留当前章节索引，不退出发教程模式
@@ -314,7 +325,7 @@ function App() {
     onToggleTrain: () => {}, // TODO: 连接训练按钮
     onReset: () => {}, // TODO: 连接重置按钮
     onToggle3D: () => {}, // TODO: 连接3D按钮
-    onToggleCompanion: () => {}, // TODO: 连接学习伴侣
+    onToggleCompanion: () => window.dispatchEvent(new Event('toggle-learning-companion')),
     onShowHelp: () => setShowHelp(prev => !prev),
     currentLab: activeTab
   });
@@ -325,9 +336,9 @@ function App() {
   return (
     <div
       style={{
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
+        minHeight: '100vh',
+        width: '100%',
+        overflowX: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'var(--bg-color)'
@@ -346,109 +357,143 @@ function App() {
           zIndex: 100
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ fontSize: '1.8rem' }}>🧠</div>
-          <div>
-            <h1 style={{ margin: 0, fontSize: '1.4rem' }} className="text-gradient">
-              综合 AI 实验室
-            </h1>
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-              {isCurriculumMode
-                ? `📚 课程学习模式 — 第 ${curriculumProgress.current}/${curriculumProgress.total} 课`
-                : '先选择基础实验或高级专题，再进入对应交互场景'}
-            </div>
+        {/* 课程模式下简化 header */}
+        {isCurriculumMode && isCurriculumConfirmed ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              className="btn"
+              style={{ padding: '8px 16px', fontSize: '0.9rem' }}
+              onClick={() => {
+                if (window.confirm('确定要退出课程吗？')) {
+                  setIsCurriculumMode(false);
+                  setIsCurriculumConfirmed(false);
+                  setCurriculumSelfStudy(null);
+                }
+              }}
+              title="退出课程"
+            >
+              ← 退出课程
+            </button>
+            <span style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>
+              📚 第 {curriculumProgress.current}/{curriculumProgress.total} 课 · {curriculumProgress.entry?.title}
+            </span>
           </div>
-        </div>
+        ) : (
+          /* 非课程模式下显示完整 header */
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ fontSize: '1.8rem' }}>🧠</div>
+              <div>
+                <h1 style={{ margin: 0, fontSize: '1.4rem' }} className="text-gradient">
+                  综合 AI 实验室
+                </h1>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  先选择基础实验或高级专题，再进入对应交互场景
+                </div>
+              </div>
+            </div>
 
-        {/* User Menu / Auth Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {isAuthenticated ? (
+            {/* User Menu / Auth Button */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {/* Role badge */}
-              <span style={{
-                padding: '4px 10px',
-                borderRadius: '6px',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                background: user?.role === 'admin' ? 'rgba(239,68,68,0.2)' :
-                           user?.role === 'teacher' ? 'rgba(139,92,246,0.2)' : 'rgba(59,130,246,0.2)',
-                color: user?.role === 'admin' ? '#fca5a5' :
-                       user?.role === 'teacher' ? '#c4b5fd' : '#93c5fd',
-                border: `1px solid ${user?.role === 'admin' ? 'rgba(239,68,68,0.3)' :
-                                      user?.role === 'teacher' ? 'rgba(139,92,246,0.3)' : 'rgba(59,130,246,0.3)'}`
-              }}>
-                {user?.role === 'admin' ? '👑 系统管理员' : user?.role === 'teacher' ? '👨‍🏫 教师' : '🎓 学生'}
-              </span>
+              {isAuthenticated ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {/* Role badge */}
+                  <span style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    background: user?.role === 'admin' ? 'rgba(239,68,68,0.2)' :
+                               user?.role === 'teacher' ? 'rgba(139,92,246,0.2)' : 'rgba(59,130,246,0.2)',
+                    color: user?.role === 'admin' ? '#fca5a5' :
+                           user?.role === 'teacher' ? '#c4b5fd' : '#93c5fd',
+                    border: `1px solid ${user?.role === 'admin' ? 'rgba(239,68,68,0.3)' :
+                                          user?.role === 'teacher' ? 'rgba(139,92,246,0.3)' : 'rgba(59,130,246,0.3)'}`
+                  }}>
+                    {user?.role === 'admin' ? '👑 系统管理员' : user?.role === 'teacher' ? '👨‍🏫 教师' : '🎓 学生'}
+                  </span>
 
-              {/* User dropdown */}
-              <button
-                className="btn"
-                style={{
-                  padding: '8px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(0,0,0,0.3)'
-                }}
-                onClick={() => setShowAuthModal('profile')}
-                title="个人中心"
-              >
-                <span style={{
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '0.8rem',
-                  fontWeight: 'bold'
-                }}>
-                  {user?.username?.charAt(0).toUpperCase()}
-                </span>
-                <span style={{ fontSize: '0.9rem' }}>{user?.displayName || user?.username}</span>
-              </button>
+                  {/* User dropdown */}
+                  <button
+                    className="btn"
+                    style={{
+                      padding: '8px 14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      background: 'rgba(0,0,0,0.3)'
+                    }}
+                    onClick={() => setShowAuthModal('profile')}
+                    title="个人中心"
+                  >
+                    <span style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.8rem',
+                      fontWeight: 'bold'
+                    }}>
+                      {user?.username?.charAt(0).toUpperCase()}
+                    </span>
+                    <span style={{ fontSize: '0.9rem' }}>{user?.displayName || user?.username}</span>
+                  </button>
 
-              {/* System management for admin */}
-              {user?.role === 'admin' && (
-                <button
-                  className="btn"
-                  style={{ padding: '8px 12px' }}
-                  onClick={() => setShowAuthModal('systemManagement')}
-                  title="系统管理"
-                >
-                  ⚙️
-                </button>
-              )}
+                  {/* System management for admin */}
+                  {user?.role === 'admin' && (
+                    <button
+                      className="btn"
+                      style={{ padding: '8px 12px' }}
+                      onClick={() => setShowAuthModal('systemManagement')}
+                      title="系统管理"
+                    >
+                      ⚙️
+                    </button>
+                  )}
 
-              {/* Organization management for admin/teacher */}
-              {(user?.role === 'admin' || user?.role === 'teacher') && (
-                <button
-                  className="btn"
-                  style={{ padding: '8px 12px' }}
-                  onClick={() => setShowAuthModal('organizationManagement')}
-                  title="组织管理"
-                >
-                  🏫
-                </button>
-              )}
+                  {/* Organization management for admin/teacher */}
+                  {(user?.role === 'admin' || user?.role === 'teacher') && (
+                    <button
+                      className="btn"
+                      style={{ padding: '8px 12px' }}
+                      onClick={() => setShowAuthModal('organizationManagement')}
+                      title="组织管理"
+                    >
+                      🏫
+                    </button>
+                  )}
 
-              {/* Teacher dashboard for teacher only */}
-              {user?.role === 'teacher' && (
-                <button
-                  className="btn"
-                  style={{ padding: '8px 12px' }}
-                  onClick={() => setShowTeacherDashboard(true)}
-                  title="教师大屏"
-                >
-                  🧭
-                </button>
-              )}
+                  {/* Operation logs for admin */}
+                  {user?.role === 'admin' && (
+                    <button
+                      className="btn"
+                      style={{ padding: '8px 12px' }}
+                      onClick={() => setShowAuthModal('operationLogs')}
+                      title="操作日志"
+                    >
+                      📋
+                    </button>
+                  )}
 
-              {/* Logout */}
-              <button
-                className="btn"
-                style={{
+                  {/* Teacher dashboard for teacher only */}
+                  {user?.role === 'teacher' && (
+                    <button
+                      className="btn"
+                      style={{ padding: '8px 12px' }}
+                      onClick={() => setShowTeacherDashboard(true)}
+                      title="教师大屏"
+                    >
+                      🧭
+                    </button>
+                  )}
+
+                  {/* Logout */}
+                  <button
+                    className="btn"
+                    style={{
                   padding: '8px 12px',
                   color: '#fca5a5',
                   borderColor: 'rgba(239,68,68,0.3)'
@@ -464,18 +509,20 @@ function App() {
               </button>
             </div>
           ) : (
-              <button
-                className="btn"
-                style={{ padding: '8px 16px' }}
-                onClick={() => {
-                  setAuthMode('login');
-                  setShowAuthModal('login');
-                }}
-              >
-                登录
-              </button>
-            )}
+            <button
+              className="btn"
+              style={{ padding: '8px 16px' }}
+              onClick={() => {
+                setAuthMode('login');
+                setShowAuthModal('login');
+              }}
+            >
+              登录
+            </button>
+          )}
         </div>
+        </>
+        )}
 
         {hasSelectedExperiment ? (
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -904,7 +951,15 @@ function App() {
         />
       )}
 
-      {/* Registration disabled - contact admin to create accounts */}
+      {showAuthModal === 'register' && (
+        <RegisterPage
+          onSwitchToLogin={() => {
+            setAuthMode('login');
+            setShowAuthModal('login');
+          }}
+          onClose={() => setShowAuthModal(null)}
+        />
+      )}
 
       {showAuthModal === 'profile' && (
         <ProfilePage onClose={() => setShowAuthModal(null)} />
@@ -928,6 +983,20 @@ function App() {
         </div>
       )}
 
+      {showAuthModal === 'operationLogs' && (
+        <div className="org-fullscreen">
+          <button
+            className="teacher-dashboard-close"
+            onClick={() => setShowAuthModal(null)}
+            title="关闭"
+            style={{ position: 'fixed', top: 20, right: 20, zIndex: 10001 }}
+          >
+            ✕
+          </button>
+          <OperationLogsPage />
+        </div>
+      )}
+
       {/* Teacher Dashboard */}
       {showTeacherDashboard && (
         <div className="teacher-dashboard-overlay">
@@ -942,15 +1011,15 @@ function App() {
         </div>
       )}
 
-      {/* 成就系统 - 游戏化学习 */}
+      {/* 成就系统 - 游戏化学习 (仅登录用户显示) */}
       <AchievementSystem
-        xp={useAchievementStore(state => state.xp)}
-        achievements={useAchievementStore(state => state.achievements)}
+        xp={achievementXP}
+        achievements={achievementList}
         currentLab={activeTab}
         onStatsClick={() => setShowLearningStats(true)}
       />
 
-      {/* 学习数据中心 */}
+      {/* 学习数据中心 (仅登录用户显示) */}
       <LearningStats
         isVisible={showLearningStats}
         onClose={() => setShowLearningStats(false)}

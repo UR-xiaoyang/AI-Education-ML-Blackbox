@@ -6,7 +6,23 @@
       "Bash(npx tsc *)",
       "Bash(npx -p typescript tsc --noEmit src/hooks/useDecisionTreeGuide.ts)",
       "Bash(node -e ' *)",
-      "Bash(dir /s /b *.html)"
+      "Bash(dir /s /b *.html)",
+      "Bash(claude mcp *)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_fill_form",
+      "Bash(curl -s http://localhost:3001/api/health)",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_wait_for",
+      "Bash(curl -s http://localhost:3001/api/logs?limit=5)",
+      "Bash(curl -s -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwianRpIjoidGVzdDEyMyIsImlhdCI6MTc3ODg2NjY0NiwiZXhwIjoxNzc5NDcxNDQ2LCJpc3MiOiJhaS1lZHUtYmFja2VuZCJ9.cBGW4SeKF3wLsPfeV0zKuUn9GEtnMcOuH5O0XvNUq74' http://localhost:3001/api/logs)",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_handle_dialog",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(timeout 5 node server.js)",
+      "Bash(node server.js)"
     ]
   }
 }

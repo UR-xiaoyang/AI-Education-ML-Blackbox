@@ -1,0 +1,318 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e100]:
+      - button "返回实验选择" [ref=e101] [cursor=pointer]
+      - button "📈 线性回归" [ref=e102] [cursor=pointer]:
+        - generic [ref=e103]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e104] [cursor=pointer]:
+        - generic [ref=e105]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e106] [cursor=pointer]:
+        - generic [ref=e107]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e108] [cursor=pointer]:
+        - generic [ref=e109]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e110] [cursor=pointer]:
+        - generic [ref=e111]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e112] [cursor=pointer]:
+        - generic [ref=e113]: 🎯
+        - text: YOLO 专题
+  - main [ref=e115]:
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e118]:
+          - generic [ref=e119]: LLM 专题学习路径
+          - heading "从训练误差到逐词生成，拆开 Transformer 的关键部件" [level=2] [ref=e120]
+        - generic [ref=e121]:
+          - generic [ref=e122]: 1. 选语料并训练
+          - generic [ref=e123]: 2. 看嵌入和注意力
+          - generic [ref=e124]: 3. 调温度生成文本
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - heading "Tokenization 可视化" [level=3] [ref=e130]
+              - generic [ref=e131]: 11 tokens
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]: "1"
+                  - generic [ref=e136]: 原始文本
+                - code [ref=e138]: 问题 机器学习 回答 计算机 自动 学习 数据 模式
+              - generic [ref=e139]:
+                - generic [ref=e140]: ↓
+                - generic [ref=e141]: 分词
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - generic [ref=e144]: "2"
+                  - generic [ref=e145]: Tokens
+                - generic [ref=e146]:
+                  - generic [ref=e147]: 问题
+                  - generic [ref=e148]: 机器学习
+                  - generic [ref=e149]: <UNK>
+                  - generic [ref=e150]: 回答
+                  - generic [ref=e151]: <UNK>
+                  - generic [ref=e152]: 计算机
+                  - generic [ref=e153]: 自动
+                  - generic [ref=e154]: 学习
+                  - generic [ref=e156]: "+3"
+              - generic [ref=e157]:
+                - generic [ref=e158]: ↓
+                - generic [ref=e159]: ID映射
+              - generic [ref=e160]:
+                - generic [ref=e161]:
+                  - generic [ref=e162]: "3"
+                  - generic [ref=e163]: Token IDs
+                - generic [ref=e164]:
+                  - generic [ref=e165]: "59"
+                  - generic [ref=e166]: "4"
+                  - generic [ref=e167]: "1"
+                  - generic [ref=e168]: "67"
+                  - generic [ref=e169]: "1"
+                  - generic [ref=e170]: "99"
+                  - generic [ref=e171]: "100"
+                  - generic [ref=e172]: "11"
+                  - generic [ref=e173]: ...
+            - generic [ref=e174]:
+              - table [ref=e175]:
+                - rowgroup [ref=e176]:
+                  - row "位置 Token ID 类型" [ref=e177]:
+                    - columnheader "位置" [ref=e178]
+                    - columnheader "Token" [ref=e179]
+                    - columnheader "ID" [ref=e180]
+                    - columnheader "类型" [ref=e181]
+                - rowgroup [ref=e182]:
+                  - row "0 问题 59 词元" [ref=e183]:
+                    - cell "0" [ref=e184]
+                    - cell "问题" [ref=e185]:
+                      - code [ref=e186]: 问题
+                    - cell "59" [ref=e187]
+                    - cell "词元" [ref=e188]:
+                      - generic [ref=e189]: 词元
+                  - row "1 机器学习 4 词元" [ref=e190]:
+                    - cell "1" [ref=e191]
+                    - cell "机器学习" [ref=e192]:
+                      - code [ref=e193]: 机器学习
+                    - cell "4" [ref=e194]
+                    - cell "词元" [ref=e195]:
+                      - generic [ref=e196]: 词元
+                  - row "2 <UNK> 1 <UNK>" [ref=e197]:
+                    - cell "2" [ref=e198]
+                    - cell "<UNK>" [ref=e199]:
+                      - code [ref=e200]: <UNK>
+                    - cell "1" [ref=e201]
+                    - cell "<UNK>" [ref=e202]:
+                      - generic [ref=e203]: <UNK>
+                  - row "3 回答 67 词元" [ref=e204]:
+                    - cell "3" [ref=e205]
+                    - cell "回答" [ref=e206]:
+                      - code [ref=e207]: 回答
+                    - cell "67" [ref=e208]
+                    - cell "词元" [ref=e209]:
+                      - generic [ref=e210]: 词元
+                  - row "4 <UNK> 1 <UNK>" [ref=e211]:
+                    - cell "4" [ref=e212]
+                    - cell "<UNK>" [ref=e213]:
+                      - code [ref=e214]: <UNK>
+                    - cell "1" [ref=e215]
+                    - cell "<UNK>" [ref=e216]:
+                      - generic [ref=e217]: <UNK>
+                  - row "5 计算机 99 词元" [ref=e218]:
+                    - cell "5" [ref=e219]
+                    - cell "计算机" [ref=e220]:
+                      - code [ref=e221]: 计算机
+                    - cell "99" [ref=e222]
+                    - cell "词元" [ref=e223]:
+                      - generic [ref=e224]: 词元
+                  - row "6 自动 100 词元" [ref=e225]:
+                    - cell "6" [ref=e226]
+                    - cell "自动" [ref=e227]:
+                      - code [ref=e228]: 自动
+                    - cell "100" [ref=e229]
+                    - cell "词元" [ref=e230]:
+                      - generic [ref=e231]: 词元
+                  - row "7 学习 11 词元" [ref=e232]:
+                    - cell "7" [ref=e233]
+                    - cell "学习" [ref=e234]:
+                      - code [ref=e235]: 学习
+                    - cell "11" [ref=e236]
+                    - cell "词元" [ref=e237]:
+                      - generic [ref=e238]: 词元
+                  - row "8 数据 10 词元" [ref=e239]:
+                    - cell "8" [ref=e240]
+                    - cell "数据" [ref=e241]:
+                      - code [ref=e242]: 数据
+                    - cell "10" [ref=e243]
+                    - cell "词元" [ref=e244]:
+                      - generic [ref=e245]: 词元
+                  - row "9 模式 101 词元" [ref=e246]:
+                    - cell "9" [ref=e247]
+                    - cell "模式" [ref=e248]:
+                      - code [ref=e249]: 模式
+                    - cell "101" [ref=e250]
+                    - cell "词元" [ref=e251]:
+                      - generic [ref=e252]: 词元
+              - generic [ref=e253]: ... 共 11 个 tokens
+            - generic [ref=e254]:
+              - generic [ref=e255]:
+                - generic [ref=e256]: 💡
+                - generic [ref=e257]: Token 是文本处理的最小单位，中文通常按词分割
+              - generic [ref=e258]:
+                - generic [ref=e259]: 🔢
+                - generic [ref=e260]: 每个 Token 映射到一个唯一的数字 ID
+          - generic [ref=e262]:
+            - generic [ref=e263]:
+              - heading "训练损失" [level=3] [ref=e264]
+              - generic [ref=e265]: Cross-Entropy
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - generic [ref=e270]: 当前
+                - generic [ref=e271]: "0.0000"
+              - generic [ref=e272]:
+                - generic [ref=e273]: 平均
+                - generic [ref=e274]: "0.0000"
+              - generic [ref=e275]:
+                - generic [ref=e276]: 最低
+                - generic [ref=e277]: "0.0000"
+            - paragraph [ref=e279]: 损失越低，模型预测下一个词的能力越强。理想情况下，损失应该随着训练逐渐下降。
+          - generic [ref=e281]:
+            - generic [ref=e282]:
+              - heading "LLM 数据流图" [level=3] [ref=e283]
+              - generic [ref=e284]: 空闲
+            - img [ref=e286]:
+              - generic [ref=e287] [cursor=pointer]:
+                - generic [ref=e289]: 📝
+                - generic [ref=e290]: 输入 Tokens
+              - generic [ref=e291] [cursor=pointer]:
+                - generic [ref=e293]: 📊
+                - generic [ref=e294]: Token 嵌入
+              - generic [ref=e295] [cursor=pointer]:
+                - generic [ref=e297]: 📍
+                - generic [ref=e298]: 位置编码
+              - generic [ref=e299] [cursor=pointer]:
+                - generic [ref=e301]: 👁️
+                - generic [ref=e302]: 自注意力
+              - generic [ref=e303] [cursor=pointer]:
+                - generic [ref=e305]: ⚡
+                - generic [ref=e306]: 前馈网络
+              - generic [ref=e307] [cursor=pointer]:
+                - generic [ref=e309]: 🎯
+                - generic [ref=e310]: 输出预测
+              - generic [ref=e311]:
+                - generic [ref=e312]: "当前序列:"
+                - generic [ref=e313]:
+                  - generic [ref=e316]: 问题
+                  - generic [ref=e319]: 机器学习
+                  - generic [ref=e322]: <UNK>
+                  - generic [ref=e325]: 回答
+                  - generic [ref=e328]: <UNK>
+                  - generic [ref=e331]: 计算机
+                  - generic [ref=e332]: "+5"
+            - generic [ref=e333]:
+              - generic [ref=e334]:
+                - generic [ref=e335]: "1"
+                - generic [ref=e336]: Token 嵌入：将每个词转换为向量表示
+              - generic [ref=e337]:
+                - generic [ref=e338]: "2"
+                - generic [ref=e339]: 位置编码：为序列中的每个位置添加位置信息
+              - generic [ref=e340]:
+                - generic [ref=e341]: "3"
+                - generic [ref=e342]: 自注意力：计算词与词之间的关联强度
+              - generic [ref=e343]:
+                - generic [ref=e344]: "4"
+                - generic [ref=e345]: 前馈网络：对每个位置进行非线性变换
+              - generic [ref=e346]:
+                - generic [ref=e347]: "5"
+                - generic [ref=e348]: 输出预测：计算每个词作为下一个词的概率
+        - generic [ref=e350]:
+          - 'heading "训练主题: 问答训练" [level=3] [ref=e351]'
+          - generic [ref=e352]:
+            - button "问答训练" [ref=e353] [cursor=pointer]
+            - button "故事生成" [ref=e354] [cursor=pointer]
+            - button "技术文档" [ref=e355] [cursor=pointer]
+          - paragraph [ref=e356]: 学习问题和回答的对应关系
+          - generic [ref=e357]:
+            - generic [ref=e358]: "训练语料 (5 条):"
+            - generic [ref=e359]:
+              - generic [ref=e360]: 问题 机器学习 是什么 回答 让 计算机 自动 学习 数据 ...
+              - generic [ref=e361]: 问题 神经网络 怎么 工作 回答 通过 前向 传播 和 反向...
+              - generic [ref=e362]: 问题 什么是 梯度 下降 回答 用于 优化 模型 参数 的 ...
+              - generic [ref=e363]: 问题 深度学习 和 机器学习 什么 区别 回答 深度学习 使...
+              - generic [ref=e364]: 问题 注意力机制 作用 什么 回答 帮助 模型 关注 重要 ...
+          - generic [ref=e365]:
+            - generic [ref=e366]:
+              - generic [ref=e367]: 词表大小
+              - generic [ref=e368]: "96"
+            - generic [ref=e369]:
+              - generic [ref=e370]: 嵌入维度
+              - generic [ref=e371]: "32"
+            - generic [ref=e372]:
+              - generic [ref=e373]: 注意力头
+              - generic [ref=e374]: "4"
+            - generic [ref=e375]:
+              - generic [ref=e376]: 上下文长度
+              - generic [ref=e377]: "32"
+        - generic [ref=e380]:
+          - heading "控制面板" [level=3] [ref=e382]
+          - generic [ref=e383]:
+            - generic [ref=e384]: 实验模式
+            - generic [ref=e385]:
+              - button "训练模式" [ref=e386] [cursor=pointer]
+              - button "推理模式" [ref=e387] [cursor=pointer]
+          - generic [ref=e388]:
+            - generic [ref=e389]: 选择训练主题
+            - generic [ref=e390]:
+              - button "问答训练" [ref=e391] [cursor=pointer]
+              - button "故事生成" [ref=e392] [cursor=pointer]
+              - button "技术文档" [ref=e393] [cursor=pointer]
+          - generic [ref=e394]:
+            - generic [ref=e395]:
+              - text: "学习率:"
+              - strong [ref=e396]: "0.10"
+            - slider [ref=e397] [cursor=pointer]: "0.1"
+            - generic [ref=e398]:
+              - generic [ref=e399]: 慢
+              - generic [ref=e400]: 快
+          - generic [ref=e401]:
+            - button "单步训练" [active] [ref=e402] [cursor=pointer]
+            - button "开始训练" [ref=e403] [cursor=pointer]
+          - generic [ref=e404]:
+            - generic [ref=e405]:
+              - generic [ref=e406]: 训练步数
+              - generic [ref=e407]: "0"
+            - generic [ref=e408]:
+              - generic [ref=e409]: 当前损失
+              - generic [ref=e410]: "-"
+          - button "重置模型" [ref=e411] [cursor=pointer]
+      - generic [ref=e413]:
+        - heading "LLM 是如何工作的？" [level=4] [ref=e414]
+        - generic [ref=e415]:
+          - generic [ref=e416]:
+            - generic [ref=e417]: "1"
+            - generic [ref=e418]:
+              - strong [ref=e419]: Token 嵌入
+              - paragraph [ref=e420]: 将每个词转换为向量表示
+          - generic [ref=e421]:
+            - generic [ref=e422]: "2"
+            - generic [ref=e423]:
+              - strong [ref=e424]: 位置编码
+              - paragraph [ref=e425]: 添加序列位置信息
+          - generic [ref=e426]:
+            - generic [ref=e427]: "3"
+            - generic [ref=e428]:
+              - strong [ref=e429]: 自注意力
+              - paragraph [ref=e430]: 计算词与词之间的关联
+          - generic [ref=e431]:
+            - generic [ref=e432]: "4"
+            - generic [ref=e433]:
+              - strong [ref=e434]: 输出预测
+              - paragraph [ref=e435]: 预测下一个最可能的词

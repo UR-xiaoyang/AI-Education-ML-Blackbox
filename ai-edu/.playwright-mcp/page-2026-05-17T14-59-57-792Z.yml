@@ -1,0 +1,181 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e109]:
+      - button "← 退出课程" [ref=e110] [cursor=pointer]
+      - generic [ref=e111]: 📚 第 1/5 课 · 线性回归
+    - generic [ref=e112]:
+      - button "退出课程" [ref=e113] [cursor=pointer]
+      - button "返回实验选择" [ref=e114] [cursor=pointer]
+      - button "📈 线性回归" [ref=e115] [cursor=pointer]:
+        - generic [ref=e116]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归 🔒" [ref=e117]:
+        - generic [ref=e118]: 🟠🔵
+        - text: 逻辑回归 🔒
+      - button "🌲 决策树 🔒" [ref=e119]:
+        - generic [ref=e120]: 🌲
+        - text: 决策树 🔒
+      - button "🧠 神经网络 🔒" [ref=e121]:
+        - generic [ref=e122]: 🧠
+        - text: 神经网络 🔒
+      - button "💬 LLM 专题 🔒" [ref=e123]:
+        - generic [ref=e124]: 💬
+        - text: LLM 专题 🔒
+      - button "🎯 YOLO 专题 🔒" [ref=e125]:
+        - generic [ref=e126]: 🎯
+        - text: YOLO 专题 🔒
+  - generic [ref=e127]:
+    - generic [ref=e128]: 📚 课程进度：第 1/5 课
+    - generic [ref=e129]:
+      - generic "📈 线性回归 (进行中)" [ref=e130]
+      - generic "🟠🔵 逻辑回归 (未开始)" [ref=e131]
+      - generic "🌲 决策树 (未开始)" [ref=e132]
+      - generic "🧠 神经网络 (未开始)" [ref=e133]
+      - generic "⚠️ 故障诊断 (未开始)" [ref=e134]
+    - generic [ref=e135]: 📈 线性回归
+  - generic [ref=e136]:
+    - generic [ref=e137]:
+      - strong [ref=e138]: 📚 📈 线性回归：
+      - text: 从散点和拟合直线开始,理解损失函数与梯度下降。
+    - generic [ref=e139]: 1 / 12
+  - main [ref=e141]:
+    - generic [ref=e142]:
+      - generic [ref=e144]:
+        - img [ref=e145]
+        - generic:
+          - generic: 👆
+          - generic: 点击这里添加数据点
+          - generic: 试着在画布上随意点击
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - heading "AI 黑盒实验室" [level=2] [ref=e151]
+            - paragraph [ref=e152]: 揭开机器学习：从数据到模型
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]: 学习进度
+              - generic [ref=e156]: 20%
+            - generic [ref=e159]:
+              - generic [ref=e160]: ▶ 收集数据
+              - generic [ref=e161]: ○ 理解误差
+              - generic [ref=e162]: ○ 开始训练
+              - generic [ref=e163]: ○ 训练完成
+              - generic [ref=e164]: ○ 推理测试
+          - generic [ref=e165]:
+            - button "🏋️ 训练模式" [ref=e166] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e167] [cursor=pointer]
+          - generic [ref=e168]:
+            - heading "STEP 第一步：收集数据" [level=3] [ref=e169]:
+              - generic [ref=e170]: STEP
+              - text: 第一步：收集数据
+            - paragraph [ref=e171]: 在左侧画板中随意点击，添加一些散步的点。这就好比我们在现实世界中收集的供AI学习的「大量数据」。无数据，不AI。
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - generic [ref=e174]: 模型公式 (Model)
+              - generic [ref=e175]: y = wx + b
+              - generic [ref=e176]:
+                - text: "w: -0.4399"
+                - text: "b: 0.3006"
+            - generic [ref=e177]:
+              - generic [ref=e178]: 误差总和 (Loss)
+              - generic [ref=e179]: "0.0000"
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - generic [ref=e182]: 学习步长 (学习率)
+              - generic [ref=e183]: "0.10"
+            - slider [ref=e184] [cursor=pointer]: "0.1"
+          - generic [ref=e185]:
+            - button "单步 (Step)" [ref=e186] [cursor=pointer]
+            - button "✨ 自动训练" [ref=e187] [cursor=pointer]
+          - generic [ref=e188]:
+            - button "🧹 清空测试集" [ref=e189] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e190] [cursor=pointer]
+        - paragraph [ref=e192]: 暂无训练数据
+      - generic [ref=e193]:
+        - generic [ref=e194]:
+          - generic [ref=e195]: 梯度下降
+          - generic [ref=e196]:
+            - text: w = w − lr × ∂Loss/∂w
+            - text: b = b − lr × ∂Loss/∂b
+          - generic [ref=e197]: "∂w: 0.0000 ∂b: 0.0000"
+        - generic [ref=e198]:
+          - generic [ref=e199]:
+            - generic [ref=e200]:
+              - heading "数据集" [level=3] [ref=e201]
+              - paragraph [ref=e202]: 共 0 个样本
+            - button "清空" [ref=e203] [cursor=pointer]
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - generic [ref=e206]: X 范围
+              - generic [ref=e207]: —
+            - generic [ref=e208]:
+              - generic [ref=e209]: Y 范围
+              - generic [ref=e210]: —
+          - generic [ref=e211]:
+            - button "📝 输入" [ref=e212] [cursor=pointer]
+            - button "📄 导入" [ref=e213] [cursor=pointer]
+            - button "📋 列表" [ref=e214] [cursor=pointer]
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - generic [ref=e217]: 💡
+          - paragraph [ref=e218]: 在左侧画布上点击,添加一些散点。这是模型要学习的"原材料"。
+        - button "明白了，下一步" [ref=e220] [cursor=pointer]
+      - complementary [ref=e222]:
+        - generic [ref=e223]:
+          - heading "🧭 教学助手" [level=3] [ref=e224]
+          - button "◀" [ref=e225] [cursor=pointer]
+        - generic [ref=e226]:
+          - generic [ref=e227]: 线性回归基础
+          - generic [ref=e228]: 步骤 1 / 12
+        - generic [ref=e230]:
+          - generic "在左侧画布上点击,添加一些散点。这是模型要学习的\"原材料\"。" [ref=e231]:
+            - generic [ref=e232]: "1"
+            - generic [ref=e233]: ●
+            - generic [ref=e234]: 在左侧画布上点击,添加一些散点。这是模型要学习的"原材料"。
+          - generic "点击\"单步 (Step)\",执行一次梯度下降。看着右侧绿色的\"梯度下降\"区域--每次训练时,w 和 b 会沿着 Loss 下降最快的方向移动一小步。" [ref=e235]:
+            - generic [ref=e236]: "2"
+            - generic [ref=e237]: ○
+            - generic [ref=e238]: 点击"单步 (Step)",执行一次梯度下降。看着右侧绿色的"梯度下降...
+          - generic "注意看:1 \"梯度下降\"面板里,∂Loss/∂w 和 ∂Loss/∂b 的值是多少?2 w 和 b 本步的变化量是多少?3 这两个梯度值分别告诉参数:应该往哪个方向、迈多大的一步?" [ref=e239]:
+            - generic [ref=e240]: "3"
+            - generic [ref=e241]: ○
+            - generic [ref=e242]: 注意看:1 "梯度下降"面板里,∂Loss/∂w 和 ∂Loss/∂b...
+          - generic "Loss(误差总和)代表所有红点到绿色直线的距离之和。梯度下降的目标就是让这条总距离越来越小。观察 Loss 值是否在下降?" [ref=e243]:
+            - generic [ref=e244]: "4"
+            - generic [ref=e245]: ○
+            - generic [ref=e246]: Loss(误差总和)代表所有红点到绿色直线的距离之和。梯度下降的目标就...
+          - generic "学习率(lr)控制每一步迈多远。拖动\"学习步长\"滑块,观察:lr 变小时,梯度值不变但每步变化量变小;lr 变大时,每步变化量变大(但过大则会震荡)。" [ref=e247]:
+            - generic [ref=e248]: "5"
+            - generic [ref=e249]: ○
+            - generic [ref=e250]: 学习率(lr)控制每一步迈多远。拖动"学习步长"滑块,观察:lr 变小...
+          - generic "点击\"自动训练\",让梯度下降算法持续迭代,观察直线逐步收敛。" [ref=e251]:
+            - generic [ref=e252]: "6"
+            - generic [ref=e253]: ○
+            - generic [ref=e254]: 点击"自动训练",让梯度下降算法持续迭代,观察直线逐步收敛。
+          - generic "观察直线如何一步步拟合数据,Loss 值下降或趋于稳定后将自动进入下一步..." [ref=e255]:
+            - generic [ref=e256]: "7"
+            - generic [ref=e257]: ○
+            - generic [ref=e258]: 观察直线如何一步步拟合数据,Loss 值下降或趋于稳定后将自动进入下一...
+          - generic "训练完成!请仔细观察:1 绿色拟合直线是否穿过了大多数红点?2 右侧的 Loss 值是多少?3 w 和 b 的最终值是多少?思考一下:Loss 是什么,w 和 b 各自代表直线的什么属性?" [ref=e259]:
+            - generic [ref=e260]: "8"
+            - generic [ref=e261]: ○
+            - generic [ref=e262]: 训练完成!请仔细观察:1 绿色拟合直线是否穿过了大多数红点?2 右侧的...
+          - generic "切换到\"预测推理\"模式,测试模型的泛化能力。" [ref=e263]:
+            - generic [ref=e264]: "9"
+            - generic [ref=e265]: ○
+            - generic [ref=e266]: 切换到"预测推理"模式,测试模型的泛化能力。
+          - generic "请在左侧画布上点击,放置几个测试点来验证模型的泛化能力。观察模型对这些未见过的点会给出什么样的预测值。完成后点击下方按钮继续。" [ref=e267]:
+            - generic [ref=e268]: "10"
+            - generic [ref=e269]: ○
+            - generic [ref=e270]: 请在左侧画布上点击,放置几个测试点来验证模型的泛化能力。观察模型对这些...
+          - generic "线性回归掌握完毕!" [ref=e271]:
+            - generic [ref=e272]: "11"
+            - generic [ref=e273]: ○
+            - generic [ref=e274]: 线性回归掌握完毕!
+          - generic "恭喜完成线性回归章节!" [ref=e275]:
+            - generic [ref=e276]: "12"
+            - generic [ref=e277]: ○
+            - generic [ref=e278]: 恭喜完成线性回归章节!
+        - heading "📋 实验报告 ▶" [level=4] [ref=e280] [cursor=pointer]:
+          - text: 📋 实验报告
+          - generic [ref=e281]: ▶

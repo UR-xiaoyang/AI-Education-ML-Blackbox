@@ -171,6 +171,9 @@ export const usePedagogyStore = create((set, get) => ({
         pendingReflections: [...state.pendingReflections, {
           questionText: config.questionText,
           minChars: config.minChars || 15,
+          type: config.type || 'text',
+          options: config.options || [],
+          explanation: config.explanation || '',
           labId: labId,
           stepId: stepId
         }]
@@ -244,20 +247,16 @@ export const usePedagogyStore = create((set, get) => ({
     currentReflectionIndex: 0
   }),
 
-  // Generate experiment report based on student answers
-  generateReport: () => {
+  // 本地生成简单报告（当 AI 不可用时使用）
+  generateLocalReport: () => {
     const state = get();
     const { studentAnswers, completedLabs } = state;
 
-    if (studentAnswers.length === 0) {
-      return "暂无实验记录，无法生成报告。";
-    }
-
-    // Group answers by lab
     const labTitles = {
       'LINEAR': '线性回归',
       'LOGISTIC': '逻辑回归',
       'TREE': '决策树',
+      'DT': '决策树',
       'NN': '神经网络',
       'FAULT': '故障实验台'
     };
@@ -271,7 +270,6 @@ export const usePedagogyStore = create((set, get) => ({
       answersByLab[labId].push(answer);
     });
 
-    // Build report content
     const now = new Date().toLocaleString('zh-CN');
     let report = `=====================================\n`;
     report += `        AI 实验室学习实验报告\n`;
@@ -279,12 +277,13 @@ export const usePedagogyStore = create((set, get) => ({
     report += `生成时间：${now}\n`;
     report += `=====================================\n\n`;
 
-    report += `【学习进度】\n`;
-    report += `完成实验：${completedLabs.length} / 5\n`;
-    completedLabs.forEach(labId => {
-      report += `  ✓ ${labTitles[labId] || labId}\n`;
-    });
-    report += `\n`;
+    if (completedLabs && completedLabs.length > 0) {
+      report += `【已完成的实验模块】\n`;
+      completedLabs.forEach(labId => {
+        report += `  • ${labTitles[labId] || labId}\n`;
+      });
+      report += `\n`;
+    }
 
     report += `【反思记录】\n`;
     report += `总计反思题：${studentAnswers.length} 题\n\n`;
@@ -296,8 +295,8 @@ export const usePedagogyStore = create((set, get) => ({
       report += `--------------------------------------\n\n`;
 
       labAnswers.forEach((answer, index) => {
-        report += `问题 ${index + 1}：\n`;
-        report += `${answer.question}\n\n`;
+        const question = answer.question || answer.questionText || '';
+        report += `问题 ${index + 1}：\n${question}\n\n`;
         report += `你的回答：\n${answer.answer}\n\n`;
       });
     });
@@ -310,10 +309,70 @@ export const usePedagogyStore = create((set, get) => ({
     return report;
   },
 
-  // Download report as a text file
-  downloadReport: () => {
+  // Generate AI-powered experiment report
+  generateReport: () => {
     const state = get();
-    const report = state.reportContent || state.generateReport();
+    const { studentAnswers, completedLabs, labDataSummary } = state;
+
+    // 如果没有答案，使用本地生成
+    if (studentAnswers.length === 0) {
+      const report = "暂无实验记录，无法生成报告。";
+      set({ reportContent: report });
+      return Promise.resolve(report);
+    }
+
+    // 检查是否已登录
+    const authData = localStorage.getItem('ai-edu-auth');
+    const authState = authData ? JSON.parse(authData) : null;
+    const token = authState?.state?.token;
+
+    // 如果已登录且有 token，调用 AI 生成报告
+    if (token) {
+      return fetch('/api/ai-chat/generate-report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          studentAnswers,
+          completedLabs,
+          labDataSummary
+        })
+      })
+        .then(res => {
+          if (!res.ok) throw new Error(`生成报告失败: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          if (data.success && data.report) {
+            set({ reportContent: data.report });
+            return data.report;
+          } else {
+            throw new Error(data.error || '报告格式错误');
+          }
+        })
+        .catch(err => {
+          console.warn('AI 报告生成失败，使用本地报告:', err);
+          return get().generateLocalReport();
+        });
+    } else {
+      // 未登录，使用本地生成
+      console.info('用户未登录，使用本地报告生成');
+      return Promise.resolve(get().generateLocalReport());
+    }
+  },
+
+  // Download report as a text file
+  downloadReport: async () => {
+    const state = get();
+    let report = state.reportContent;
+
+    // 如果没有缓存的报告，先生成
+    if (!report) {
+      report = await state.generateReport();
+    }
+
     const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

@@ -43,16 +43,8 @@ export default function GraphCanvas({ points, testPoints = [], w, b, onAddPoint,
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
 
-    const hasOffsetXY = typeof e.offsetX === 'number' && typeof e.offsetY === 'number';
-    let xSVG, ySVG;
-
-    if (hasOffsetXY) {
-      xSVG = e.offsetX;
-      ySVG = e.offsetY;
-    } else {
-      xSVG = e.clientX - rect.left;
-      ySVG = e.clientY - rect.top;
-    }
+    const xSVG = Math.max(0, Math.min(width, e.clientX - rect.left));
+    const ySVG = Math.max(0, Math.min(height, e.clientY - rect.top));
 
     // 涟漪效果
     setClickRipple({ x: xSVG, y: ySVG, key: Date.now() });

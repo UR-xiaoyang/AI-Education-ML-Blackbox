@@ -47,6 +47,27 @@
   color: var(--text-muted, #64748b);
 }
 
+.prompt-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.prompt-presets button {
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.prompt-presets button:hover {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
 /* 生成控制按钮 */
 .generation-controls {
   display: flex;
@@ -82,6 +103,16 @@
 
 .generation-controls .btn-secondary:hover {
   background: rgba(148, 163, 184, 0.2);
+}
+
+.generation-controls .btn-ghost {
+  background: transparent;
+  color: var(--text-muted, #64748b);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.generation-controls .btn-ghost:hover {
+  background: rgba(148, 163, 184, 0.1);
 }
 
 /* 生成结果 */

@@ -63,6 +63,13 @@
   font-size: 12px;
   color: var(--text-secondary, #94a3b8);
   transition: all 0.2s ease;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.token-chip:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
 }
 
 .token-chip.active {

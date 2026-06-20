@@ -65,6 +65,8 @@ export default function LogisticRegressionLab({ scenarioEnabled = false }) {
     }
   }, [scenarioEnabled, points.length, lossHistory.length, mode, achievements]);
 
+  const { setLabDataSummary } = usePedagogyStore();
+
   // Sync point count & class count to the global store so the App-level useScenarioEngine
   // (used by SpotlightOverlay) can validate prerequisites.
   useEffect(() => {
@@ -450,7 +452,7 @@ export default function LogisticRegressionLab({ scenarioEnabled = false }) {
           currentLoss={currentLoss}
           isTraining={isAutoTraining}
           mode={mode}
-          labType="LINEAR"
+          labType="LOGISTIC"
         />
       )}
 

@@ -23,9 +23,10 @@ body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  overflow: hidden; /* 核心：锁定全局滚动条，实现极客工具软件感 */
-  height: 100vh;
-  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
 }
 
 /* 玻璃面板核心样式 */

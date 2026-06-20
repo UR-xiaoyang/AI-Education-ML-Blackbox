@@ -52,6 +52,7 @@ function inspectSample(sample, model, useRelu) {
     dz1,
     dz2,
     target,
+    inputs: [x1, x2],
     W1,
     W2,
     hiddenNodes,
@@ -91,6 +92,25 @@ function buildParticle(start, end, color, duration, visible, key) {
       <animate attributeName="opacity" values="0;1;1;0" dur={duration} repeatCount="indefinite" />
     </circle>
   );
+}
+
+function formatValue(value) {
+  if (!Number.isFinite(value)) return '0.00';
+  return value >= 0 ? `+${value.toFixed(2)}` : value.toFixed(2);
+}
+
+function edgeStyle(value, direction) {
+  const intensity = clamp(Math.abs(value), 0, 1.2);
+  const isBackward = direction === 'backward';
+  return {
+    stroke: edgeColor(value, isBackward),
+    strokeWidth: 1.2 + intensity * (isBackward ? 2.2 : 3),
+    opacity: 0.55 + intensity * 0.35,
+  };
+}
+
+function nodeColor(value, layer) {
+  return activationColor(value, layer === 'output');
 }
 
 export default function NNNetworkViz({
