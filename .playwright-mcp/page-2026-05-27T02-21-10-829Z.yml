@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: Experiment Flow
+        - heading "先选择你想进入的实验或专题" [level=2] [ref=e16]
+        - paragraph [ref=e17]: 首页不再直接进入某个实验，而是先从下方选择基础实验或高级专题。进入后仍可在顶部切换，方便课堂演示、自由探索与专题讲解。
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]: 📚
+          - generic [ref=e21]: 基础课程学习
+          - generic [ref=e22]: 依次完成基础课程 5 个实验
+          - generic [ref=e23]:
+            - generic [ref=e24]: 自习模式
+            - button [ref=e25] [cursor=pointer]
+            - generic [ref=e27]: 教学模式
+        - generic [ref=e28]:
+          - paragraph [ref=e29]: 🎈 自习模式：自由探索基础实验与高级专题，不显示分步聚光灯引导。
+          - button "开始自习模式" [ref=e30] [cursor=pointer]
+      - generic [ref=e31]:
+        - button "📈 线性回归 ★ ★ ★ 入门 从散点和拟合直线开始，理解损失函数与梯度下降。" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: 📈
+          - generic [ref=e34]: 线性回归
+          - generic [ref=e35]:
+            - generic [ref=e36]: ★
+            - generic [ref=e37]: ★
+            - generic [ref=e38]: ★
+            - generic [ref=e39]: 入门
+          - generic [ref=e40]: 从散点和拟合直线开始，理解损失函数与梯度下降。
+        - button "🟠🔵 逻辑回归 ★ ★ ★ 入门 观察分类边界如何移动，理解二分类训练过程。" [ref=e41] [cursor=pointer]:
+          - generic [ref=e42]: 🟠🔵
+          - generic [ref=e43]: 逻辑回归
+          - generic [ref=e44]:
+            - generic [ref=e45]: ★
+            - generic [ref=e46]: ★
+            - generic [ref=e47]: ★
+            - generic [ref=e48]: 入门
+          - generic [ref=e49]: 观察分类边界如何移动，理解二分类训练过程。
+        - button "🌲 决策树 ★ ★ ★ 进阶 通过空间切分理解模型容量、泛化与过拟合。" [ref=e50] [cursor=pointer]:
+          - generic [ref=e51]: 🌲
+          - generic [ref=e52]: 决策树
+          - generic [ref=e53]:
+            - generic [ref=e54]: ★
+            - generic [ref=e55]: ★
+            - generic [ref=e56]: ★
+            - generic [ref=e57]: 进阶
+          - generic [ref=e58]: 通过空间切分理解模型容量、泛化与过拟合。
+        - button "🧠 神经网络 ★ ★ ★ 高级 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。" [ref=e59] [cursor=pointer]:
+          - generic [ref=e60]: 🧠
+          - generic [ref=e61]: 神经网络
+          - generic [ref=e62]:
+            - generic [ref=e63]: ★
+            - generic [ref=e64]: ★
+            - generic [ref=e65]: ★
+            - generic [ref=e66]: 高级
+          - generic [ref=e67]: 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。
+        - button "高级专题 💬 LLM 专题 ★ ★ ★ 高级 理解大语言模型如何做预训练、指令微调与逐词生成预测。" [ref=e68] [cursor=pointer]:
+          - generic [ref=e69]: 高级专题
+          - generic [ref=e70]: 💬
+          - generic [ref=e71]: LLM 专题
+          - generic [ref=e72]:
+            - generic [ref=e73]: ★
+            - generic [ref=e74]: ★
+            - generic [ref=e75]: ★
+            - generic [ref=e76]: 高级
+          - generic [ref=e77]: 理解大语言模型如何做预训练、指令微调与逐词生成预测。
+        - button "高级专题 🎯 YOLO 专题 ★ ★ ★ 高级 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: 高级专题
+          - generic [ref=e80]: 🎯
+          - generic [ref=e81]: YOLO 专题
+          - generic [ref=e82]:
+            - generic [ref=e83]: ★
+            - generic [ref=e84]: ★
+            - generic [ref=e85]: ★
+            - generic [ref=e86]: 高级
+          - generic [ref=e87]: 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。
+  - generic [ref=e88] [cursor=pointer]:
+    - generic [ref=e89]: ✨
+    - generic [ref=e90]:
+      - text: 获得
+      - strong [ref=e91]: +30 XP
+  - generic [ref=e92] [cursor=pointer]:
+    - generic [ref=e93]: "1"
+    - generic [ref=e95]:
+      - generic [ref=e96]: 机器学习小白
+      - generic [ref=e97]: 30 XP
+    - generic [ref=e100]:
+      - generic [ref=e101]: 🏆
+      - generic [ref=e102]: "1"

@@ -4,9 +4,12 @@ import './LLMControlPanel.css';
 
 export default function LLMControlPanel({
   onTrainStep,
+  onTrainBatch,
   onToggleTraining,
   onReset,
   isTraining,
+  trainingSpeed,
+  setTrainingSpeed,
   learningRate,
   setLearningRate,
   temperature,
@@ -15,6 +18,9 @@ export default function LLMControlPanel({
   lossHistory,
   mode,
   onModeChange,
+  tokenizerMode,
+  onTokenizerModeChange,
+  tokenizerOptions = [],
 }) {
   const { selectTheme, selectedTheme } = useLLMStore();
 
@@ -29,18 +35,37 @@ export default function LLMControlPanel({
         <span className="section-label">实验模式</span>
         <div className="mode-toggle">
           <button
+            id="llm-mode-train"
             className={`mode-btn ${mode === 'train' ? 'active' : ''}`}
             onClick={() => onModeChange('train')}
           >
             训练模式
           </button>
           <button
+            id="llm-mode-inference"
             className={`mode-btn ${mode === 'inference' ? 'active' : ''}`}
             onClick={() => onModeChange('inference')}
           >
             推理模式
           </button>
         </div>
+      </div>
+
+      <div className="control-section">
+        <span className="section-label">分词器</span>
+        <select
+          id="llm-tokenizer-select"
+          value={tokenizerMode}
+          onChange={(e) => onTokenizerModeChange(e.target.value)}
+          className="tokenizer-select"
+        >
+          {tokenizerOptions.map(option => (
+            <option key={option.id} value={option.id}>{option.name}</option>
+          ))}
+        </select>
+        <p className="tokenizer-desc">
+          {tokenizerOptions.find(option => option.id === tokenizerMode)?.description}
+        </p>
       </div>
 
       {mode === 'train' ? (
@@ -76,6 +101,7 @@ export default function LLMControlPanel({
               学习率: <strong>{learningRate.toFixed(2)}</strong>
             </span>
             <input
+              id="llm-learning-rate-slider"
               type="range"
               min="0.01"
               max="1"
@@ -92,15 +118,38 @@ export default function LLMControlPanel({
 
           {/* 训练控制 */}
           <div className="control-section training-controls">
-            <button className="btn btn-secondary" onClick={onTrainStep}>
+            <button id="llm-train-step-button" className="btn btn-secondary" onClick={onTrainStep}>
               单步训练
             </button>
+            <button className="btn btn-secondary" onClick={() => onTrainBatch(25)}>
+              训练 25 步
+            </button>
             <button
+              id="llm-train-toggle-button"
               className={`btn ${isTraining ? 'btn-warning' : 'btn-primary'}`}
               onClick={onToggleTraining}
             >
               {isTraining ? '暂停训练' : '开始训练'}
             </button>
+          </div>
+
+          <div className="control-section">
+            <span className="section-label">
+              连续训练速度: <strong>{trainingSpeed}</strong> 步/帧
+            </span>
+            <input
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              value={trainingSpeed}
+              onChange={(e) => setTrainingSpeed(parseInt(e.target.value, 10))}
+              className="slider"
+            />
+            <div className="slider-labels">
+              <span>细看</span>
+              <span>快速</span>
+            </div>
           </div>
 
           {/* 训练状态 */}
@@ -136,6 +185,7 @@ export default function LLMControlPanel({
               Temperature: <strong>{temperature.toFixed(2)}</strong>
             </span>
             <input
+              id="llm-temperature-slider"
               type="range"
               min="0.1"
               max="2"

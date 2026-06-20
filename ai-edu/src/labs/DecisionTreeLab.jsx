@@ -10,6 +10,7 @@ import { usePedagogyStore } from '../store/pedagogyStore';
 import { SpotlightOverlay } from '../components/SpotlightOverlay';
 import { PedagogySidebar } from '../components/PedagogySidebar';
 import { calculateGini } from '../utils/treeEngine';
+import LearningCompanion from '../components/LearningCompanion';
 
 export default function DecisionTreeLab({ scenarioEnabled = false }) {
   const [points, setPoints] = useState([]);
@@ -448,6 +449,17 @@ export default function DecisionTreeLab({ scenarioEnabled = false }) {
             />
           </div>
         </>
+      )}
+
+      {!scenarioEnabled && (
+        <LearningCompanion
+          pointsCount={points.length}
+          lossHistoryLength={completedSplits.length}
+          currentLoss={null}
+          isTraining={currentAnimation !== null}
+          mode={mode}
+          labType="TREE"
+        />
       )}
 
       {/* 成就解锁弹窗 */}

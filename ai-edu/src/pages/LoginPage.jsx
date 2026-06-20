@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '../store/authStore';
 
-// Cloudflare Turnstile Site Key
-const TURNSTILE_SITE_KEY = '0x4AAAAAADCIV_KC4Dyc2waK';
-
 // Check if running on localhost (skip Turnstile for local development)
 const IS_LOCALHOST = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
 
@@ -13,32 +10,46 @@ export function LoginPage({ onSwitchToRegister, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [settings, setSettings] = useState({ allowRegistration: false, turnstileEnabled: false, turnstileSiteKey: '' });
   const turnstileRef = useRef(null);
 
   const { login, isLoading, error, clearError } = useAuthStore();
 
-  // Load Turnstile script (only for non-localhost)
+  const shouldUseTurnstile = settings.turnstileEnabled && !!settings.turnstileSiteKey && !IS_LOCALHOST;
+
   useEffect(() => {
-    if (IS_LOCALHOST) return;
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/settings/public`)
+      .then(response => response.ok ? response.json() : null)
+      .then(data => {
+        if (data?.settings) setSettings(data.settings);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Load Turnstile script (only when enabled for non-localhost)
+  useEffect(() => {
+    if (!shouldUseTurnstile) return;
 
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
     script.async = true;
     script.defer = true;
+    script.onload = () => setTurnstileReady(true);
     document.body.appendChild(script);
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [shouldUseTurnstile]);
 
-  // Initialize Turnstile widget (only for non-localhost)
+  // Initialize Turnstile widget (only when enabled for non-localhost)
   useEffect(() => {
-    if (IS_LOCALHOST || !window.turnstile) return;
+    if (!shouldUseTurnstile || !turnstileReady || !window.turnstile) return;
 
     const timer = setTimeout(() => {
       if (turnstileRef.current && !turnstileRef.current.innerHTML) {
         window.turnstile.render(turnstileRef.current, {
-          sitekey: TURNSTILE_SITE_KEY,
+          sitekey: settings.turnstileSiteKey,
           callback: (token) => setTurnstileToken(token),
           'expired-callback': () => setTurnstileToken(''),
           'error-callback': () => setTurnstileToken(''),
@@ -47,7 +58,7 @@ export function LoginPage({ onSwitchToRegister, onClose }) {
       }
     }, 100);
     return () => clearTimeout(timer);
-  }, [window.turnstile]);
+  }, [shouldUseTurnstile, turnstileReady]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,8 +68,7 @@ export function LoginPage({ onSwitchToRegister, onClose }) {
       return;
     }
 
-    // Skip Turnstile check on localhost
-    if (!IS_LOCALHOST && !turnstileToken) {
+    if (shouldUseTurnstile && !turnstileToken) {
       clearError();
       useAuthStore.setState({ error: '请先完成人机验证' });
       return;
@@ -150,16 +160,17 @@ export function LoginPage({ onSwitchToRegister, onClose }) {
             </label>
           </div>
 
-          {/* Turnstile Widget */}
-          <div className="turnstile-container">
-            <div ref={turnstileRef}></div>
-          </div>
+          {shouldUseTurnstile && (
+            <div className="turnstile-container">
+              <div ref={turnstileRef}></div>
+            </div>
+          )}
 
           {/* Submit Button */}
           <button
             type="submit"
             className="btn btn-primary auth-submit"
-            disabled={isLoading || !username.trim() || !password || (!IS_LOCALHOST && !turnstileToken)}
+            disabled={isLoading || !username.trim() || !password || (shouldUseTurnstile && !turnstileToken)}
           >
             {isLoading ? (
               <>
@@ -172,11 +183,20 @@ export function LoginPage({ onSwitchToRegister, onClose }) {
           </button>
         </form>
 
-        {/* Footer - Registration disabled */}
+        {/* Footer */}
         <div className="auth-footer">
-          <p style={{ color: 'rgba(148, 163, 184, 0.6)', fontSize: '0.85rem' }}>
-            请联系系统管理员创建账号
-          </p>
+          {settings.allowRegistration ? (
+            <p>
+              还没有账号？
+              <button type="button" className="auth-link" onClick={onSwitchToRegister}>
+                立即注册
+              </button>
+            </p>
+          ) : (
+            <p style={{ color: 'rgba(148, 163, 184, 0.6)', fontSize: '0.85rem' }}>
+              请联系系统管理员创建账号
+            </p>
+          )}
         </div>
       </div>
 

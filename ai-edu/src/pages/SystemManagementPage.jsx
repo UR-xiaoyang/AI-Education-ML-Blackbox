@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { OrganizationManagement } from './OrganizationManagement';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 // 格式化时长（秒 -> 人类可读格式）
 function formatDuration(seconds) {
@@ -62,6 +62,19 @@ export function SystemManagementPage({ onClose }) {
   // 系统统计状态
   const [systemStats, setSystemStats] = useState(null);
   const [statsLoading, setStatsLoading] = useState(false);
+
+  // 系统设置状态
+  const [systemSettings, setSystemSettings] = useState({
+    allowRegistration: false,
+    turnstileEnabled: false,
+    turnstileSiteKey: '',
+    turnstileSecretKey: '',
+    turnstileSecretConfigured: false
+  });
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsSaving, setSettingsSaving] = useState(false);
+  const [settingsMessage, setSettingsMessage] = useState('');
+  const [settingsError, setSettingsError] = useState('');
 
   // Fetch users
   const fetchUsers = async (page = 1, searchTerm = search, role = roleFilter) => {
@@ -148,6 +161,67 @@ export function SystemManagementPage({ onClose }) {
       fetchSystemStats();
     }
   }, [activeTab, users]);
+
+  const fetchSystemSettings = async () => {
+    setSettingsLoading(true);
+    setSettingsError('');
+    try {
+      const response = await fetch(`${API_URL}/api/settings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || '获取系统设置失败');
+      }
+
+      setSystemSettings(data.settings);
+    } catch (err) {
+      setSettingsError(err.message);
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'settings') {
+      fetchSystemSettings();
+    }
+  }, [activeTab]);
+
+  const handleSettingToggle = (key) => {
+    setSystemSettings(current => ({ ...current, [key]: !current[key] }));
+    setSettingsMessage('');
+    setSettingsError('');
+  };
+
+  const handleSaveSettings = async () => {
+    setSettingsSaving(true);
+    setSettingsMessage('');
+    setSettingsError('');
+    try {
+      const response = await fetch(`${API_URL}/api/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(systemSettings)
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || '保存系统设置失败');
+      }
+
+      setSystemSettings(data.settings);
+      setSettingsMessage(data.message || '系统设置已保存');
+    } catch (err) {
+      setSettingsError(err.message);
+    } finally {
+      setSettingsSaving(false);
+    }
+  };
 
   // Handle search
   const handleSearch = (e) => {
@@ -594,6 +668,26 @@ export function SystemManagementPage({ onClose }) {
               <h3>系统设置</h3>
             </div>
 
+            {settingsError && (
+              <div className="sm-error">
+                <span>⚠️</span> {settingsError}
+                <button onClick={() => setSettingsError('')}>✕</button>
+              </div>
+            )}
+
+            {settingsMessage && (
+              <div className="sm-success">
+                <span>✅</span> {settingsMessage}
+                <button onClick={() => setSettingsMessage('')}>✕</button>
+              </div>
+            )}
+
+            {settingsLoading && (
+              <div className="sm-loading">
+                <span>⏳</span> 加载中...
+              </div>
+            )}
+
             <div className="sm-settings-container">
               <div className="sm-settings-group">
                 <h4>基础设置</h4>
@@ -615,7 +709,12 @@ export function SystemManagementPage({ onClose }) {
                     <span className="sm-setting-desc">是否允许用户自行注册账号</span>
                   </div>
                   <label className="sm-toggle">
-                    <input type="checkbox" defaultChecked disabled={!isAdmin()} />
+                    <input
+                      type="checkbox"
+                      checked={systemSettings.allowRegistration}
+                      onChange={() => handleSettingToggle('allowRegistration')}
+                      disabled={!isAdmin() || settingsLoading || settingsSaving}
+                    />
                     <span className="sm-toggle-slider"></span>
                   </label>
                 </div>
@@ -640,10 +739,50 @@ export function SystemManagementPage({ onClose }) {
                     <span className="sm-setting-desc">登录和注册时启用 Cloudflare Turnstile 验证</span>
                   </div>
                   <label className="sm-toggle">
-                    <input type="checkbox" defaultChecked disabled={!isAdmin()} />
+                    <input
+                      type="checkbox"
+                      checked={systemSettings.turnstileEnabled}
+                      onChange={() => handleSettingToggle('turnstileEnabled')}
+                      disabled={!isAdmin() || settingsLoading || settingsSaving}
+                    />
                     <span className="sm-toggle-slider"></span>
                   </label>
                 </div>
+                {systemSettings.turnstileEnabled && (
+                  <>
+                    <div className="sm-setting-item sm-setting-item-stack">
+                      <div className="sm-setting-info">
+                        <span className="sm-setting-name">Turnstile Site Key</span>
+                        <span className="sm-setting-desc">前端渲染验证码使用，可在 Cloudflare Turnstile 控制台获取</span>
+                      </div>
+                      <input
+                        type="text"
+                        className="sm-setting-input sm-setting-input-wide"
+                        value={systemSettings.turnstileSiteKey || ''}
+                        onChange={(e) => setSystemSettings(current => ({ ...current, turnstileSiteKey: e.target.value }))}
+                        placeholder="0x4AAAA..."
+                        disabled={!isAdmin() || settingsLoading || settingsSaving}
+                      />
+                    </div>
+                    <div className="sm-setting-item sm-setting-item-stack">
+                      <div className="sm-setting-info">
+                        <span className="sm-setting-name">Turnstile Secret Key</span>
+                        <span className="sm-setting-desc">
+                          后端校验验证码使用。出于安全考虑不会回显；{systemSettings.turnstileSecretConfigured ? '当前已配置，留空则保持不变' : '当前未配置'}
+                        </span>
+                      </div>
+                      <input
+                        type="password"
+                        className="sm-setting-input sm-setting-input-wide"
+                        value={systemSettings.turnstileSecretKey || ''}
+                        onChange={(e) => setSystemSettings(current => ({ ...current, turnstileSecretKey: e.target.value }))}
+                        placeholder={systemSettings.turnstileSecretConfigured ? '已配置，输入新值可覆盖' : '请输入 Secret Key'}
+                        disabled={!isAdmin() || settingsLoading || settingsSaving}
+                        autoComplete="new-password"
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="sm-settings-group">
@@ -662,7 +801,13 @@ export function SystemManagementPage({ onClose }) {
 
               {isAdmin() && (
                 <div className="sm-settings-actions">
-                  <button className="btn btn-primary">保存设置</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleSaveSettings}
+                    disabled={settingsLoading || settingsSaving}
+                  >
+                    {settingsSaving ? '保存中...' : '保存设置'}
+                  </button>
                 </div>
               )}
             </div>
@@ -955,6 +1100,28 @@ export function SystemManagementPage({ onClose }) {
           opacity: 0.7;
         }
 
+        .sm-success {
+          background: rgba(34, 197, 94, 0.15);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: #86efac;
+          padding: 12px 16px;
+          border-radius: 12px;
+          margin-bottom: 16px;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .sm-success button {
+          margin-left: auto;
+          background: none;
+          border: none;
+          color: inherit;
+          cursor: pointer;
+          opacity: 0.7;
+        }
+
         .sm-loading {
           text-align: center;
           padding: 40px;
@@ -1150,15 +1317,22 @@ export function SystemManagementPage({ onClose }) {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 16px;
           padding: 12px 16px;
           background: rgba(0, 0, 0, 0.2);
           border-radius: 8px;
+        }
+
+        .sm-setting-item-stack {
+          align-items: stretch;
+          flex-direction: column;
         }
 
         .sm-setting-info {
           display: flex;
           flex-direction: column;
           gap: 4px;
+          min-width: 0;
         }
 
         .sm-setting-name {
@@ -1179,6 +1353,11 @@ export function SystemManagementPage({ onClose }) {
           color: #fff;
           font-size: 0.9rem;
           min-width: 150px;
+        }
+
+        .sm-setting-input-wide {
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .sm-setting-input:disabled {

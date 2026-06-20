@@ -1,0 +1,80 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes blink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.12); }
+    }
+    @keyframes earWiggleLeft {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(-14deg); }
+    }
+    @keyframes earWiggleRight {
+      0%, 100% { transform: rotate(8deg); }
+      50% { transform: rotate(14deg); }
+    }
+    @keyframes mouthTalk {
+      0%, 100% { transform: scaleY(0.8); }
+      50% { transform: scaleY(1.15); }
+    }
+    .mascot { animation: floaty 3s ease-in-out infinite; transform-origin: 128px 150px; }
+    .left-ear { animation: earWiggleLeft 3.4s ease-in-out infinite; transform-origin: 89px 84px; }
+    .right-ear { animation: earWiggleRight 3.4s ease-in-out infinite; transform-origin: 167px 84px; }
+    .eye { animation: blink 4.8s ease-in-out infinite; transform-origin: center; }
+    .mouth { animation: mouthTalk 2.6s ease-in-out infinite; transform-origin: 128px 150px; }
+  </style>
+
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(128 135) rotate(90) scale(120)">
+      <stop stop-color="#A78BFA" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="62" y1="60" x2="190" y2="218" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FEF3FF"/>
+      <stop offset="0.55" stop-color="#DDD6FE"/>
+      <stop offset="1" stop-color="#93C5FD"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="82" y1="106" x2="177" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="softShadow" x="24" y="22" width="208" height="216" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#312E81" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <circle cx="128" cy="128" r="120" fill="url(#bg)"/>
+
+  <g class="mascot" filter="url(#softShadow)">
+    <path class="left-ear" d="M82 88C61 54 66 22 84 16C103 9 119 44 111 91L82 88Z" fill="url(#body)" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+    <path class="left-ear" d="M87 72C78 52 80 34 87 31C95 28 103 51 99 78" stroke="#F9A8D4" stroke-width="9" stroke-linecap="round"/>
+    <path class="right-ear" d="M174 88C195 54 190 22 172 16C153 9 137 44 145 91L174 88Z" fill="url(#body)" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+    <path class="right-ear" d="M169 72C178 52 176 34 169 31C161 28 153 51 157 78" stroke="#F9A8D4" stroke-width="9" stroke-linecap="round"/>
+
+    <path d="M59 136C59 87 88 58 128 58C168 58 197 87 197 136C197 190 166 223 128 223C90 223 59 190 59 136Z" fill="url(#body)" stroke="#7C3AED" stroke-width="6"/>
+    <path d="M80 124C80 88 102 74 128 74C154 74 176 88 176 124C176 165 153 187 128 187C103 187 80 165 80 124Z" fill="white" fill-opacity="0.45"/>
+
+    <circle cx="90" cy="133" r="14" fill="#F9A8D4" fill-opacity="0.55"/>
+    <circle cx="166" cy="133" r="14" fill="#F9A8D4" fill-opacity="0.55"/>
+
+    <g class="eye">
+      <ellipse cx="106" cy="118" rx="9" ry="13" fill="#1E1B4B"/>
+      <circle cx="109" cy="113" r="3" fill="white"/>
+    </g>
+    <g class="eye">
+      <ellipse cx="150" cy="118" rx="9" ry="13" fill="#1E1B4B"/>
+      <circle cx="153" cy="113" r="3" fill="white"/>
+    </g>
+
+    <path d="M119 137C123 140 133 140 137 137" stroke="#7C3AED" stroke-width="5" stroke-linecap="round"/>
+    <ellipse class="mouth" cx="128" cy="151" rx="13" ry="9" fill="#FB7185"/>
+    <path d="M118 151C124 156 132 156 138 151" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+
+    <path d="M94 186C103 202 153 202 162 186" stroke="url(#accent)" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="128" cy="190" r="15" fill="url(#accent)"/>
+    <path d="M121 190H135M128 183V197" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

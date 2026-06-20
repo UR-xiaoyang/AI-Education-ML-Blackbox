@@ -1,0 +1,301 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e11]:
+      - generic [ref=e12]: 👑 系统管理员
+      - button "A admin" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: A
+        - generic [ref=e15]: admin
+      - button "⚙️" [active] [ref=e16] [cursor=pointer]
+      - button "🏫" [ref=e17] [cursor=pointer]
+      - button "📋" [ref=e18] [cursor=pointer]
+      - button "🚪" [ref=e19] [cursor=pointer]
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Experiment Flow
+        - heading "先选择你想进入的实验或专题" [level=2] [ref=e24]
+        - paragraph [ref=e25]: 首页不再直接进入某个实验，而是先从下方选择基础实验或高级专题。进入后仍可在顶部切换，方便课堂演示、自由探索与专题讲解。
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: 📚
+          - generic [ref=e29]: 基础课程学习
+          - generic [ref=e30]: 依次完成基础课程 5 个实验
+          - generic [ref=e31]:
+            - generic [ref=e32]: 自习模式
+            - button [ref=e33] [cursor=pointer]
+            - generic [ref=e35]: 教学模式
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: 🎈 自习模式：自由探索基础实验与高级专题，不显示分步聚光灯引导。
+          - button "开始自习模式" [ref=e38] [cursor=pointer]
+      - generic [ref=e39]:
+        - button "📈 线性回归 ★ ★ ★ 入门 从散点和拟合直线开始，理解损失函数与梯度下降。" [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: 📈
+          - generic [ref=e42]: 线性回归
+          - generic [ref=e43]:
+            - generic [ref=e44]: ★
+            - generic [ref=e45]: ★
+            - generic [ref=e46]: ★
+            - generic [ref=e47]: 入门
+          - generic [ref=e48]: 从散点和拟合直线开始，理解损失函数与梯度下降。
+        - button "🟠🔵 逻辑回归 ★ ★ ★ 入门 观察分类边界如何移动，理解二分类训练过程。" [ref=e49] [cursor=pointer]:
+          - generic [ref=e50]: 🟠🔵
+          - generic [ref=e51]: 逻辑回归
+          - generic [ref=e52]:
+            - generic [ref=e53]: ★
+            - generic [ref=e54]: ★
+            - generic [ref=e55]: ★
+            - generic [ref=e56]: 入门
+          - generic [ref=e57]: 观察分类边界如何移动，理解二分类训练过程。
+        - button "🌲 决策树 ★ ★ ★ 进阶 通过空间切分理解模型容量、泛化与过拟合。" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: 🌲
+          - generic [ref=e60]: 决策树
+          - generic [ref=e61]:
+            - generic [ref=e62]: ★
+            - generic [ref=e63]: ★
+            - generic [ref=e64]: ★
+            - generic [ref=e65]: 进阶
+          - generic [ref=e66]: 通过空间切分理解模型容量、泛化与过拟合。
+        - button "🧠 神经网络 ★ ★ ★ 高级 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。" [ref=e67] [cursor=pointer]:
+          - generic [ref=e68]: 🧠
+          - generic [ref=e69]: 神经网络
+          - generic [ref=e70]:
+            - generic [ref=e71]: ★
+            - generic [ref=e72]: ★
+            - generic [ref=e73]: ★
+            - generic [ref=e74]: 高级
+          - generic [ref=e75]: 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。
+        - button "高级专题 💬 LLM 专题 ★ ★ ★ 高级 理解大语言模型如何做预训练、指令微调与逐词生成预测。" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: 高级专题
+          - generic [ref=e78]: 💬
+          - generic [ref=e79]: LLM 专题
+          - generic [ref=e80]:
+            - generic [ref=e81]: ★
+            - generic [ref=e82]: ★
+            - generic [ref=e83]: ★
+            - generic [ref=e84]: 高级
+          - generic [ref=e85]: 理解大语言模型如何做预训练、指令微调与逐词生成预测。
+        - button "高级专题 🎯 YOLO 专题 ★ ★ ★ 高级 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。" [ref=e86] [cursor=pointer]:
+          - generic [ref=e87]: 高级专题
+          - generic [ref=e88]: 🎯
+          - generic [ref=e89]: YOLO 专题
+          - generic [ref=e90]:
+            - generic [ref=e91]: ★
+            - generic [ref=e92]: ★
+            - generic [ref=e93]: ★
+            - generic [ref=e94]: 高级
+          - generic [ref=e95]: 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。
+  - generic [ref=e96]:
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - heading "⚙️ 系统管理" [level=2] [ref=e99]
+        - paragraph [ref=e100]: 管理系统用户、查看系统统计和配置系统设置
+      - button "← 返回" [ref=e101] [cursor=pointer]
+    - generic [ref=e102]:
+      - button "👥 用户管理" [ref=e103] [cursor=pointer]:
+        - generic [ref=e104]: 👥
+        - generic [ref=e105]: 用户管理
+      - button "🏫 组织管理" [ref=e106] [cursor=pointer]:
+        - generic [ref=e107]: 🏫
+        - generic [ref=e108]: 组织管理
+      - button "📊 使用统计" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: 📊
+        - generic [ref=e111]: 使用统计
+      - button "⚙️ 系统设置" [ref=e112] [cursor=pointer]:
+        - generic [ref=e113]: ⚙️
+        - generic [ref=e114]: 系统设置
+      - button "📋 操作日志" [ref=e115] [cursor=pointer]:
+        - generic [ref=e116]: 📋
+        - generic [ref=e117]: 操作日志
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - heading "用户列表" [level=3] [ref=e120]
+        - button "➕ 添加用户" [ref=e121] [cursor=pointer]
+      - generic [ref=e122]:
+        - generic [ref=e123]:
+          - textbox "搜索用户名或邮箱..." [ref=e124]
+          - button "🔍 搜索" [ref=e125] [cursor=pointer]
+        - combobox [ref=e127] [cursor=pointer]:
+          - option "全部角色" [selected]
+          - option "系统管理员"
+          - option "教师"
+          - option "学生"
+      - table [ref=e129]:
+        - rowgroup [ref=e130]:
+          - row "用户 邮箱 角色 状态 使用时长 AI Token 注册时间 最后登录 操作" [ref=e131]:
+            - columnheader "用户" [ref=e132]
+            - columnheader "邮箱" [ref=e133]
+            - columnheader "角色" [ref=e134]
+            - columnheader "状态" [ref=e135]
+            - columnheader "使用时长" [ref=e136]
+            - columnheader "AI Token" [ref=e137]
+            - columnheader "注册时间" [ref=e138]
+            - columnheader "最后登录" [ref=e139]
+            - columnheader "操作" [ref=e140]
+        - rowgroup [ref=e141]:
+          - row "test1779077922 test1779077922@test.com 学生 ● 启用 - - 2026/5/18 从未 学生 🚫" [ref=e142]:
+            - cell "test1779077922" [ref=e143]:
+              - generic [ref=e145]: test1779077922
+            - cell "test1779077922@test.com" [ref=e146]
+            - cell "学生" [ref=e147]:
+              - generic [ref=e148]: 学生
+            - cell "● 启用" [ref=e149]
+            - cell "-" [ref=e150]
+            - cell "-" [ref=e151]
+            - cell "2026/5/18" [ref=e152]
+            - cell "从未" [ref=e153]
+            - cell "学生 🚫" [ref=e154]:
+              - generic [ref=e155]:
+                - combobox [ref=e156] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e157] [cursor=pointer]
+          - row "final_test_24855 final30086@test.com 学生 ● 启用 - - 2026/5/18 从未 学生 🚫" [ref=e158]:
+            - cell "final_test_24855" [ref=e159]:
+              - generic [ref=e161]: final_test_24855
+            - cell "final30086@test.com" [ref=e162]
+            - cell "学生" [ref=e163]:
+              - generic [ref=e164]: 学生
+            - cell "● 启用" [ref=e165]
+            - cell "-" [ref=e166]
+            - cell "-" [ref=e167]
+            - cell "2026/5/18" [ref=e168]
+            - cell "从未" [ref=e169]
+            - cell "学生 🚫" [ref=e170]:
+              - generic [ref=e171]:
+                - combobox [ref=e172] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e173] [cursor=pointer]
+          - row "ai_test_18990 ai_test_327@test.com 学生 ● 启用 - - 2026/5/18 从未 学生 🚫" [ref=e174]:
+            - cell "ai_test_18990" [ref=e175]:
+              - generic [ref=e177]: ai_test_18990
+            - cell "ai_test_327@test.com" [ref=e178]
+            - cell "学生" [ref=e179]:
+              - generic [ref=e180]: 学生
+            - cell "● 启用" [ref=e181]
+            - cell "-" [ref=e182]
+            - cell "-" [ref=e183]
+            - cell "2026/5/18" [ref=e184]
+            - cell "从未" [ref=e185]
+            - cell "学生 🚫" [ref=e186]:
+              - generic [ref=e187]:
+                - combobox [ref=e188] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e189] [cursor=pointer]
+          - row "test_user test@test.com 学生 ● 启用 - - 2026/5/17 2026/5/17 12:55:06 学生 🚫" [ref=e190]:
+            - cell "test_user" [ref=e191]:
+              - generic [ref=e193]: test_user
+            - cell "test@test.com" [ref=e194]
+            - cell "学生" [ref=e195]:
+              - generic [ref=e196]: 学生
+            - cell "● 启用" [ref=e197]
+            - cell "-" [ref=e198]
+            - cell "-" [ref=e199]
+            - cell "2026/5/17" [ref=e200]
+            - cell "2026/5/17 12:55:06" [ref=e201]
+            - cell "学生 🚫" [ref=e202]:
+              - generic [ref=e203]:
+                - combobox [ref=e204] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e205] [cursor=pointer]
+          - row "xiaobai 小白同学 student_test@example.com 学生 ● 启用 - - 2026/5/16 2026/5/16 08:55:00 学生 🚫" [ref=e206]:
+            - cell "xiaobai 小白同学" [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e209]: xiaobai
+                - generic [ref=e210]: 小白同学
+            - cell "student_test@example.com" [ref=e211]
+            - cell "学生" [ref=e212]:
+              - generic [ref=e213]: 学生
+            - cell "● 启用" [ref=e214]
+            - cell "-" [ref=e215]
+            - cell "-" [ref=e216]
+            - cell "2026/5/16" [ref=e217]
+            - cell "2026/5/16 08:55:00" [ref=e218]
+            - cell "学生 🚫" [ref=e219]:
+              - generic [ref=e220]:
+                - combobox [ref=e221] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e222] [cursor=pointer]
+          - row "pentest_user pentest@test.com 学生 ● 启用 - - 2026/5/11 从未 学生 🚫" [ref=e223]:
+            - cell "pentest_user" [ref=e224]:
+              - generic [ref=e226]: pentest_user
+            - cell "pentest@test.com" [ref=e227]
+            - cell "学生" [ref=e228]:
+              - generic [ref=e229]: 学生
+            - cell "● 启用" [ref=e230]
+            - cell "-" [ref=e231]
+            - cell "-" [ref=e232]
+            - cell "2026/5/11" [ref=e233]
+            - cell "从未" [ref=e234]
+            - cell "学生 🚫" [ref=e235]:
+              - generic [ref=e236]:
+                - combobox [ref=e237] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e238] [cursor=pointer]
+          - row "tec test@mail.pp 教师 ● 启用 - - 2026/4/24 2026/4/24 09:34:45 教师 🚫" [ref=e239]:
+            - cell "tec" [ref=e240]:
+              - generic [ref=e242]: tec
+            - cell "test@mail.pp" [ref=e243]
+            - cell "教师" [ref=e244]:
+              - generic [ref=e245]: 教师
+            - cell "● 启用" [ref=e246]
+            - cell "-" [ref=e247]
+            - cell "-" [ref=e248]
+            - cell "2026/4/24" [ref=e249]
+            - cell "2026/4/24 09:34:45" [ref=e250]
+            - cell "教师 🚫" [ref=e251]:
+              - generic [ref=e252]:
+                - combobox [ref=e253] [cursor=pointer]:
+                  - option "学生"
+                  - option "教师" [selected]
+                  - option "系统管理员"
+                - button "🚫" [ref=e254] [cursor=pointer]
+          - row "testuser 测试用户 testuser@example.com 学生 ● 启用 1小时0分钟 5.0K 2026/4/24 2026/4/24 07:05:27 学生 🚫" [ref=e255]:
+            - cell "testuser 测试用户" [ref=e256]:
+              - generic [ref=e257]:
+                - generic [ref=e258]: testuser
+                - generic [ref=e259]: 测试用户
+            - cell "testuser@example.com" [ref=e260]
+            - cell "学生" [ref=e261]:
+              - generic [ref=e262]: 学生
+            - cell "● 启用" [ref=e263]
+            - cell "1小时0分钟" [ref=e264]
+            - cell "5.0K" [ref=e265]
+            - cell "2026/4/24" [ref=e266]
+            - cell "2026/4/24 07:05:27" [ref=e267]
+            - cell "学生 🚫" [ref=e268]:
+              - generic [ref=e269]:
+                - combobox [ref=e270] [cursor=pointer]:
+                  - option "学生" [selected]
+                  - option "教师"
+                  - option "系统管理员"
+                - button "🚫" [ref=e271] [cursor=pointer]
+          - row "admin 管理员 admin@example.com 系统管理员 ● 启用 - - 2026/4/24 2026/5/25 01:33:25" [ref=e272]:
+            - cell "admin 管理员" [ref=e273]:
+              - generic [ref=e274]:
+                - generic [ref=e275]: admin
+                - generic [ref=e276]: 管理员
+            - cell "admin@example.com" [ref=e277]
+            - cell "系统管理员" [ref=e278]:
+              - generic [ref=e279]: 系统管理员
+            - cell "● 启用" [ref=e280]
+            - cell "-" [ref=e281]
+            - cell "-" [ref=e282]
+            - cell "2026/4/24" [ref=e283]
+            - cell "2026/5/25 01:33:25" [ref=e284]
+            - cell [ref=e285]

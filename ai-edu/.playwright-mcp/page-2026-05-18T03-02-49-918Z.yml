@@ -1,0 +1,175 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e11]:
+      - generic [ref=e12]: 🎓 学生
+      - button "T test_user" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: T
+        - generic [ref=e15]: test_user
+      - button "🚪" [ref=e16] [cursor=pointer]
+    - generic [ref=e108]:
+      - button "返回实验选择" [ref=e109] [cursor=pointer]
+      - button "📈 线性回归" [ref=e110] [cursor=pointer]:
+        - generic [ref=e111]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e112] [cursor=pointer]:
+        - generic [ref=e113]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e114] [cursor=pointer]:
+        - generic [ref=e115]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e116] [cursor=pointer]:
+        - generic [ref=e117]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e118] [cursor=pointer]:
+        - generic [ref=e119]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e120] [cursor=pointer]:
+        - generic [ref=e121]: 🎯
+        - text: YOLO 专题
+  - main [ref=e123]:
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - img [ref=e128]
+        - generic [ref=e130]:
+          - img [ref=e560]
+          - generic [ref=e563]: ↘ Loss 曲线
+          - generic [ref=e564]:
+            - generic [ref=e565]: 🔴 需优化
+            - generic [ref=e566]: ↘ 在下降
+          - generic [ref=e567]: "当前: 0.6566"
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - heading "神经元传播演示" [level=3] [ref=e136]
+            - generic [ref=e137]: 自动训练中
+          - generic [ref=e360]:
+            - generic [ref=e361]: 前向信号
+            - generic [ref=e363]: 反向梯度
+            - generic [ref=e365]: 连线越粗，影响越强
+          - img [ref=e367]:
+            - generic [ref=e368]: 输入层
+            - generic [ref=e369]: 隐层神经元
+            - generic [ref=e370]: 输出层
+            - generic [ref=e483]:
+              - generic [ref=e485]: x1
+              - generic [ref=e486]: "0.64"
+            - generic [ref=e487]:
+              - generic [ref=e489]: x2
+              - generic [ref=e490]: "0.38"
+            - generic [ref=e493]: h1
+            - generic [ref=e496]: h2
+            - generic [ref=e499]: h3
+            - generic [ref=e502]: h4
+            - generic [ref=e505]: h5
+            - generic [ref=e508]: h6
+            - generic [ref=e511]: h7
+            - generic [ref=e514]: h8
+            - generic [ref=e515]:
+              - generic [ref=e517]: "0.63"
+              - generic [ref=e518]: 预测概率
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - generic [ref=e521]: 当前样本
+              - strong [ref=e522]: (0.64, 0.38)
+              - generic [ref=e523]: 标签 0
+            - generic [ref=e524]:
+              - generic [ref=e525]: 前向传播
+              - strong [ref=e526]: 输入 → 隐层 → 输出
+              - generic [ref=e527]: ReLU激活
+            - generic [ref=e528]:
+              - generic [ref=e529]: 反向传播
+              - strong [ref=e530]: 误差 +0.629
+              - generic [ref=e531]: 误差回传至各神经元
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - heading "数据集统计" [level=3] [ref=e142]
+            - generic [ref=e143]: 125 个样本
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - generic [ref=e146]: 类别 0
+              - strong [ref=e147]: "50"
+            - generic [ref=e148]:
+              - generic [ref=e149]: 类别 1
+              - strong [ref=e150]: "75"
+            - generic [ref=e151]:
+              - generic [ref=e152]: X 范围
+              - strong [ref=e153]: 0.08 - 0.94
+            - generic [ref=e154]:
+              - generic [ref=e155]: Y 范围
+              - strong [ref=e156]: 0.06 - 0.94
+          - generic [ref=e157]:
+            - generic [ref=e158]: 预设数据集
+            - generic [ref=e159]:
+              - button "线性可分" [ref=e160] [cursor=pointer]
+              - button "同心圆" [ref=e161] [cursor=pointer]
+              - button "异或" [ref=e162] [cursor=pointer]
+              - button "双月牙" [ref=e163] [cursor=pointer]
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - heading "深度学习初步 (MLP)" [level=2] [ref=e167]
+          - paragraph [ref=e168]: 观察神经元如何协同合作，扭转非线性空间
+        - generic [ref=e169]:
+          - button "训练模式" [ref=e170] [cursor=pointer]
+          - button "预测推理" [ref=e171] [cursor=pointer]
+        - generic [ref=e172]:
+          - heading "STEP 反向传播进行中" [level=3] [ref=e576]:
+            - generic [ref=e174]: STEP
+            - text: 反向传播进行中
+          - paragraph [ref=e175]: 损失还比较高，边界正在持续调整。留意背景决策面是如何逐渐变形的。
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - generic [ref=e178]: 隐藏神经元
+            - strong [ref=e179]: 8 个
+          - generic [ref=e180]:
+            - generic [ref=e181]: BCE Loss
+            - strong [ref=e182]: "0.6566"
+        - generic [ref=e183]:
+          - generic [ref=e185]: "神经元数量: 8"
+          - slider [disabled] [ref=e186] [cursor=pointer]: "8"
+          - paragraph [ref=e187]: 修改神经元会重置网络
+        - generic [ref=e188]:
+          - button "单步" [ref=e189] [cursor=pointer]
+          - button "停止训练" [active] [ref=e577] [cursor=pointer]
+        - generic [ref=e191]:
+          - button "清理预测点" [ref=e192] [cursor=pointer]
+          - button "彻底重置" [ref=e193] [cursor=pointer]
+      - generic [ref=e220]:
+        - generic [ref=e221]:
+          - generic [ref=e222]:
+            - generic [ref=e223]: 🐰
+            - generic [ref=e224]:
+              - generic [ref=e225]: 学习伴侣
+              - generic [ref=e226]: 随时为你提供帮助
+          - generic [ref=e227]:
+            - generic [ref=e228]: 🤖
+            - generic [ref=e229]:
+              - paragraph [ref=e230]: 继续探索，尝试不同的操作！
+              - generic [ref=e231]: "💡 建议: 探索中"
+        - generic [ref=e232]:
+          - button "💬" [ref=e233] [cursor=pointer]
+          - button "✕" [ref=e234] [cursor=pointer]
+      - button "🔮 3D 视角" [ref=e533] [cursor=pointer]
+      - generic [ref=e578]:
+        - generic [ref=e579]: 🔥
+        - generic [ref=e580]:
+          - generic [ref=e581]: 成就解锁! +30 XP
+          - generic [ref=e582]: 深度学习入门
+  - generic [ref=e583] [cursor=pointer]:
+    - generic [ref=e584]: ✨
+    - generic [ref=e585]:
+      - text: 获得
+      - strong [ref=e586]: +270 XP
+    - generic [ref=e587]: 解锁成就：🔥 深度学习入门
+  - generic [ref=e588] [cursor=pointer]:
+    - generic [ref=e589]: "3"
+    - generic [ref=e591]:
+      - generic [ref=e592]: 渐入佳境
+      - generic [ref=e593]: 270 XP
+    - generic [ref=e596]:
+      - generic [ref=e597]: 🏆
+      - generic [ref=e598]: "11"

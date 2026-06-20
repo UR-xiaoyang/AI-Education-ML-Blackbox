@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '../store/authStore';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 // 默认静态数据（当无动态数据时使用）
 const defaultOverviewStats = [
@@ -71,23 +71,6 @@ function getOrgTypeLabel(type) {
 
 function TeacherDashboardLab() {
   const { token, isAuthenticated } = useAuthStore();
-
-  // 如果未登录，显示提示
-  if (!isAuthenticated || typeof isAuthenticated === 'function') {
-    return (
-      <div className="teacher-dashboard">
-        <div className="glass-panel teacher-hero" style={{ justifyContent: 'center', textAlign: 'center' }}>
-          <div>
-            <div className="teacher-kicker">Teacher Analytics</div>
-            <h2>教师学习情况可视化大屏</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              请先登录后再访问教师大屏
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // 组织选择状态
   const [organizations, setOrganizations] = useState([]);
@@ -311,6 +294,23 @@ function TeacherDashboardLab() {
     }
     return stats.aiQuestions;
   }, [stats]);
+
+  // 如果未登录，显示提示。必须放在 Hook 之后，确保每次渲染 Hook 顺序一致。
+  if (!isAuthenticated || typeof isAuthenticated === 'function') {
+    return (
+      <div className="teacher-dashboard">
+        <div className="glass-panel teacher-hero" style={{ justifyContent: 'center', textAlign: 'center' }}>
+          <div>
+            <div className="teacher-kicker">Teacher Analytics</div>
+            <h2>教师学习情况可视化大屏</h2>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              请先登录后再访问教师大屏
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="teacher-dashboard">

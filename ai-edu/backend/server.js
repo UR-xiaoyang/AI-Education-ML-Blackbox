@@ -3,9 +3,15 @@ const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+app.set('trust proxy', 1);
+
+// 打印 API key 配置状态
+console.log('OPENROUTER_API_KEY:', process.env.OPENROUTER_API_KEY ? '已配置' : '未配置');
 
 // 确保 data 目录存在
 const dataDir = path.join(__dirname, 'data');
@@ -72,12 +78,18 @@ require('./db');
 
 // 路由
 const { router: authRoutes } = require('./routes/auth');
+const { router: logsRoutes } = require('./routes/logs');
+const { router: aiChatRoutes } = require('./routes/ai-chat');
 const pedagogyRoutes = require('./routes/pedagogy');
 const organizationRoutes = require('./routes/organizations');
+const settingsRoutes = require('./routes/settings');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/logs', logsRoutes);
+app.use('/api/ai-chat', aiChatRoutes);
 app.use('/api/pedagogy', pedagogyRoutes);
 app.use('/api/organizations', organizationRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // 健康检查（不暴露敏感信息）
 app.get('/api/health', (req, res) => {

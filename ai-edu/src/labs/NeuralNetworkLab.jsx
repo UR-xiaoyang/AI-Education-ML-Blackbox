@@ -155,15 +155,19 @@ export default function NeuralNetworkLab({ scenarioEnabled = false }) {
     }
     
     // NN_LOW_LOSS: NN Loss < 0.15
-    if (currentLoss < 0.15 && currentLoss > 0 && !achievements.includes('NN_LOW_LOSS')) {
-      triggerAchievement('NN_LOW_LOSS', '神经网络大师', '🏆', 50);
+    if (model) {
+      const useReluInEffect = usePedagogyStore.getState().useRelu;
+      const loss = computeNNLoss(points, model, useReluInEffect);
+      if (loss < 0.15 && loss > 0 && !achievements.includes('NN_LOW_LOSS')) {
+        triggerAchievement('NN_LOW_LOSS', '神经网络大师', '🏆', 50);
+      }
     }
     
     // 3D_VIEW: 打开 3D 视角
     if (show3DView && !achievements.includes('3D_VIEW')) {
       triggerAchievement('3D_VIEW', '立体思维', '🔮', 25);
     }
-  }, [scenarioEnabled, hasGeneratedData, points.length, lossHistory.length, currentLoss, show3DView]);
+  }, [scenarioEnabled, hasGeneratedData, points.length, lossHistory.length, model, show3DView]);
 
   const isSimulationPaused = usePedagogyStore((state) => state.isSimulationPaused);
   const activeSetupAction = usePedagogyStore((state) => state.activeSetupAction);

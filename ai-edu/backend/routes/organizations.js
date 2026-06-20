@@ -1,6 +1,7 @@
 const express = require('express');
 const { db } = require('../db');
 const { authenticate, requireRole } = require('./auth');
+const { logOperation } = require('./logs');
 
 const router = express.Router();
 
@@ -115,10 +116,25 @@ function getQuestionCategory(questionText) {
 
 /**
  * GET /api/organizations
- * 获取当前用户所属的组织列表
+ * 获取当前用户所属的组织列表（管理员可获取所有组织）
  */
 router.get('/', authenticate, async (req, res) => {
   try {
+    // 管理员获取所有组织
+    if (req.user.role === 'admin') {
+      const allOrgs = db.prepare(`
+        SELECT o.*,
+               (SELECT COUNT(*) FROM organization_members WHERE organization_id = o.id) as member_count
+        FROM organizations o
+        ORDER BY o.created_at DESC
+      `).all();
+
+      return res.json({
+        owned: allOrgs,
+        joined: []
+      });
+    }
+
     // 获取用户创建的组织
     const ownedOrgs = db.prepare(`
       SELECT o.*,
@@ -305,6 +321,9 @@ router.put('/:id', authenticate, requireRole('admin', 'teacher'), async (req, re
 
     const updatedOrg = db.prepare('SELECT * FROM organizations WHERE id = ?').get(id);
 
+    // 记录组织更新日志
+    logOperation(req.user.userId, 'UPDATE_ORG', 'organization', parseInt(id), { name, description, type }, req);
+
     res.json({
       message: '组织信息已更新',
       organization: updatedOrg
@@ -333,6 +352,9 @@ router.delete('/:id', authenticate, requireRole('admin', 'teacher'), async (req,
     if (org.owner_id !== req.user.userId && req.user.role !== 'admin') {
       return res.status(403).json({ error: '无权删除此组织' });
     }
+
+    // 记录删除组织日志
+    logOperation(req.user.userId, 'DELETE_ORG', 'organization', parseInt(id), { orgName: org.name }, req);
 
     // 删除组织（级联删除成员）
     db.prepare('DELETE FROM organizations WHERE id = ?').run(id);
@@ -502,6 +524,9 @@ router.post('/join', authenticate, async (req, res) => {
       INSERT INTO organization_members (organization_id, user_id, role)
       VALUES (?, ?, 'member')
     `).run(org.id, req.user.userId);
+
+    // 记录加入组织日志
+    logOperation(req.user.userId, 'JOIN_ORG', 'organization', org.id, { orgName: org.name, inviteCode }, req);
 
     res.json({
       message: '成功加入组织',

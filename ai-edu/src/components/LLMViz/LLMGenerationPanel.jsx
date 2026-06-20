@@ -7,6 +7,7 @@ export default function LLMGenerationPanel({
   onPromptChange,
   onGenerate,
   onGenerateStep,
+  onClearGeneration,
   generatedTokens = [],
   generationProbs = [],
 }) {
@@ -28,6 +29,13 @@ export default function LLMGenerationPanel({
       .slice(0, 8);
   }, [generationProbs, vocabInfo]);
 
+  const promptPresets = [
+    '问题 机器学习 是什么',
+    'Transformer 使用 注意力 机制',
+    '神经网络 通过 训练',
+    'Token 是 文本 的'
+  ];
+
   return (
     <div className="glass-panel llm-generation-panel">
       <div className="panel-header">
@@ -37,6 +45,13 @@ export default function LLMGenerationPanel({
       {/* 输入区域 */}
       <div className="prompt-section">
         <span className="section-label">输入提示词:</span>
+        <div className="prompt-presets">
+          {promptPresets.map(item => (
+            <button key={item} type="button" onClick={() => onPromptChange(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
         <textarea
           value={prompt}
           onChange={(e) => onPromptChange(e.target.value)}
@@ -54,6 +69,9 @@ export default function LLMGenerationPanel({
         <button className="btn btn-primary" onClick={onGenerate}>
           生成文本
         </button>
+        <button className="btn btn-ghost" onClick={onClearGeneration}>
+          清空
+        </button>
       </div>
 
       {/* 生成结果 */}
@@ -62,8 +80,8 @@ export default function LLMGenerationPanel({
         <div className="generated-text">
           {generatedTokens.length > 0 ? (
             <div className="token-stream">
-              {generatedTokens.map((id) => (
-                <span key={id} className="generated-token">
+              {generatedTokens.map((id, index) => (
+                <span key={`${id}-${index}`} className="generated-token">
                   {vocabInfo.vocab[id] || '<UNK>'}
                 </span>
               ))}

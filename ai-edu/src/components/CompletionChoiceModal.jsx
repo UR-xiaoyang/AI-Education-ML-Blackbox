@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { usePedagogyStore } from '../store/pedagogyStore';
 import './TutorialModal.css';
 
 /**
  * 实验完成选择界面
- * 让学生选择进入下一章或自由探索模式
+ * 让学生选择进入下一章或自由探索模式，并生成实验报告
  */
 export const CompletionChoiceModal = ({
   currentLabTitle,
@@ -15,6 +15,38 @@ export const CompletionChoiceModal = ({
   onRestartTutorial
 }) => {
   const completionChoiceMode = usePedagogyStore(state => state.completionChoiceMode);
+  const reportContent = usePedagogyStore(state => state.reportContent);
+  const generateReport = usePedagogyStore(state => state.generateReport);
+  const downloadReport = usePedagogyStore(state => state.downloadReport);
+
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+
+  const handleGenerateReport = useCallback(async () => {
+    if (isGenerating || !completionChoiceMode) return;
+
+    setIsGenerating(true);
+    try {
+      await generateReport();
+      setShowReport(true);
+    } catch (err) {
+      console.error('生成报告失败:', err);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [isGenerating, completionChoiceMode, generateReport]);
+
+  const handleDownloadReport = useCallback(async () => {
+    if (!reportContent) {
+      setShowReport(true);
+      await handleGenerateReport();
+    }
+    await downloadReport();
+  }, [reportContent, downloadReport, handleGenerateReport]);
+
+  const toggleReport = useCallback(() => {
+    setShowReport(prev => !prev);
+  }, []);
 
   if (!completionChoiceMode) return null;
 
@@ -38,6 +70,66 @@ export const CompletionChoiceModal = ({
         <p className="completion-message">
           太棒了！你已经掌握了本章节的核心概念。
         </p>
+
+        {/* 实验报告区域 */}
+        <div className="completion-report-section">
+          <div
+            className="report-toggle-btn"
+            onClick={toggleReport}
+          >
+            <span className="report-icon">📋</span>
+            <span className="report-label">实验报告</span>
+            {reportContent && <span className="report-badge">已生成</span>}
+            <span className="report-arrow">{showReport ? '▼' : '▶'}</span>
+          </div>
+
+          {showReport && (
+            <div className="report-preview">
+              {isGenerating ? (
+                <div className="report-loading">
+                  <div className="loading-spinner"></div>
+                  <span>AI 正在生成个性化实验报告...</span>
+                </div>
+              ) : reportContent ? (
+                <div className="report-content-wrapper">
+                  <pre className="report-text">{reportContent}</pre>
+                </div>
+              ) : (
+                <div className="report-empty">
+                  <p>点击下方按钮生成你的专属学习报告</p>
+                </div>
+              )}
+
+              <div className="report-actions">
+                {!reportContent ? (
+                  <button
+                    className="btn btn-primary report-btn"
+                    onClick={handleGenerateReport}
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? '生成中...' : '✨ 生成 AI 实验报告'}
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className="btn report-btn"
+                      onClick={handleGenerateReport}
+                      disabled={isGenerating}
+                    >
+                      🔄 重新生成
+                    </button>
+                    <button
+                      className="btn btn-primary report-btn"
+                      onClick={handleDownloadReport}
+                    >
+                      📥 下载报告
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         <div className="completion-choices">
           {hasNextLab && (

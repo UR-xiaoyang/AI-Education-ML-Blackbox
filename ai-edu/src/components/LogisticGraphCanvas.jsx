@@ -41,18 +41,8 @@ export default function LogisticGraphCanvas({ points, testPoints = [], w1, w2, b
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
 
-    // 计算点击位置相对于SVG元素边界的坐标
-    // 使用 offsetX/offsetY 如果可用（包含 border/padding），否则手动计算
-    const hasOffsetXY = typeof e.offsetX === 'number' && typeof e.offsetY === 'number';
-    let xSVG, ySVG;
-
-    if (hasOffsetXY) {
-      xSVG = e.offsetX;
-      ySVG = e.offsetY;
-    } else {
-      xSVG = e.clientX - rect.left;
-      ySVG = e.clientY - rect.top;
-    }
+    const xSVG = Math.max(0, Math.min(width, e.clientX - rect.left));
+    const ySVG = Math.max(0, Math.min(height, e.clientY - rect.top));
 
     // DEBUG: 打印点击坐标信息
     console.log('[LogisticGraphCanvas DEBUG] 点击坐标:', {
@@ -90,17 +80,8 @@ export default function LogisticGraphCanvas({ points, testPoints = [], w1, w2, b
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
 
-    // 使用 offsetX/offsetY 如果可用（包含 border/padding），否则手动计算
-    const hasOffsetXY = typeof e.offsetX === 'number' && typeof e.offsetY === 'number';
-    let xSVG, ySVG;
-
-    if (hasOffsetXY) {
-      xSVG = e.offsetX;
-      ySVG = e.offsetY;
-    } else {
-      xSVG = e.clientX - rect.left;
-      ySVG = e.clientY - rect.top;
-    }
+    const xSVG = Math.max(0, Math.min(width, e.clientX - rect.left));
+    const ySVG = Math.max(0, Math.min(height, e.clientY - rect.top));
 
     const logicX = xSVG / width;
     const logicY = (height - ySVG) / height;

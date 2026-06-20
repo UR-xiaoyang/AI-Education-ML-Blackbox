@@ -35,6 +35,28 @@ VOCAB.forEach((token, id) => {
   ID_TO_VOCAB[id] = token;
 });
 
+export const TOKENIZER_OPTIONS = [
+  {
+    id: 'word',
+    name: '按空格词元',
+    description: '把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。'
+  },
+  {
+    id: 'char',
+    name: '按字符',
+    description: '去掉空格后逐字切分。很多单字不在词表中会变成 <UNK>，便于理解词表覆盖率。'
+  },
+  {
+    id: 'greedy',
+    name: '最长词表匹配',
+    description: '从左到右优先匹配词表中的最长词，模拟子词分词器的贪心匹配思想。'
+  }
+];
+
+const GREEDY_VOCAB = VOCAB
+  .filter(token => !token.startsWith('<'))
+  .sort((a, b) => b.length - a.length);
+
 // ==================== 工具函数 ====================
 const XavierInit = (fanIn, fanOut) => {
   const limit = Math.sqrt(6 / (fanIn + fanOut));
@@ -137,8 +159,39 @@ export function initLLMModel(config = {}) {
 }
 
 // ==================== 分词 ====================
-export function tokenize(text) {
-  const tokens = text.trim().split(/\s+/).filter(t => t.length > 0);
+export function tokenizeToPieces(text, tokenizerMode = 'word') {
+  const normalized = text.trim();
+
+  if (!normalized) return [];
+
+  if (tokenizerMode === 'char') {
+    return Array.from(normalized.replace(/\s+/g, ''));
+  }
+
+  if (tokenizerMode === 'greedy') {
+    const compact = normalized.replace(/\s+/g, '');
+    const pieces = [];
+    let cursor = 0;
+
+    while (cursor < compact.length) {
+      const match = GREEDY_VOCAB.find(token => compact.startsWith(token, cursor));
+      if (match) {
+        pieces.push(match);
+        cursor += match.length;
+      } else {
+        pieces.push(compact[cursor]);
+        cursor += 1;
+      }
+    }
+
+    return pieces;
+  }
+
+  return normalized.split(/\s+/).filter(t => t.length > 0);
+}
+
+export function tokenize(text, tokenizerMode = 'word') {
+  const tokens = tokenizeToPieces(text, tokenizerMode);
   return tokens.map(token => {
     const id = VOCAB_TO_ID[token];
     return id !== undefined ? id : VOCAB_TO_ID['<UNK>'];
@@ -153,18 +206,6 @@ export function detokenize(tokenIds) {
 }
 
 // ==================== 矩阵运算 ====================
-const matMul = (matrix, vector) => {
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const result = Array(rows).fill(0);
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      result[i] += matrix[i][j] * vector[j];
-    }
-  }
-  return result;
-};
-
 const matMul2D = (A, B) => {
   const rows = A.length;
   const cols = B[0].length;
@@ -189,27 +230,14 @@ const layerNorm = (x, gamma, beta, eps = 1e-6) => {
   return normalized.map((val, i) => gamma[i] * val + beta[i]);
 };
 
-const transpose = (matrix) => {
-  if (matrix.length === 0) return [];
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const result = Array(cols).fill(0).map(() => Array(rows).fill(0));
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      result[j][i] = matrix[i][j];
-    }
-  }
-  return result;
-};
-
 // ==================== 多头注意力 ====================
 export function multiHeadAttention(query, key, value, model) {
   const { numHeads, headDim } = model;
   const seqLen = query.length;
 
-  const Q = matMul2D(model.attentionParams.Wq, transpose(query));
-  const K = matMul2D(model.attentionParams.Wk, transpose(key));
-  const V = matMul2D(model.attentionParams.Wv, transpose(value));
+  const Q = matMul2D(query, model.attentionParams.Wq);
+  const K = matMul2D(key, model.attentionParams.Wk);
+  const V = matMul2D(value, model.attentionParams.Wv);
 
   const heads = [];
   const attentionWeights = [];
@@ -247,7 +275,7 @@ export function multiHeadAttention(query, key, value, model) {
         }
       }
     }
-    heads.push(transpose(output));
+    heads.push(output);
   }
 
   const concatenated = [];
@@ -258,10 +286,10 @@ export function multiHeadAttention(query, key, value, model) {
     }
   }
 
-  const projected = matMul2D(model.attentionParams.Wo, transpose(concatenated));
+  const projected = matMul2D(concatenated, model.attentionParams.Wo);
 
   return {
-    output: transpose(projected),
+    output: projected,
     attentionWeights
   };
 }
@@ -269,12 +297,12 @@ export function multiHeadAttention(query, key, value, model) {
 // ==================== 前馈网络 ====================
 const feedForward = (x, model) => {
   const hidden = Array(x.length).fill(0).map((_, i) => {
-    const z = matMul(model.ffParams.W1, x[i]);
+    const z = matMul2D([x[i]], model.ffParams.W1)[0];
     return z.map((val, j) => Math.max(0, val + model.ffParams.b1[j]));
   });
 
   const output = Array(hidden.length).fill(0).map((_, i) => {
-    return matMul(model.ffParams.W2, hidden[i]).map((val, j) => val + model.ffParams.b2[j]);
+    return matMul2D([hidden[i]], model.ffParams.W2)[0].map((val, j) => val + model.ffParams.b2[j]);
   });
 
   return output;
@@ -323,10 +351,10 @@ export function llmForward(tokenIds, model) {
 
   const { output: transformerOut, attentionWeights } = transformerLayer(embeddings, model);
 
-  const logits = matMul2D(model.lmHead, transpose(transformerOut));
+  const logits = matMul2D(transformerOut, model.lmHead);
 
   return {
-    logits: transpose(logits),
+    logits,
     embeddings,
     attentionWeights,
     seqLen,
@@ -444,7 +472,7 @@ export function llmTrainStep(tokenIds, model, learningRate = 0.1) {
 
 // ==================== 文本生成 ====================
 export function llmGenerate(promptTokens, model, maxLength = 20, temperature = 0.8) {
-  const { vocabSize, contextLen } = model;
+  const { contextLen } = model;
   let tokens = [...promptTokens];
   const generated = [];
 
@@ -456,20 +484,20 @@ export function llmGenerate(promptTokens, model, maxLength = 20, temperature = 0
     const scaledLogits = lastLogits.map(l => l / temperature);
     const probs = softmax(scaledLogits);
 
-    const random = Math.random();
+    const candidateIds = probs
+      .map((prob, id) => ({ id, prob }))
+      .filter(item => item.id > VOCAB_TO_ID['<EOS>']);
+    const candidateProbSum = candidateIds.reduce((sum, item) => sum + item.prob, 0);
+    const random = Math.random() * candidateProbSum;
     let cumulative = 0;
-    let nextToken = VOCAB_TO_ID['<EOS>'];
+    let nextToken = candidateIds[0]?.id ?? VOCAB_TO_ID['<UNK>'];
 
-    for (let i = 0; i < vocabSize; i++) {
-      cumulative += probs[i];
+    for (const item of candidateIds) {
+      cumulative += item.prob;
       if (random <= cumulative) {
-        nextToken = i;
+        nextToken = item.id;
         break;
       }
-    }
-
-    if (nextToken === VOCAB_TO_ID['<EOS>'] || nextToken === VOCAB_TO_ID['<PAD>']) {
-      break;
     }
 
     generated.push(nextToken);

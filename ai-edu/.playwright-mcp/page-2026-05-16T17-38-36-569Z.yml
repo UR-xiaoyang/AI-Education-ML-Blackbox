@@ -1,0 +1,140 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e11]:
+      - generic [ref=e12]: 👑 系统管理员
+      - button "A admin" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: A
+        - generic [ref=e15]: admin
+      - button "⚙️" [ref=e16] [cursor=pointer]
+      - button "🏫" [ref=e17] [cursor=pointer]
+      - button "📋" [ref=e18] [cursor=pointer]
+      - button "🚪" [ref=e19] [cursor=pointer]
+    - generic [ref=e96]:
+      - button "返回实验选择" [ref=e97] [cursor=pointer]
+      - button "📈 线性回归" [ref=e98] [cursor=pointer]:
+        - generic [ref=e99]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e100] [cursor=pointer]:
+        - generic [ref=e101]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e102] [cursor=pointer]:
+        - generic [ref=e103]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e104] [cursor=pointer]:
+        - generic [ref=e105]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e106] [cursor=pointer]:
+        - generic [ref=e107]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e108] [cursor=pointer]:
+        - generic [ref=e109]: 🎯
+        - text: YOLO 专题
+  - main [ref=e111]:
+    - generic [ref=e112]:
+      - img [ref=e115]
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - heading "逻辑回归 (二元分类)" [level=2] [ref=e121]
+            - paragraph [ref=e122]: 画出楚河汉界，把两类数据分隔开来
+          - generic [ref=e123]:
+            - button "🏋️ 训练模式" [ref=e124] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e125] [cursor=pointer]
+          - generic [ref=e126]:
+            - heading "STEP 第三步：分类训练中..." [level=3] [ref=e347]:
+              - generic [ref=e128]: STEP
+              - text: 第三步：分类训练中...
+            - paragraph [ref=e129]: 不断调整分界面的位置和角度。你也许会发现有些点太「深入敌后」，模型不管怎么转都无法完美分割，这是线性模型的局限性。
+          - generic [ref=e130]:
+            - generic [ref=e131]:
+              - generic [ref=e132]: 决策边界公式
+              - generic [ref=e133]: w1·x + w2·y + b = 0
+              - generic [ref=e134]:
+                - text: "w1: 0.518"
+                - text: "w2: 0.220"
+                - text: "b: 0.028"
+            - generic [ref=e135]:
+              - generic [ref=e136]: 交叉熵损失 (BCE)
+              - generic [ref=e137]: "0.6682"
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e140]: 学习步长 (学习率)
+              - generic [ref=e141]: "1.00"
+            - slider [ref=e142] [cursor=pointer]: "1"
+          - generic [ref=e143]:
+            - button "单步 (Step)" [ref=e144] [cursor=pointer]
+            - button "🛑 停止训练" [active] [ref=e348] [cursor=pointer]
+          - generic [ref=e146]:
+            - button "🧹 清空测试集" [ref=e147] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e148] [cursor=pointer]
+        - generic [ref=e149]:
+          - img [ref=e349]
+          - generic [ref=e352]: ↘ Loss 曲线
+          - generic [ref=e353]:
+            - generic [ref=e354]: 🔴 需优化
+            - generic [ref=e355]: ↘ 在下降
+          - generic [ref=e356]: "当前: 0.6682"
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - generic [ref=e154]:
+            - heading "数据集" [level=3] [ref=e155]
+            - paragraph [ref=e156]: 共 125 个样本
+          - button "清空" [ref=e157] [cursor=pointer]
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - generic [ref=e160]: 类别 0
+            - generic [ref=e161]: "50"
+          - generic [ref=e162]:
+            - generic [ref=e163]: 类别 1
+            - generic [ref=e164]: "75"
+          - generic [ref=e165]:
+            - generic [ref=e166]: 总计
+            - generic [ref=e167]: "125"
+        - generic [ref=e168]:
+          - generic [ref=e169]: 快速生成
+          - generic [ref=e170]:
+            - button "同心圆" [ref=e171] [cursor=pointer]
+            - button "异或" [ref=e172] [cursor=pointer]
+            - button "双月牙" [ref=e173] [cursor=pointer]
+            - button "螺旋" [ref=e174] [cursor=pointer]
+        - generic [ref=e175]:
+          - button "📝 输入" [ref=e176] [cursor=pointer]
+          - button "📄 导入" [ref=e177] [cursor=pointer]
+          - button "📋 列表" [ref=e178] [cursor=pointer]
+      - generic [ref=e205]:
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - generic [ref=e208]: 🐰
+            - generic [ref=e209]:
+              - generic [ref=e210]: 学习伴侣
+              - generic [ref=e211]: 随时为你提供帮助
+          - generic [ref=e212]:
+            - generic [ref=e213]: 🔥
+            - generic [ref=e214]:
+              - paragraph [ref=e215]: 训练中...观察 Loss 值是否在下降！
+              - generic [ref=e216]: "💡 建议: 观察中"
+        - button "✕" [ref=e220] [cursor=pointer]
+      - generic [ref=e357]:
+        - generic [ref=e358]: ⚙️
+        - generic [ref=e359]:
+          - generic [ref=e360]: 成就解锁! +10 XP
+          - generic [ref=e361]: 分类训练
+  - generic [ref=e362] [cursor=pointer]:
+    - generic [ref=e363]: ✨
+    - generic [ref=e364]:
+      - text: 获得
+      - strong [ref=e365]: +40 XP
+    - generic [ref=e366]: 解锁成就：⚙️ 分类训练
+  - generic [ref=e367] [cursor=pointer]:
+    - generic [ref=e368]: "1"
+    - generic [ref=e370]:
+      - generic [ref=e371]: 机器学习小白
+      - generic [ref=e372]: 40 XP
+    - generic [ref=e375]:
+      - generic [ref=e376]: 🏆
+      - generic [ref=e377]: "2"

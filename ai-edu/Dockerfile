@@ -12,22 +12,22 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the app
-ENV VITE_API_URL=http://backend:3001
+# Build the app. API calls use same-origin /api and are proxied at runtime.
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Production stage - serve with Express proxy
+FROM node:22-alpine
 
-# Copy built assets
-COPY --from=builder /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy proxy and built assets
+COPY backend/proxy.js ./
+COPY --from=builder /app/dist ./dist
 
+# Expose port
 EXPOSE 80
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+ENV API_URL=http://backend:3001
+ENV PORT=80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "proxy.js"]

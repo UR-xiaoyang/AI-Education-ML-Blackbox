@@ -1,0 +1,133 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e103]:
+      - button "返回实验选择" [ref=e104] [cursor=pointer]
+      - button "📈 线性回归" [ref=e105] [cursor=pointer]:
+        - generic [ref=e106]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e107] [cursor=pointer]:
+        - generic [ref=e108]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e111] [cursor=pointer]:
+        - generic [ref=e112]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e115] [cursor=pointer]:
+        - generic [ref=e116]: 🎯
+        - text: YOLO 专题
+  - main [ref=e118]:
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]: LLM 专题学习路径
+          - heading "从训练误差到逐词生成，拆开 Transformer 的关键部件" [level=2] [ref=e123]
+        - generic [ref=e124]:
+          - generic [ref=e125]: 1. 选语料并训练
+          - generic [ref=e126]: 2. 看嵌入和注意力
+          - generic [ref=e127]: 3. 调温度生成文本
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - generic [ref=e131]:
+            - heading "Tokenization 可视化" [level=3] [ref=e133]
+            - generic [ref=e137]:
+              - generic [ref=e499]: 📝
+              - paragraph [ref=e500]: 选择一个训练主题开始
+          - generic [ref=e501]:
+            - heading "Token 嵌入可视化" [level=3] [ref=e503]
+            - generic [ref=e504]: 输入文本以观察 Token 如何转换为向量
+          - generic [ref=e505]:
+            - heading "注意力机制可视化" [level=3] [ref=e507]
+            - generic [ref=e508]: 输入文本以观察注意力权重分布
+        - generic [ref=e509]:
+          - heading "文本生成" [level=3] [ref=e511]
+          - generic [ref=e512]:
+            - generic [ref=e513]: "输入提示词:"
+            - generic [ref=e514]:
+              - button "问题 机器学习 是什么" [ref=e515] [cursor=pointer]
+              - button "Transformer 使用 注意力 机制" [ref=e516] [cursor=pointer]
+              - button "神经网络 通过 训练" [ref=e517] [cursor=pointer]
+              - button "Token 是 文本 的" [ref=e518] [cursor=pointer]
+            - textbox "输入提示词..." [ref=e519]
+          - generic [ref=e520]:
+            - button "单步生成" [ref=e521] [cursor=pointer]
+            - button "生成文本" [ref=e522] [cursor=pointer]
+            - button "清空" [ref=e523] [cursor=pointer]
+          - generic [ref=e524]:
+            - generic [ref=e525]: "生成结果:"
+            - generic [ref=e526]: 点击"生成"按钮开始生成文本
+          - generic [ref=e527]:
+            - generic [ref=e528]: "下一个词概率分布:"
+            - generic [ref=e530]: 等待生成...
+          - paragraph [ref=e532]:
+            - text: Temperature 控制生成随机性：
+            - text: 低值 (0.1-0.5) 更确定，高值 (1.0+) 更多样
+        - generic [ref=e385]:
+          - heading "控制面板" [level=3] [ref=e387]
+          - generic [ref=e388]:
+            - generic [ref=e389]: 实验模式
+            - generic [ref=e390]:
+              - button "训练模式" [ref=e391] [cursor=pointer]
+              - button "推理模式" [active] [ref=e392] [cursor=pointer]
+          - generic [ref=e393]:
+            - generic [ref=e394]: 分词器
+            - combobox [ref=e395]:
+              - option "按空格词元" [selected]
+              - option "按字符"
+              - option "最长词表匹配"
+            - paragraph [ref=e396]: 把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。
+          - generic [ref=e397]:
+            - paragraph [ref=e533]: 在下方输入提示词，点击"生成"按钮开始推理。
+            - paragraph [ref=e534]: 推理时会展示 Token 嵌入和注意力可视化。
+          - generic [ref=e403]:
+            - generic [ref=e404]:
+              - text: "Temperature:"
+              - strong [ref=e405]: "0.80"
+            - slider [ref=e406] [cursor=pointer]: "0.8"
+            - generic [ref=e407]:
+              - generic [ref=e408]: 确定性强
+              - generic [ref=e409]: 多样性高
+          - button "重置" [ref=e535] [cursor=pointer]
+      - generic [ref=e430]:
+        - heading "LLM 是如何工作的？" [level=4] [ref=e431]
+        - generic [ref=e432]:
+          - generic [ref=e433]:
+            - generic [ref=e434]: "1"
+            - generic [ref=e435]:
+              - strong [ref=e436]: Token 嵌入
+              - paragraph [ref=e437]: 将每个词转换为向量表示
+          - generic [ref=e438]:
+            - generic [ref=e439]: "2"
+            - generic [ref=e440]:
+              - strong [ref=e441]: 位置编码
+              - paragraph [ref=e442]: 添加序列位置信息
+          - generic [ref=e443]:
+            - generic [ref=e444]: "3"
+            - generic [ref=e445]:
+              - strong [ref=e446]: 自注意力
+              - paragraph [ref=e447]: 计算词与词之间的关联
+          - generic [ref=e448]:
+            - generic [ref=e449]: "4"
+            - generic [ref=e450]:
+              - strong [ref=e451]: 输出预测
+              - paragraph [ref=e452]: 预测下一个最可能的词
+      - generic [ref=e453]:
+        - generic [ref=e455]:
+          - generic [ref=e456]: 💬
+          - generic [ref=e457]:
+            - paragraph [ref=e458]: 输入提示词后观察 Token 嵌入和注意力热力图，再点击生成看看下一个词概率。
+            - generic [ref=e459]: "💡 建议: 输入提示词"
+        - generic [ref=e461]:
+          - button "💬" [ref=e462] [cursor=pointer]
+          - button "卡通学习伴侣" [ref=e463] [cursor=pointer]:
+            - img "卡通学习伴侣" [ref=e464]

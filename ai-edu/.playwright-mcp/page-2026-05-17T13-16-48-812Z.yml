@@ -1,0 +1,110 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e11]:
+      - generic [ref=e12]: 🎓 学生
+      - button "T test_user" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: T
+        - generic [ref=e15]: test_user
+      - button "🚪" [ref=e16] [cursor=pointer]
+    - generic [ref=e291]:
+      - button "返回实验选择" [ref=e292] [cursor=pointer]
+      - button "📈 线性回归" [ref=e293] [cursor=pointer]:
+        - generic [ref=e294]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e295] [cursor=pointer]:
+        - generic [ref=e296]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e297] [cursor=pointer]:
+        - generic [ref=e298]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e299] [cursor=pointer]:
+        - generic [ref=e300]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e301] [cursor=pointer]:
+        - generic [ref=e302]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e303] [cursor=pointer]:
+        - generic [ref=e304]: 🎯
+        - text: YOLO 专题
+  - main [ref=e306]:
+    - generic [ref=e307]:
+      - generic [ref=e309]:
+        - img [ref=e310]
+        - generic:
+          - generic: 👆
+          - generic: 点击这里添加数据点
+          - generic: 试着在画布上随意点击
+      - generic [ref=e313]:
+        - generic [ref=e314]:
+          - generic [ref=e315]:
+            - heading "AI 黑盒实验室" [level=2] [ref=e316]
+            - paragraph [ref=e317]: 揭开机器学习：从数据到模型
+          - generic [ref=e318]:
+            - generic [ref=e319]:
+              - generic [ref=e320]: 学习进度
+              - generic [ref=e321]: 20%
+            - generic [ref=e324]:
+              - generic [ref=e325]: ▶ 收集数据
+              - generic [ref=e326]: ○ 理解误差
+              - generic [ref=e327]: ○ 开始训练
+              - generic [ref=e328]: ○ 训练完成
+              - generic [ref=e329]: ○ 推理测试
+          - generic [ref=e330]:
+            - button "🏋️ 训练模式" [ref=e331] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e332] [cursor=pointer]
+          - generic [ref=e333]:
+            - heading "STEP 第一步：收集数据" [level=3] [ref=e334]:
+              - generic [ref=e335]: STEP
+              - text: 第一步：收集数据
+            - paragraph [ref=e336]: 在左侧画板中随意点击，添加一些散步的点。这就好比我们在现实世界中收集的供AI学习的「大量数据」。无数据，不AI。
+          - generic [ref=e337]:
+            - generic [ref=e338]:
+              - generic [ref=e339]: 模型公式 (Model)
+              - generic [ref=e340]: y = wx + b
+              - generic [ref=e341]:
+                - text: "w: -0.6645"
+                - text: "b: 0.5493"
+            - generic [ref=e342]:
+              - generic [ref=e343]: 误差总和 (Loss)
+              - generic [ref=e344]: "0.0000"
+          - generic [ref=e345]:
+            - generic [ref=e346]:
+              - generic [ref=e347]: 学习步长 (学习率)
+              - generic [ref=e348]: "0.10"
+            - slider [ref=e349] [cursor=pointer]: "0.1"
+          - generic [ref=e350]:
+            - button "单步 (Step)" [ref=e351] [cursor=pointer]
+            - button "✨ 自动训练" [ref=e352] [cursor=pointer]
+          - generic [ref=e353]:
+            - button "🧹 清空测试集" [ref=e354] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e355] [cursor=pointer]
+        - paragraph [ref=e357]: 暂无训练数据
+      - generic [ref=e358]:
+        - generic [ref=e359]:
+          - generic [ref=e360]: 梯度下降
+          - generic [ref=e361]:
+            - text: w = w − lr × ∂Loss/∂w
+            - text: b = b − lr × ∂Loss/∂b
+          - generic [ref=e362]: "∂w: 0.0000 ∂b: 0.0000"
+        - generic [ref=e363]:
+          - generic [ref=e364]:
+            - generic [ref=e365]:
+              - heading "数据集" [level=3] [ref=e366]
+              - paragraph [ref=e367]: 共 0 个样本
+            - button "清空" [ref=e368] [cursor=pointer]
+          - generic [ref=e369]:
+            - generic [ref=e370]:
+              - generic [ref=e371]: X 范围
+              - generic [ref=e372]: —
+            - generic [ref=e373]:
+              - generic [ref=e374]: Y 范围
+              - generic [ref=e375]: —
+          - generic [ref=e376]:
+            - button "📝 输入" [ref=e377] [cursor=pointer]
+            - button "📄 导入" [ref=e378] [cursor=pointer]
+            - button "📋 列表" [ref=e379] [cursor=pointer]

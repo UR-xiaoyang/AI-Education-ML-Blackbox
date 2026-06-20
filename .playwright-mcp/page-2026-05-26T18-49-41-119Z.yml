@@ -1,0 +1,387 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e103]:
+      - button "返回实验选择" [ref=e104] [cursor=pointer]
+      - button "📈 线性回归" [ref=e105] [cursor=pointer]:
+        - generic [ref=e106]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e107] [cursor=pointer]:
+        - generic [ref=e108]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e111] [cursor=pointer]:
+        - generic [ref=e112]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e115] [cursor=pointer]:
+        - generic [ref=e116]: 🎯
+        - text: YOLO 专题
+  - main [ref=e118]:
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]: LLM 专题学习路径
+          - heading "从训练误差到逐词生成，拆开 Transformer 的关键部件" [level=2] [ref=e123]
+        - generic [ref=e124]:
+          - generic [ref=e125]: 1. 选语料并训练
+          - generic [ref=e126]: 2. 看嵌入和注意力
+          - generic [ref=e127]: 3. 调温度生成文本
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - heading "Tokenization 可视化" [level=3] [ref=e133]
+              - generic [ref=e492]:
+                - generic [ref=e493]: 按空格词元
+                - generic [ref=e494]: 4 tokens
+            - generic [ref=e137]:
+              - generic [ref=e495]:
+                - generic [ref=e496]:
+                  - generic [ref=e497]: "1"
+                  - generic [ref=e498]: 原始文本
+                - code [ref=e500]: 问题 机器学习 是什么
+              - generic [ref=e501]:
+                - generic [ref=e502]: ↓
+                - generic [ref=e503]: 分词
+              - generic [ref=e504]:
+                - generic [ref=e505]:
+                  - generic [ref=e506]: "2"
+                  - generic [ref=e507]: Tokens
+                - generic [ref=e508]:
+                  - generic [ref=e509] [cursor=pointer]: <BOS>
+                  - generic [ref=e510] [cursor=pointer]: 问题
+                  - generic [ref=e511] [cursor=pointer]: 机器学习
+                  - generic [ref=e512] [cursor=pointer]: <UNK>
+              - generic [ref=e513]:
+                - generic [ref=e514]: ↓
+                - generic [ref=e515]: ID映射
+              - generic [ref=e516]:
+                - generic [ref=e517]:
+                  - generic [ref=e518]: "3"
+                  - generic [ref=e519]: Token IDs
+                - generic [ref=e520]:
+                  - generic [ref=e521]: "2"
+                  - generic [ref=e522]: "59"
+                  - generic [ref=e523]: "4"
+                  - generic [ref=e524]: "1"
+            - table [ref=e526]:
+              - rowgroup [ref=e527]:
+                - row "位置 Token ID 类型" [ref=e528]:
+                  - columnheader "位置" [ref=e529]
+                  - columnheader "Token" [ref=e530]
+                  - columnheader "ID" [ref=e531]
+                  - columnheader "类型" [ref=e532]
+              - rowgroup [ref=e533]:
+                - row "0 <BOS> 2 <BOS>" [ref=e534]:
+                  - cell "0" [ref=e535]
+                  - cell "<BOS>" [ref=e536]:
+                    - code [ref=e537]: <BOS>
+                  - cell "2" [ref=e538]
+                  - cell "<BOS>" [ref=e539]:
+                    - generic [ref=e540]: <BOS>
+                - row "1 问题 59 词元" [ref=e541]:
+                  - cell "1" [ref=e542]
+                  - cell "问题" [ref=e543]:
+                    - code [ref=e544]: 问题
+                  - cell "59" [ref=e545]
+                  - cell "词元" [ref=e546]:
+                    - generic [ref=e547]: 词元
+                - row "2 机器学习 4 词元" [ref=e548]:
+                  - cell "2" [ref=e549]
+                  - cell "机器学习" [ref=e550]:
+                    - code [ref=e551]: 机器学习
+                  - cell "4" [ref=e552]
+                  - cell "词元" [ref=e553]:
+                    - generic [ref=e554]: 词元
+                - row "3 <UNK> 1 <UNK>" [ref=e555]:
+                  - cell "3" [ref=e556]
+                  - cell "<UNK>" [ref=e557]:
+                    - code [ref=e558]: <UNK>
+                  - cell "1" [ref=e559]
+                  - cell "<UNK>" [ref=e560]:
+                    - generic [ref=e561]: <UNK>
+            - generic [ref=e562]:
+              - generic [ref=e563]:
+                - generic [ref=e564]: 💡
+                - generic [ref=e565]: 把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。
+              - generic [ref=e566]:
+                - generic [ref=e567]: 🔢
+                - generic [ref=e568]: 每个 Token 映射到一个唯一的数字 ID
+          - generic [ref=e457]:
+            - generic [ref=e458]:
+              - heading "Token 嵌入可视化" [level=3] [ref=e459]
+              - generic [ref=e569]: 推理模式
+            - generic [ref=e460]:
+              - generic [ref=e570]: "输入 Tokens:"
+              - generic [ref=e571]:
+                - button "<BOS>" [ref=e572] [cursor=pointer]
+                - button "问题" [ref=e573] [cursor=pointer]
+                - button "机器学习" [ref=e574] [cursor=pointer]
+                - button "<UNK>" [ref=e575] [cursor=pointer]
+            - generic [ref=e576]:
+              - generic [ref=e577]: "嵌入矩阵 (词表 → 向量空间):"
+              - generic [ref=e578]:
+                - generic [ref=e580]: <BOS>
+                - generic [ref=e591]: 问题
+                - generic [ref=e602]: 机器学习
+                - generic [ref=e613]: <UNK>
+            - generic [ref=e623]:
+              - generic [ref=e624]: "当前 Token 向量 (机器学习):"
+              - generic [ref=e625]:
+                - 'generic "[0]: 1.087" [ref=e908] [cursor=pointer]':
+                  - generic [ref=e628]: "1.09"
+                - 'generic "[1]: 0.600" [ref=e909] [cursor=pointer]':
+                  - generic [ref=e631]: "0.60"
+                - 'generic "[2]: 0.630" [ref=e910] [cursor=pointer]':
+                  - generic [ref=e634]: "0.63"
+                - 'generic "[3]: 1.074" [ref=e911] [cursor=pointer]':
+                  - generic [ref=e637]: "1.07"
+                - 'generic "[4]: 0.131" [ref=e912] [cursor=pointer]':
+                  - generic [ref=e640]: "0.13"
+                - 'generic "[5]: 0.859" [ref=e913] [cursor=pointer]':
+                  - generic [ref=e643]: "0.86"
+                - 'generic "[6]: 0.239" [ref=e914] [cursor=pointer]':
+                  - generic [ref=e646]: "0.24"
+                - 'generic "[7]: 0.965" [ref=e915] [cursor=pointer]':
+                  - generic [ref=e649]: "0.96"
+                - 'generic "[8]: -0.006" [ref=e916] [cursor=pointer]':
+                  - generic [ref=e652]: "-0.01"
+                - 'generic "[9]: 1.059" [ref=e917] [cursor=pointer]':
+                  - generic [ref=e655]: "1.06"
+                - 'generic "[10]: -0.019" [ref=e918] [cursor=pointer]':
+                  - generic [ref=e658]: "-0.02"
+                - 'generic "[11]: 1.003" [ref=e919] [cursor=pointer]':
+                  - generic [ref=e661]: "1.00"
+                - 'generic "[12]: 0.154" [ref=e920] [cursor=pointer]':
+                  - generic [ref=e664]: "0.15"
+                - 'generic "[13]: 0.940" [ref=e921] [cursor=pointer]':
+                  - generic [ref=e667]: "0.94"
+                - 'generic "[14]: 0.069" [ref=e922] [cursor=pointer]':
+                  - generic [ref=e670]: "0.07"
+                - 'generic "[15]: 0.883" [ref=e923] [cursor=pointer]':
+                  - generic [ref=e673]: "0.88"
+                - 'generic "[16]: 0.106" [ref=e924] [cursor=pointer]':
+                  - generic [ref=e676]: "0.11"
+                - 'generic "[17]: 1.178" [ref=e925] [cursor=pointer]':
+                  - generic [ref=e679]: "1.18"
+                - 'generic "[18]: 0.174" [ref=e926] [cursor=pointer]':
+                  - generic [ref=e682]: "0.17"
+                - 'generic "[19]: 0.888" [ref=e927] [cursor=pointer]':
+                  - generic [ref=e685]: "0.89"
+                - 'generic "[20]: -0.003" [ref=e928] [cursor=pointer]':
+                  - generic [ref=e688]: "-0.00"
+                - 'generic "[21]: 0.926" [ref=e929] [cursor=pointer]':
+                  - generic [ref=e691]: "0.93"
+                - 'generic "[22]: -0.012" [ref=e930] [cursor=pointer]':
+                  - generic [ref=e694]: "-0.01"
+                - 'generic "[23]: 1.120" [ref=e931] [cursor=pointer]':
+                  - generic [ref=e697]: "1.12"
+                - 'generic "[24]: -0.078" [ref=e932] [cursor=pointer]':
+                  - generic [ref=e700]: "-0.08"
+                - 'generic "[25]: 0.939" [ref=e933] [cursor=pointer]':
+                  - generic [ref=e703]: "0.94"
+                - 'generic "[26]: 0.044" [ref=e934] [cursor=pointer]':
+                  - generic [ref=e706]: "0.04"
+                - 'generic "[27]: 0.879" [ref=e935] [cursor=pointer]':
+                  - generic [ref=e709]: "0.88"
+                - 'generic "[28]: -0.153" [ref=e936] [cursor=pointer]':
+                  - generic [ref=e712]: "-0.15"
+                - 'generic "[29]: 0.841" [ref=e937] [cursor=pointer]':
+                  - generic [ref=e715]: "0.84"
+                - 'generic "[30]: 0.113" [ref=e938] [cursor=pointer]':
+                  - generic [ref=e718]: "0.11"
+                - 'generic "[31]: 1.155" [ref=e939] [cursor=pointer]':
+                  - generic [ref=e721]: "1.16"
+              - generic [ref=e722]:
+                - generic [ref=e723]: 正值
+                - generic [ref=e724]: 负值
+            - generic [ref=e725]:
+              - generic [ref=e726]: "💡 语义相似性对比:"
+              - generic [ref=e727]:
+                - generic [ref=e728]:
+                  - generic [ref=e729]: <BOS>
+                  - generic [ref=e730]: vs
+                  - generic [ref=e731]: 机器学习
+                  - generic [ref=e732]: "0.93"
+                - generic [ref=e733]:
+                  - generic [ref=e734]: 机器学习
+                  - generic [ref=e735]: vs
+                  - generic [ref=e736]: 机器学习
+                  - generic [ref=e737]: "1.00"
+                - generic [ref=e738]:
+                  - generic [ref=e739]: <UNK>
+                  - generic [ref=e740]: vs
+                  - generic [ref=e741]: 机器学习
+                  - generic [ref=e742]: "0.94"
+              - generic [ref=e743]: 相似度 > 0.7 表示语义相近，< 0.3 表示语义差异大
+            - paragraph [ref=e745]: 每个 Token 被转换为一个 32 维的向量，这个向量包含了Token的语义信息。
+          - generic [ref=e461]:
+            - generic [ref=e462]:
+              - heading "注意力机制可视化" [level=3] [ref=e463]
+              - generic [ref=e746]: 4 头注意力
+            - generic [ref=e464]:
+              - button "平均" [ref=e747] [cursor=pointer]
+              - button "Head 1" [ref=e748] [cursor=pointer]
+              - button "Head 2" [active] [ref=e749] [cursor=pointer]
+              - button "Head 3" [ref=e750] [cursor=pointer]
+              - button "Head 4" [ref=e751] [cursor=pointer]
+            - generic [ref=e752]:
+              - generic [ref=e753]: "注意力权重热力图 (行=Query, 列=Key):"
+              - generic [ref=e754]:
+                - generic [ref=e755]:
+                  - generic [ref=e756]: <BOS>
+                  - generic [ref=e757]: 问题
+                  - generic [ref=e758]: 机器学习
+                  - generic [ref=e759]: <UNK>
+                - generic [ref=e760]:
+                  - generic [ref=e761]:
+                    - generic [ref=e762]:
+                      - 'generic "Query: \"<BOS>\" → Key: \"<BOS>\" = 0.244" [ref=e940] [cursor=pointer]'
+                      - 'generic "Query: \"<BOS>\" → Key: \"问题\" = 0.249" [ref=e941] [cursor=pointer]'
+                      - 'generic "Query: \"<BOS>\" → Key: \"机器学习\" = 0.280" [ref=e942] [cursor=pointer]'
+                      - 'generic "Query: \"<BOS>\" → Key: \"<UNK>\" = 0.228" [ref=e943] [cursor=pointer]'
+                    - generic [ref=e767]:
+                      - 'generic "Query: \"问题\" → Key: \"<BOS>\" = 0.232" [ref=e944] [cursor=pointer]'
+                      - 'generic "Query: \"问题\" → Key: \"问题\" = 0.249" [ref=e945] [cursor=pointer]'
+                      - 'generic "Query: \"问题\" → Key: \"机器学习\" = 0.279" [ref=e946] [cursor=pointer]'
+                      - 'generic "Query: \"问题\" → Key: \"<UNK>\" = 0.240" [ref=e947] [cursor=pointer]'
+                    - generic [ref=e772]:
+                      - 'generic "Query: \"机器学习\" → Key: \"<BOS>\" = 0.234" [ref=e948] [cursor=pointer]'
+                      - 'generic "Query: \"机器学习\" → Key: \"问题\" = 0.252" [ref=e949] [cursor=pointer]'
+                      - 'generic "Query: \"机器学习\" → Key: \"机器学习\" = 0.276" [ref=e950] [cursor=pointer]'
+                      - 'generic "Query: \"机器学习\" → Key: \"<UNK>\" = 0.238" [ref=e951] [cursor=pointer]'
+                    - generic [ref=e777]:
+                      - 'generic "Query: \"<UNK>\" → Key: \"<BOS>\" = 0.236" [ref=e952] [cursor=pointer]'
+                      - 'generic "Query: \"<UNK>\" → Key: \"问题\" = 0.251" [ref=e953] [cursor=pointer]'
+                      - 'generic "Query: \"<UNK>\" → Key: \"机器学习\" = 0.278" [ref=e954] [cursor=pointer]'
+                      - 'generic "Query: \"<UNK>\" → Key: \"<UNK>\" = 0.235" [ref=e955] [cursor=pointer]'
+                  - generic [ref=e782]:
+                    - generic [ref=e783]: <BOS>
+                    - generic [ref=e784]: 问题
+                    - generic [ref=e785]: 机器学习
+                    - generic [ref=e786]: <UNK>
+            - generic [ref=e787]:
+              - generic [ref=e788]: "各注意力头权重:"
+              - generic [ref=e789]:
+                - generic [ref=e791]: Head 1
+                - generic [ref=e814]: Head 2
+                - generic [ref=e837]: Head 3
+                - generic [ref=e860]: Head 4
+            - generic [ref=e882]:
+              - generic [ref=e883]: "注意力解读:"
+              - generic [ref=e884]:
+                - generic [ref=e885]:
+                  - generic [ref=e886]: "\"<BOS>\""
+                  - generic [ref=e887]: →
+                  - generic [ref=e888]: "\"机器学习\""
+                  - generic [ref=e889]: (28%)
+                - generic [ref=e890]:
+                  - generic [ref=e891]: "\"问题\""
+                  - generic [ref=e892]: →
+                  - generic [ref=e893]: "\"机器学习\""
+                  - generic [ref=e894]: (28%)
+                - generic [ref=e895]:
+                  - generic [ref=e896]: "\"机器学习\""
+                  - generic [ref=e897]: →
+                  - generic [ref=e898]: "\"机器学习\""
+                  - generic [ref=e899]: (28%)
+                - generic [ref=e900]:
+                  - generic [ref=e901]: "\"<UNK>\""
+                  - generic [ref=e902]: →
+                  - generic [ref=e903]: "\"机器学习\""
+                  - generic [ref=e904]: (28%)
+            - paragraph [ref=e906]:
+              - strong [ref=e907]: 自注意力机制：
+              - text: 模型学习每个Token应该"关注"序列中哪些其他Token。颜色越深(红)，表示注意力越强。
+        - generic [ref=e465]:
+          - heading "文本生成" [level=3] [ref=e467]
+          - generic [ref=e468]:
+            - generic [ref=e469]: "输入提示词:"
+            - generic [ref=e470]:
+              - button "问题 机器学习 是什么" [ref=e471] [cursor=pointer]
+              - button "Transformer 使用 注意力 机制" [ref=e472] [cursor=pointer]
+              - button "神经网络 通过 训练" [ref=e473] [cursor=pointer]
+              - button "Token 是 文本 的" [ref=e474] [cursor=pointer]
+            - textbox "输入提示词..." [ref=e475]: 问题 机器学习 是什么
+          - generic [ref=e476]:
+            - button "单步生成" [ref=e477] [cursor=pointer]
+            - button "生成文本" [ref=e478] [cursor=pointer]
+            - button "清空" [ref=e479] [cursor=pointer]
+          - generic [ref=e480]:
+            - generic [ref=e481]: "生成结果:"
+            - generic [ref=e482]: 点击"生成"按钮开始生成文本
+          - generic [ref=e483]:
+            - generic [ref=e484]: "下一个词概率分布:"
+            - generic [ref=e486]: 等待生成...
+          - paragraph [ref=e488]:
+            - text: Temperature 控制生成随机性：
+            - text: 低值 (0.1-0.5) 更确定，高值 (1.0+) 更多样
+        - generic [ref=e375]:
+          - heading "控制面板" [level=3] [ref=e377]
+          - generic [ref=e378]:
+            - generic [ref=e379]: 实验模式
+            - generic [ref=e380]:
+              - button "训练模式" [ref=e381] [cursor=pointer]
+              - button "推理模式" [ref=e382] [cursor=pointer]
+          - generic [ref=e383]:
+            - generic [ref=e384]: 分词器
+            - combobox [ref=e385]:
+              - option "按空格词元" [selected]
+              - option "按字符"
+              - option "最长词表匹配"
+            - paragraph [ref=e386]: 把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。
+          - generic [ref=e387]:
+            - paragraph [ref=e489]: 在下方输入提示词，点击"生成"按钮开始推理。
+            - paragraph [ref=e490]: 推理时会展示 Token 嵌入和注意力可视化。
+          - generic [ref=e393]:
+            - generic [ref=e394]:
+              - text: "Temperature:"
+              - strong [ref=e395]: "0.80"
+            - slider [ref=e396] [cursor=pointer]: "0.8"
+            - generic [ref=e397]:
+              - generic [ref=e398]: 确定性强
+              - generic [ref=e399]: 多样性高
+          - button "重置" [ref=e491] [cursor=pointer]
+      - generic [ref=e420]:
+        - heading "LLM 是如何工作的？" [level=4] [ref=e421]
+        - generic [ref=e422]:
+          - generic [ref=e423]:
+            - generic [ref=e424]: "1"
+            - generic [ref=e425]:
+              - strong [ref=e426]: Token 嵌入
+              - paragraph [ref=e427]: 将每个词转换为向量表示
+          - generic [ref=e428]:
+            - generic [ref=e429]: "2"
+            - generic [ref=e430]:
+              - strong [ref=e431]: 位置编码
+              - paragraph [ref=e432]: 添加序列位置信息
+          - generic [ref=e433]:
+            - generic [ref=e434]: "3"
+            - generic [ref=e435]:
+              - strong [ref=e436]: 自注意力
+              - paragraph [ref=e437]: 计算词与词之间的关联
+          - generic [ref=e438]:
+            - generic [ref=e439]: "4"
+            - generic [ref=e440]:
+              - strong [ref=e441]: 输出预测
+              - paragraph [ref=e442]: 预测下一个最可能的词
+      - generic [ref=e443]:
+        - generic [ref=e445]:
+          - generic [ref=e446]: 💬
+          - generic [ref=e447]:
+            - paragraph [ref=e448]: 输入提示词后观察 Token 嵌入和注意力热力图，再点击生成看看下一个词概率。
+            - generic [ref=e449]: "💡 建议: 输入提示词"
+        - generic [ref=e451]:
+          - button "💬" [ref=e452] [cursor=pointer]
+          - button "卡通学习伴侣" [ref=e453] [cursor=pointer]:
+            - img "卡通学习伴侣" [ref=e454]

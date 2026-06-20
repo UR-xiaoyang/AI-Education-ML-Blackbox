@@ -3,6 +3,7 @@ import { VOCAB } from '../../utils/miniLLMEngine';
 import './TokenEmbedViz.css';
 
 export default function TokenEmbedViz({ tokens, embeddings }) {
+  const [selectedTokenIndex, setSelectedTokenIndex] = useState(null);
   const vocabInfo = useMemo(() => {
     const vocab = VOCAB;
     const vocabToId = {};
@@ -15,11 +16,15 @@ export default function TokenEmbedViz({ tokens, embeddings }) {
     return tokens.map(id => vocabInfo.vocab[id] || '<UNK>');
   }, [tokens, vocabInfo]);
 
+  const activeTokenIndex = selectedTokenIndex !== null && selectedTokenIndex < tokenTexts.length
+    ? selectedTokenIndex
+    : Math.max(0, tokenTexts.length - 1);
+
   // 获取当前 token 的嵌入向量
   const currentEmbedding = useMemo(() => {
     if (!embeddings || embeddings.length === 0) return null;
-    return embeddings[embeddings.length - 1]; // 最后一个 token 的嵌入
-  }, [embeddings]);
+    return embeddings[activeTokenIndex] || embeddings[embeddings.length - 1];
+  }, [embeddings, activeTokenIndex]);
 
   // 将嵌入向量转换为柱状图数据
   const embeddingBars = useMemo(() => {
@@ -56,12 +61,14 @@ export default function TokenEmbedViz({ tokens, embeddings }) {
         <span className="section-label">输入 Tokens:</span>
         <div className="token-chips">
           {tokenTexts.map((text, i) => (
-            <span
+            <button
               key={i}
-              className={`token-chip ${i === tokenTexts.length - 1 ? 'active' : ''}`}
+              type="button"
+              className={`token-chip ${i === activeTokenIndex ? 'active' : ''}`}
+              onClick={() => setSelectedTokenIndex(i)}
             >
               {text}
-            </span>
+            </button>
           ))}
         </div>
       </div>
@@ -91,7 +98,7 @@ export default function TokenEmbedViz({ tokens, embeddings }) {
 
       {currentEmbedding && (
         <div className="embedding-vector">
-          <span className="section-label">当前 Token 向量 ({tokenTexts[tokenTexts.length - 1]}):</span>
+          <span className="section-label">当前 Token 向量 ({tokenTexts[activeTokenIndex]}):</span>
           <div className="vector-bars">
             {embeddingBars.map((bar, i) => (
               <div key={i} className="vector-bar-container" title={`[${i}]: ${bar.value.toFixed(3)}`}>
@@ -127,7 +134,7 @@ export default function TokenEmbedViz({ tokens, embeddings }) {
 
               return selectedTokens.map(({ idx, label }) => {
                 const vec = embeddings[idx];
-                const currentVec = embeddings[embeddings.length - 1];
+                const currentVec = embeddings[activeTokenIndex];
                 if (!vec || !currentVec) return null;
                 // 计算余弦相似度
                 const dot = vec.reduce((sum, v, i) => sum + v * currentVec[i], 0);
@@ -139,7 +146,7 @@ export default function TokenEmbedViz({ tokens, embeddings }) {
                   <div key={idx} style={{ display: 'flex', gap: '4px', alignItems: 'center', padding: '4px 8px', borderRadius: '8px', background: 'rgba(0,0,0,0.3)', fontSize: '0.75rem' }}>
                     <span style={{ color: '#e2e8f0' }}>{label}</span>
                     <span style={{ color: 'rgba(255,255,255,0.4)' }}>vs</span>
-                    <span style={{ color: '#e2e8f0' }}>{tokenTexts[embeddings.length - 1]}</span>
+                    <span style={{ color: '#e2e8f0' }}>{tokenTexts[activeTokenIndex]}</span>
                     <span style={{ color: simColor, fontWeight: 'bold' }}>{sim.toFixed(2)}</span>
                   </div>
                 );

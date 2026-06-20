@@ -1,0 +1,124 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e112]:
+      - button "← 退出课程" [ref=e113] [cursor=pointer]
+      - generic [ref=e114]: 📚 第 1/5 课 · 线性回归
+    - generic [ref=e115]:
+      - button "退出课程" [ref=e116] [cursor=pointer]
+      - button "返回实验选择" [ref=e117] [cursor=pointer]
+      - button "📈 线性回归" [ref=e118] [cursor=pointer]:
+        - generic [ref=e119]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归 🔒" [ref=e120]:
+        - generic [ref=e121]: 🟠🔵
+        - text: 逻辑回归 🔒
+      - button "🌲 决策树 🔒" [ref=e122]:
+        - generic [ref=e123]: 🌲
+        - text: 决策树 🔒
+      - button "🧠 神经网络 🔒" [ref=e124]:
+        - generic [ref=e125]: 🧠
+        - text: 神经网络 🔒
+      - button "💬 LLM 专题 🔒" [ref=e126]:
+        - generic [ref=e127]: 💬
+        - text: LLM 专题 🔒
+      - button "🎯 YOLO 专题 🔒" [ref=e128]:
+        - generic [ref=e129]: 🎯
+        - text: YOLO 专题 🔒
+  - generic [ref=e130]:
+    - generic [ref=e131]: 📚 课程进度：第 1/5 课
+    - generic [ref=e132]:
+      - generic "📈 线性回归 (进行中)" [ref=e133]
+      - generic "🟠🔵 逻辑回归 (未开始)" [ref=e134]
+      - generic "🌲 决策树 (未开始)" [ref=e135]
+      - generic "🧠 神经网络 (未开始)" [ref=e136]
+      - generic "⚠️ 故障诊断 (未开始)" [ref=e137]
+    - generic [ref=e138]: 📈 线性回归
+  - generic [ref=e139]:
+    - generic [ref=e140]:
+      - strong [ref=e141]: 📚 📈 线性回归：
+      - text: 从散点和拟合直线开始,理解损失函数与梯度下降。
+    - generic [ref=e142]: 1 / 12
+  - main [ref=e144]:
+    - generic [ref=e145]:
+      - generic [ref=e147]:
+        - img [ref=e148]
+        - generic:
+          - generic: 👆
+          - generic: 点击这里添加数据点
+          - generic: 试着在画布上随意点击
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - heading "AI 黑盒实验室" [level=2] [ref=e154]
+            - paragraph [ref=e155]: 揭开机器学习：从数据到模型
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - generic [ref=e158]: 学习进度
+              - generic [ref=e159]: 20%
+            - generic [ref=e162]:
+              - generic [ref=e163]: ▶ 收集数据
+              - generic [ref=e164]: ○ 理解误差
+              - generic [ref=e165]: ○ 开始训练
+              - generic [ref=e166]: ○ 训练完成
+              - generic [ref=e167]: ○ 推理测试
+          - generic [ref=e168]:
+            - button "🏋️ 训练模式" [ref=e169] [cursor=pointer]
+            - button "🛸 预测推理" [ref=e170] [cursor=pointer]
+          - generic [ref=e171]:
+            - heading "STEP 第一步：收集数据" [level=3] [ref=e172]:
+              - generic [ref=e173]: STEP
+              - text: 第一步：收集数据
+            - paragraph [ref=e174]: 在左侧画板中随意点击，添加一些散步的点。这就好比我们在现实世界中收集的供AI学习的「大量数据」。无数据，不AI。
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - generic [ref=e177]: 模型公式 (Model)
+              - generic [ref=e178]: y = wx + b
+              - generic [ref=e179]:
+                - text: "w: -0.0536"
+                - text: "b: 0.0364"
+            - generic [ref=e180]:
+              - generic [ref=e181]: 误差总和 (Loss)
+              - generic [ref=e182]: "0.0000"
+          - generic [ref=e183]:
+            - generic [ref=e184]:
+              - generic [ref=e185]: 学习步长 (学习率)
+              - generic [ref=e186]: "0.10"
+            - slider [ref=e187] [cursor=pointer]: "0.1"
+          - generic [ref=e188]:
+            - button "单步 (Step)" [ref=e189] [cursor=pointer]
+            - button "✨ 自动训练" [ref=e190] [cursor=pointer]
+          - generic [ref=e191]:
+            - button "🧹 清空测试集" [ref=e192] [cursor=pointer]
+            - button "🔄 全局重置" [ref=e193] [cursor=pointer]
+        - paragraph [ref=e195]: 暂无训练数据
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - generic [ref=e198]: 梯度下降
+          - generic [ref=e199]:
+            - text: w = w − lr × ∂Loss/∂w
+            - text: b = b − lr × ∂Loss/∂b
+          - generic [ref=e200]: "∂w: 0.0000 ∂b: 0.0000"
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - heading "数据集" [level=3] [ref=e204]
+              - paragraph [ref=e205]: 共 0 个样本
+            - button "清空" [ref=e206] [cursor=pointer]
+          - generic [ref=e207]:
+            - generic [ref=e208]:
+              - generic [ref=e209]: X 范围
+              - generic [ref=e210]: —
+            - generic [ref=e211]:
+              - generic [ref=e212]: Y 范围
+              - generic [ref=e213]: —
+          - generic [ref=e214]:
+            - button "📝 输入" [ref=e215] [cursor=pointer]
+            - button "📄 导入" [ref=e216] [cursor=pointer]
+            - button "📋 列表" [ref=e217] [cursor=pointer]
+      - generic [ref=e218]:
+        - generic [ref=e219]:
+          - generic [ref=e220]: 💡
+          - paragraph [ref=e221]: 在左侧画布上点击,添加一些散点。这是模型要学习的"原材料"。
+        - button "明白了，下一步" [ref=e223] [cursor=pointer]
+      - complementary [ref=e225]:
+        - button "🧭" [ref=e226] [cursor=pointer]

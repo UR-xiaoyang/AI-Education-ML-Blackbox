@@ -1,128 +1,406 @@
-/* LLMFlowViz.css */
-.llm-flow-viz {
+.llm-flow-viz.redesigned-flow {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.llm-flow-viz .flow-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
 }
 
-.llm-flow-viz .panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.llm-flow-viz .flow-header h3 {
+  margin: 0;
+  color: var(--text-primary, #e2e8f0);
+  font-size: 16px;
 }
 
-.llm-flow-viz .panel-header h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary, #e2e8f0);
+.llm-flow-viz .flow-header p {
+  margin: 4px 0 0;
+  color: var(--text-muted, #64748b);
+  font-size: 12px;
 }
 
 .llm-flow-viz .badge {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 11px;
 }
 
 .llm-flow-viz .badge.idle {
-  background: rgba(148, 163, 184, 0.2);
+  background: rgba(148, 163, 184, 0.18);
   color: #94a3b8;
 }
 
 .llm-flow-viz .badge.training {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
-  animation: badgePulse 1.5s ease-in-out infinite;
+  background: rgba(34, 197, 94, 0.16);
+  color: #86efac;
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.15);
 }
 
-@keyframes badgePulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+.token-ribbon {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(8, 47, 73, 0.38), rgba(15, 23, 42, 0.28));
 }
 
-/* 流程图 */
-.flow-diagram {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.flow-diagram svg {
-  display: block;
-}
-
-.llm-flow-viz .stage-node {
-  cursor: pointer;
-}
-
-.llm-flow-viz .stage-node circle:first-of-type {
-  transition: all 0.3s ease;
-}
-
-.llm-flow-viz .stage-node:hover circle:first-of-type {
-  filter: brightness(1.2);
-}
-
-.llm-flow-viz .stage-icon {
-  font-size: 16px;
-}
-
-.llm-flow-viz .stage-label {
-  font-size: 10px;
-  fill: var(--text-secondary, #94a3b8);
-}
-
-.llm-flow-viz .connector {
-  opacity: 0.6;
-}
-
-/* Token 显示 */
-.flow-section-label {
+.ribbon-label {
+  color: #38bdf8;
   font-size: 11px;
-  fill: var(--text-secondary, #94a3b8);
+  white-space: nowrap;
 }
 
-.llm-flow-viz .token-text {
+.ribbon-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-width: 0;
+}
+
+.ribbon-token {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  border: 1px solid rgba(56, 189, 248, 0.26);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.55);
+  color: var(--text-primary, #e2e8f0);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ribbon-token small {
+  color: var(--text-muted, #64748b);
   font-size: 10px;
-  fill: #e2e8f0;
 }
 
-.llm-flow-viz .token-more {
-  font-size: 10px;
-  fill: var(--text-muted, #64748b);
+.token-overflow,
+.empty-token {
+  padding: 5px 7px;
+  border-radius: 10px;
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text-muted, #64748b);
+  font-size: 11px;
 }
 
-/* 流程说明 */
-.flow-explanation {
+.flow-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.13), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(244, 114, 182, 0.12), transparent 32%),
+    rgba(2, 6, 23, 0.22);
+}
+
+.flow-lane {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.08), rgba(244, 114, 182, 0.26), rgba(56, 189, 248, 0.08));
+  pointer-events: none;
+}
+
+.flow-lane span {
+  position: absolute;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #facc15;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.75);
+  transition: left 0.2s ease;
+}
+
+.flow-board.training .flow-lane span {
+  animation: flowPulse 1.25s ease-in-out infinite;
+}
+
+@keyframes flowPulse {
+  0%, 100% { transform: scale(0.82); opacity: 0.75; }
+  50% { transform: scale(1.28); opacity: 1; }
+}
+
+.flow-stage-card {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-}
-
-.flow-step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.step-num {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(56, 189, 248, 0.2);
-  color: #38bdf8;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
-
-.step-desc {
-  font-size: 11px;
+  min-height: 136px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.78);
   color: var(--text-secondary, #94a3b8);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.flow-stage-card:hover,
+.flow-stage-card.selected {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 16%, rgba(15, 23, 42, 0.84)), rgba(15, 23, 42, 0.78));
+}
+
+.flow-stage-card.live {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent), 0 16px 34px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.flow-stage-card.live::after {
+  content: '实时';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.16);
+  color: #86efac;
+  font-size: 10px;
+}
+
+.stage-order {
+  align-self: flex-start;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.stage-eyebrow {
+  color: var(--accent);
+  font-size: 10px;
+}
+
+.flow-stage-card strong {
+  color: var(--text-primary, #e2e8f0);
+  font-size: 15px;
+}
+
+.artifact {
+  margin-top: auto;
+  min-height: 38px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.token-artifact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-content: center;
+  padding: 7px;
+}
+
+.token-artifact span {
+  padding: 3px 6px;
+  border-radius: 7px;
+  background: rgba(56, 189, 248, 0.16);
+  color: #bae6fd;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.vector-artifact {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 7px;
+}
+
+.vector-artifact span {
+  flex: 1;
+  min-width: 3px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, #818cf8, rgba(129, 140, 248, 0.18));
+}
+
+.position-artifact {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 7px;
+}
+
+.position-artifact span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.16);
+  color: #ddd6fe;
+  font-size: 10px;
+}
+
+.attention-artifact {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  padding: 7px;
+}
+
+.attention-artifact span {
+  min-height: 8px;
+  border-radius: 3px;
+  background: #c084fc;
+}
+
+.ffn-artifact {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 6px;
+  align-items: center;
+  padding: 7px;
+}
+
+.ffn-artifact span {
+  height: 26px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, rgba(232, 121, 249, 0.2), rgba(232, 121, 249, 0.72));
+}
+
+.output-artifact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px;
+}
+
+.output-artifact span {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f472b6, rgba(244, 114, 182, 0.12));
+}
+
+.stage-inspector {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.5fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  border-radius: 16px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, rgba(15, 23, 42, 0.72)), rgba(2, 6, 23, 0.22));
+}
+
+.inspector-copy span {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.inspector-copy h4 {
+  margin: 5px 0;
+  color: var(--text-primary, #e2e8f0);
+  font-size: 18px;
+}
+
+.inspector-copy p {
+  margin: 0;
+  color: var(--text-secondary, #94a3b8);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.training-signal {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.training-signal span {
+  padding: 7px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.28);
+  color: var(--text-muted, #64748b);
+  font-size: 10px;
+}
+
+.training-signal strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.inspector-artifact .artifact.large {
+  min-height: 86px;
+}
+
+.stage-data-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stage-data-panel > div {
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.3);
+}
+
+.stage-data-panel span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.stage-data-panel ul {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-data-panel li {
+  padding: 5px 7px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.55);
+  color: var(--text-secondary, #94a3b8);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .flow-board,
+  .stage-inspector,
+  .stage-data-panel,
+  .training-signal {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-lane {
+    display: none;
+  }
+
+  .token-ribbon {
+    grid-template-columns: 1fr;
+  }
 }

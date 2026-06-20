@@ -1,0 +1,99 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - generic [ref=e11]:
+      - generic [ref=e12]: 👑 系统管理员
+      - button "A admin" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: A
+        - generic [ref=e15]: admin
+      - button "⚙️" [ref=e16] [cursor=pointer]
+      - button "🏫" [ref=e17] [cursor=pointer]
+      - button "📋" [ref=e18] [cursor=pointer]
+      - button "🚪" [ref=e19] [cursor=pointer]
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Experiment Flow
+        - heading "先选择你想进入的实验或专题" [level=2] [ref=e24]
+        - paragraph [ref=e25]: 首页不再直接进入某个实验，而是先从下方选择基础实验或高级专题。进入后仍可在顶部切换，方便课堂演示、自由探索与专题讲解。
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: 📚
+          - generic [ref=e29]: 基础课程学习
+          - generic [ref=e30]: 依次完成基础课程 5 个实验
+          - generic [ref=e31]:
+            - generic [ref=e32]: 自习模式
+            - button [ref=e33] [cursor=pointer]
+            - generic [ref=e35]: 教学模式
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: 🎈 自习模式：自由探索基础实验与高级专题，不显示分步聚光灯引导。
+          - button "开始自习模式" [ref=e38] [cursor=pointer]
+      - generic [ref=e39]:
+        - button "📈 线性回归 ★ ★ ★ 入门 从散点和拟合直线开始，理解损失函数与梯度下降。" [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: 📈
+          - generic [ref=e42]: 线性回归
+          - generic [ref=e43]:
+            - generic [ref=e44]: ★
+            - generic [ref=e45]: ★
+            - generic [ref=e46]: ★
+            - generic [ref=e47]: 入门
+          - generic [ref=e48]: 从散点和拟合直线开始，理解损失函数与梯度下降。
+        - button "🟠🔵 逻辑回归 ★ ★ ★ 入门 观察分类边界如何移动，理解二分类训练过程。" [ref=e49] [cursor=pointer]:
+          - generic [ref=e50]: 🟠🔵
+          - generic [ref=e51]: 逻辑回归
+          - generic [ref=e52]:
+            - generic [ref=e53]: ★
+            - generic [ref=e54]: ★
+            - generic [ref=e55]: ★
+            - generic [ref=e56]: 入门
+          - generic [ref=e57]: 观察分类边界如何移动，理解二分类训练过程。
+        - button "🌲 决策树 ★ ★ ★ 进阶 通过空间切分理解模型容量、泛化与过拟合。" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: 🌲
+          - generic [ref=e60]: 决策树
+          - generic [ref=e61]:
+            - generic [ref=e62]: ★
+            - generic [ref=e63]: ★
+            - generic [ref=e64]: ★
+            - generic [ref=e65]: 进阶
+          - generic [ref=e66]: 通过空间切分理解模型容量、泛化与过拟合。
+        - button "🧠 神经网络 ★ ★ ★ 高级 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。" [ref=e67] [cursor=pointer]:
+          - generic [ref=e68]: 🧠
+          - generic [ref=e69]: 神经网络
+          - generic [ref=e70]:
+            - generic [ref=e71]: ★
+            - generic [ref=e72]: ★
+            - generic [ref=e73]: ★
+            - generic [ref=e74]: 高级
+          - generic [ref=e75]: 渐进式学习神经网络：数据准备→学习率调参→网络容量→激活函数→过拟合与泛化。
+        - button "高级专题 💬 LLM 专题 ★ ★ ★ 高级 理解大语言模型如何做预训练、指令微调与逐词生成预测。" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: 高级专题
+          - generic [ref=e78]: 💬
+          - generic [ref=e79]: LLM 专题
+          - generic [ref=e80]:
+            - generic [ref=e81]: ★
+            - generic [ref=e82]: ★
+            - generic [ref=e83]: ★
+            - generic [ref=e84]: 高级
+          - generic [ref=e85]: 理解大语言模型如何做预训练、指令微调与逐词生成预测。
+        - button "高级专题 🎯 YOLO 专题 ★ ★ ★ 高级 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。" [ref=e86] [cursor=pointer]:
+          - generic [ref=e87]: 高级专题
+          - generic [ref=e88]: 🎯
+          - generic [ref=e89]: YOLO 专题
+          - generic [ref=e90]:
+            - generic [ref=e91]: ★
+            - generic [ref=e92]: ★
+            - generic [ref=e93]: ★
+            - generic [ref=e94]: 高级
+          - generic [ref=e95]: 理解目标检测模型如何学习出框、分类，并在预测时完成 NMS。
+  - generic [ref=e96] [cursor=pointer]:
+    - generic [ref=e97]: "1"
+    - generic [ref=e99]:
+      - generic [ref=e100]: 机器学习小白
+      - generic [ref=e101]: 0 (+120) XP
+    - generic [ref=e103]:
+      - generic [ref=e104]: 🏆
+      - generic [ref=e105]: "6"

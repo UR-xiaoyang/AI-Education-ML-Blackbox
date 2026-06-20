@@ -4,6 +4,16 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const { db } = require('../db');
 const TURNSTILE_CONFIG = require('../config/turnstile');
+const { getBooleanSetting, getTurnstileSecretKey } = require('../settings');
+
+// 日志功能（延迟加载以避免循环依赖）
+let logOperation = null;
+function getLogOperation() {
+  if (!logOperation) {
+    logOperation = require('./logs').logOperation;
+  }
+  return logOperation;
+}
 
 const router = express.Router();
 
@@ -102,14 +112,15 @@ function isTokenBlacklisted(jti) {
  */
 async function verifyTurnstileToken(token, remoteIp = null) {
   // If Turnstile is not configured, skip verification
-  if (!TURNSTILE_CONFIG.secretKey) {
+  const secretKey = getTurnstileSecretKey();
+  if (!secretKey) {
     console.warn('Turnstile secret key not configured, skipping verification');
     return true;
   }
 
   try {
     const params = new URLSearchParams();
-    params.append('secret', TURNSTILE_CONFIG.secretKey);
+    params.append('secret', secretKey);
     params.append('response', token);
     if (remoteIp) {
       params.append('remoteip', remoteIp);
@@ -127,6 +138,34 @@ async function verifyTurnstileToken(token, remoteIp = null) {
     console.error('Turnstile 验证错误:', error);
     return false;
   }
+}
+
+function shouldVerifyTurnstile(req) {
+  return getBooleanSetting('turnstile_enabled') && !isLocalhost(req);
+}
+
+async function requireValidTurnstile(req, res, turnstileToken) {
+  if (!shouldVerifyTurnstile(req)) {
+    return true;
+  }
+
+  if (!getTurnstileSecretKey()) {
+    res.status(500).json({ error: '人机验证服务未配置，请在系统设置中填写 Turnstile Secret Key' });
+    return false;
+  }
+
+  if (!turnstileToken) {
+    res.status(400).json({ error: '人机验证未通过，请刷新页面重试' });
+    return false;
+  }
+
+  const isValidToken = await verifyTurnstileToken(turnstileToken, req.ip);
+  if (!isValidToken) {
+    res.status(400).json({ error: '人机验证失败，请重试' });
+    return false;
+  }
+
+  return true;
 }
 
 /**
@@ -193,21 +232,15 @@ function requireRole(...allowedRoles) {
  */
 router.post('/register', registerLimiter, async (req, res) => {
   try {
-    const { username, email, password, displayName, role = 'student', turnstileToken } = req.body;
+    const { username, email, password, displayName, turnstileToken } = req.body;
+    const role = 'student';
 
-    // Skip Turnstile verification for localhost
-    const isLocal = isLocalhost(req);
+    if (!getBooleanSetting('allow_registration')) {
+      return res.status(403).json({ error: '系统暂未开放新用户注册，请联系管理员创建账号' });
+    }
 
-    if (!isLocal) {
-      // 验证 Turnstile token (only for non-localhost)
-      if (!turnstileToken) {
-        return res.status(400).json({ error: '人机验证未通过，请刷新页面重试' });
-      }
-
-      const isValidToken = await verifyTurnstileToken(turnstileToken, req.ip);
-      if (!isValidToken) {
-        return res.status(400).json({ error: '人机验证失败，请重试' });
-      }
+    if (!(await requireValidTurnstile(req, res, turnstileToken))) {
+      return;
     }
 
     // 验证必填字段
@@ -249,6 +282,9 @@ router.post('/register', registerLimiter, async (req, res) => {
 
     const token = generateToken(newUser);
 
+    // 记录注册日志
+    getLogOperation()(newUser.id, 'REGISTER', 'user', newUser.id, { username, email, role }, req);
+
     res.status(201).json({
       message: '注册成功',
       user: {
@@ -275,19 +311,8 @@ router.post('/login', loginLimiter, async (req, res) => {
   try {
     const { username, password, turnstileToken } = req.body;
 
-    // Skip Turnstile verification for localhost
-    const isLocal = isLocalhost(req);
-
-    if (!isLocal) {
-      // 验证 Turnstile token (only for non-localhost)
-      if (!turnstileToken) {
-        return res.status(400).json({ error: '人机验证未通过，请刷新页面重试' });
-      }
-
-      const isValidToken = await verifyTurnstileToken(turnstileToken, req.ip);
-      if (!isValidToken) {
-        return res.status(400).json({ error: '人机验证失败，请重试' });
-      }
+    if (!(await requireValidTurnstile(req, res, turnstileToken))) {
+      return;
     }
 
     if (!username || !password) {
@@ -317,6 +342,9 @@ router.post('/login', loginLimiter, async (req, res) => {
     db.prepare("UPDATE users SET last_login = datetime('now') WHERE id = ?").run(user.id);
 
     const token = generateToken(user);
+
+    // 记录登录日志
+    getLogOperation()(user.id, 'LOGIN', 'user', user.id, { username: user.username }, req);
 
     res.json({
       message: '登录成功',
@@ -455,6 +483,10 @@ router.post('/logout', authenticate, async (req, res) => {
     const { jti, exp } = req.tokenInfo;
     const expiresAt = new Date(exp * 1000).toISOString();
     db.prepare('INSERT INTO token_blacklist (token_jti, expires_at) VALUES (?, ?)').run(jti, expiresAt);
+
+    // 记录登出日志
+    getLogOperation()(req.user.userId, 'LOGOUT', 'user', req.user.userId, { username: req.user.username }, req);
+
     res.json({ message: '登出成功' });
   } catch (error) {
     console.error('登出错误:', error);
@@ -552,6 +584,9 @@ router.put('/users/:id/role', authenticate, requireRole('admin'), async (req, re
       return res.status(404).json({ error: '用户不存在' });
     }
 
+    // 记录角色更新日志
+    getLogOperation()(req.user.userId, 'UPDATE_ROLE', 'user', parseInt(id), { newRole: role }, req);
+
     res.json({ message: '角色更新成功' });
   } catch (error) {
     console.error('更新角色错误:', error);
@@ -598,6 +633,9 @@ router.post('/admin/users', authenticate, requireRole('admin'), async (req, res)
     const result = db.prepare(
       `INSERT INTO users (username, email, password_hash, role, display_name) VALUES (?, ?, ?, ?, ?)`
     ).run(username, email, passwordHash, role, displayName || username);
+
+    // 记录管理员创建用户日志
+    getLogOperation()(req.user.userId, 'ADMIN_CREATE_USER', 'user', result.lastInsertRowid, { createdUsername: username, createdRole: role }, req);
 
     res.status(201).json({
       message: '用户创建成功',
@@ -711,6 +749,9 @@ router.put('/users/:id/status', authenticate, requireRole('admin'), async (req, 
     if (result.changes === 0) {
       return res.status(404).json({ error: '用户不存在' });
     }
+
+    // 记录账号状态变更日志
+    getLogOperation()(req.user.userId, isActive ? 'ENABLE_USER' : 'DISABLE_USER', 'user', parseInt(id), { isActive }, req);
 
     res.json({ message: isActive ? '账号已启用' : '账号已禁用' });
   } catch (error) {

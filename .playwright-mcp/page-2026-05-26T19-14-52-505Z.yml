@@ -1,0 +1,274 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🧠
+      - generic [ref=e7]:
+        - heading "综合 AI 实验室" [level=1] [ref=e8]
+        - generic [ref=e9]: 先选择基础实验或高级专题，再进入对应交互场景
+    - button "登录" [ref=e11] [cursor=pointer]
+    - generic [ref=e103]:
+      - button "返回实验选择" [ref=e104] [cursor=pointer]
+      - button "📈 线性回归" [ref=e105] [cursor=pointer]:
+        - generic [ref=e106]: 📈
+        - text: 线性回归
+      - button "🟠🔵 逻辑回归" [ref=e107] [cursor=pointer]:
+        - generic [ref=e108]: 🟠🔵
+        - text: 逻辑回归
+      - button "🌲 决策树" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: 🌲
+        - text: 决策树
+      - button "🧠 神经网络" [ref=e111] [cursor=pointer]:
+        - generic [ref=e112]: 🧠
+        - text: 神经网络
+      - button "💬 LLM 专题" [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: 💬
+        - text: LLM 专题
+      - button "🎯 YOLO 专题" [ref=e115] [cursor=pointer]:
+        - generic [ref=e116]: 🎯
+        - text: YOLO 专题
+  - main [ref=e118]:
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - heading "Tokenization 可视化" [level=3] [ref=e125]
+              - generic [ref=e126]:
+                - generic [ref=e127]: 按空格词元
+                - generic [ref=e128]: 待学生切分
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - generic [ref=e132]: "1"
+                  - generic [ref=e133]: 原始文本
+                - code [ref=e135]: 问题机器学习是什么回答让计算机自动学习数据模式
+              - generic [ref=e136]:
+                - generic [ref=e137]: ↓
+                - generic [ref=e138]: 分词
+              - generic [ref=e139]: 先由学生手动切分并点击“确认切分”，再揭示 Tokens 和 ID 映射。
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: "学生手动切分:"
+                - button "全部合并" [ref=e143] [cursor=pointer]
+                - button "逐字切分" [ref=e144] [cursor=pointer]
+                - button "确认切分" [ref=e145] [cursor=pointer]
+              - generic "手动分词器" [ref=e146]:
+                - generic [ref=e147]: 问
+                - button "·" [ref=e148] [cursor=pointer]
+                - generic [ref=e149]: 题
+                - button "·" [ref=e150] [cursor=pointer]
+                - generic [ref=e151]: 机
+                - button "·" [ref=e152] [cursor=pointer]
+                - generic [ref=e153]: 器
+                - button "·" [ref=e154] [cursor=pointer]
+                - generic [ref=e155]: 学
+                - button "·" [ref=e156] [cursor=pointer]
+                - generic [ref=e157]: 习
+                - button "·" [ref=e158] [cursor=pointer]
+                - generic [ref=e159]: 是
+                - button "·" [ref=e160] [cursor=pointer]
+                - generic [ref=e161]: 什
+                - button "·" [ref=e162] [cursor=pointer]
+                - generic [ref=e163]: 么
+                - button "·" [ref=e164] [cursor=pointer]
+                - generic [ref=e165]: 回
+                - button "·" [ref=e166] [cursor=pointer]
+                - generic [ref=e167]: 答
+                - button "·" [ref=e168] [cursor=pointer]
+                - generic [ref=e169]: 让
+                - button "·" [ref=e170] [cursor=pointer]
+                - generic [ref=e171]: 计
+                - button "·" [ref=e172] [cursor=pointer]
+                - generic [ref=e173]: 算
+                - button "·" [ref=e174] [cursor=pointer]
+                - generic [ref=e175]: 机
+                - button "·" [ref=e176] [cursor=pointer]
+                - generic [ref=e177]: 自
+                - button "·" [ref=e178] [cursor=pointer]
+                - generic [ref=e179]: 动
+                - button "·" [ref=e180] [cursor=pointer]
+                - generic [ref=e181]: 学
+                - button "·" [ref=e182] [cursor=pointer]
+                - generic [ref=e183]: 习
+                - button "·" [ref=e184] [cursor=pointer]
+                - generic [ref=e185]: 数
+                - button "·" [ref=e186] [cursor=pointer]
+                - generic [ref=e187]: 据
+                - button "·" [ref=e188] [cursor=pointer]
+                - generic [ref=e189]: 模
+                - button "·" [ref=e190] [cursor=pointer]
+                - generic [ref=e191]: 式
+              - generic [ref=e192]: 切分结果暂不显示。先让学生决定哪些字应该组成一个 token。
+              - paragraph [ref=e193]: 绿色表示切出的 token 在词表里；红色会映射为 <UNK>。让学生试试把“机器学习”切开和合并，观察 ID 如何变化。
+            - generic [ref=e194]:
+              - generic [ref=e195]:
+                - generic [ref=e196]: 💡
+                - generic [ref=e197]: 把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。
+              - generic [ref=e198]:
+                - generic [ref=e199]: 🔢
+                - generic [ref=e200]: 每个 Token 映射到一个唯一的数字 ID
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - heading "训练损失" [level=3] [ref=e204]
+              - generic [ref=e205]: Cross-Entropy
+            - generic [ref=e208]:
+              - generic [ref=e209]:
+                - generic [ref=e210]: 当前
+                - generic [ref=e211]: "0.0000"
+              - generic [ref=e212]:
+                - generic [ref=e213]: 平均
+                - generic [ref=e214]: "0.0000"
+              - generic [ref=e215]:
+                - generic [ref=e216]: 最低
+                - generic [ref=e217]: "0.0000"
+            - paragraph [ref=e219]: 损失越低，模型预测下一个词的能力越强。理想情况下，损失应该随着训练逐渐下降。
+          - generic [ref=e221]:
+            - generic [ref=e222]:
+              - heading "LLM 数据流图" [level=3] [ref=e223]
+              - generic [ref=e224]: 空闲
+            - img [ref=e226]:
+              - generic [ref=e227] [cursor=pointer]:
+                - generic [ref=e229]: 📝
+                - generic [ref=e230]: 输入 Tokens
+              - generic [ref=e231] [cursor=pointer]:
+                - generic [ref=e233]: 📊
+                - generic [ref=e234]: Token 嵌入
+              - generic [ref=e235] [cursor=pointer]:
+                - generic [ref=e237]: 📍
+                - generic [ref=e238]: 位置编码
+              - generic [ref=e239] [cursor=pointer]:
+                - generic [ref=e241]: 👁️
+                - generic [ref=e242]: 自注意力
+              - generic [ref=e243] [cursor=pointer]:
+                - generic [ref=e245]: ⚡
+                - generic [ref=e246]: 前馈网络
+              - generic [ref=e247] [cursor=pointer]:
+                - generic [ref=e249]: 🎯
+                - generic [ref=e250]: 输出预测
+              - generic [ref=e251]:
+                - generic [ref=e252]: "当前序列:"
+                - generic [ref=e253]:
+                  - generic [ref=e256]: 问题
+                  - generic [ref=e259]: 机器学习
+                  - generic [ref=e262]: <UNK>
+                  - generic [ref=e265]: 回答
+                  - generic [ref=e268]: <UNK>
+                  - generic [ref=e271]: 计算机
+                  - generic [ref=e272]: "+5"
+            - generic [ref=e273]:
+              - generic [ref=e274]:
+                - generic [ref=e275]: "1"
+                - generic [ref=e276]:
+                  - strong [ref=e277]: 输入 Tokens：
+                  - text: 文本先被分词器切成 Token，并映射成数字 ID。模型只能处理数字，不能直接理解原始文字。
+              - generic [ref=e278]: 点击上方任意节点查看该阶段在 LLM 中的作用。
+        - generic [ref=e280]:
+          - 'heading "训练主题: 问答训练" [level=3] [ref=e281]'
+          - generic [ref=e282]:
+            - button "问答训练" [ref=e283] [cursor=pointer]
+            - button "故事生成" [ref=e284] [cursor=pointer]
+            - button "技术文档" [ref=e285] [cursor=pointer]
+          - paragraph [ref=e286]: 学习问题和回答的对应关系
+          - generic [ref=e287]:
+            - generic [ref=e288]: "训练语料 (5 条):"
+            - generic [ref=e289]:
+              - button "问题 机器学习 是什么 回答 让 计算机 自动 学习 数据 ..." [ref=e290] [cursor=pointer]
+              - button "问题 神经网络 怎么 工作 回答 通过 前向 传播 和 反向..." [ref=e291] [cursor=pointer]
+              - button "问题 什么是 梯度 下降 回答 用于 优化 模型 参数 的 ..." [ref=e292] [cursor=pointer]
+              - button "问题 深度学习 和 机器学习 什么 区别 回答 深度学习 使..." [ref=e293] [cursor=pointer]
+              - button "问题 注意力机制 作用 什么 回答 帮助 模型 关注 重要 ..." [ref=e294] [cursor=pointer]
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - generic [ref=e297]: 词表大小
+              - generic [ref=e298]: "113"
+            - generic [ref=e299]:
+              - generic [ref=e300]: 嵌入维度
+              - generic [ref=e301]: "32"
+            - generic [ref=e302]:
+              - generic [ref=e303]: 注意力头
+              - generic [ref=e304]: "4"
+            - generic [ref=e305]:
+              - generic [ref=e306]: 上下文长度
+              - generic [ref=e307]: "32"
+        - generic [ref=e310]:
+          - heading "控制面板" [level=3] [ref=e312]
+          - generic [ref=e313]:
+            - generic [ref=e314]: 实验模式
+            - generic [ref=e315]:
+              - button "训练模式" [ref=e316] [cursor=pointer]
+              - button "推理模式" [ref=e317] [cursor=pointer]
+          - generic [ref=e318]:
+            - generic [ref=e319]: 分词器
+            - combobox [ref=e320]:
+              - option "按空格词元" [selected]
+              - option "按字符"
+              - option "最长词表匹配"
+            - paragraph [ref=e321]: 把用空格隔开的中文词或英文词直接作为 Token。适合观察人工切好的训练语料。
+          - generic [ref=e322]:
+            - generic [ref=e323]: 选择训练主题
+            - generic [ref=e324]:
+              - button "问答训练" [ref=e325] [cursor=pointer]
+              - button "故事生成" [ref=e326] [cursor=pointer]
+              - button "技术文档" [ref=e327] [cursor=pointer]
+          - generic [ref=e328]:
+            - generic [ref=e329]:
+              - text: "学习率:"
+              - strong [ref=e330]: "0.10"
+            - slider [ref=e331] [cursor=pointer]: "0.1"
+            - generic [ref=e332]:
+              - generic [ref=e333]: 慢
+              - generic [ref=e334]: 快
+          - generic [ref=e335]:
+            - button "单步训练" [ref=e336] [cursor=pointer]
+            - button "训练 25 步" [ref=e337] [cursor=pointer]
+            - button "开始训练" [ref=e338] [cursor=pointer]
+          - generic [ref=e339]:
+            - generic [ref=e340]:
+              - text: "连续训练速度:"
+              - strong [ref=e341]: "5"
+              - text: 步/帧
+            - slider [ref=e342] [cursor=pointer]: "5"
+            - generic [ref=e343]:
+              - generic [ref=e344]: 细看
+              - generic [ref=e345]: 快速
+          - generic [ref=e346]:
+            - generic [ref=e347]:
+              - generic [ref=e348]: 训练步数
+              - generic [ref=e349]: "0"
+            - generic [ref=e350]:
+              - generic [ref=e351]: 当前损失
+              - generic [ref=e352]: "-"
+          - button "重置模型" [ref=e353] [cursor=pointer]
+      - generic [ref=e355]:
+        - heading "LLM 是如何工作的？" [level=4] [ref=e356]
+        - generic [ref=e357]:
+          - generic [ref=e358]:
+            - generic [ref=e359]: "1"
+            - generic [ref=e360]:
+              - strong [ref=e361]: Token 嵌入
+              - paragraph [ref=e362]: 将每个词转换为向量表示
+          - generic [ref=e363]:
+            - generic [ref=e364]: "2"
+            - generic [ref=e365]:
+              - strong [ref=e366]: 位置编码
+              - paragraph [ref=e367]: 添加序列位置信息
+          - generic [ref=e368]:
+            - generic [ref=e369]: "3"
+            - generic [ref=e370]:
+              - strong [ref=e371]: 自注意力
+              - paragraph [ref=e372]: 计算词与词之间的关联
+          - generic [ref=e373]:
+            - generic [ref=e374]: "4"
+            - generic [ref=e375]:
+              - strong [ref=e376]: 输出预测
+              - paragraph [ref=e377]: 预测下一个最可能的词
+      - generic [ref=e378]:
+        - generic [ref=e380]:
+          - generic [ref=e381]: 📚
+          - generic [ref=e382]:
+            - paragraph [ref=e383]: 先选一个训练主题，再单步训练。Loss 表示模型预测下一个词的误差。
+            - generic [ref=e384]: "💡 建议: 单步训练"
+        - generic [ref=e386]:
+          - button "💬" [ref=e387] [cursor=pointer]
+          - button "卡通学习伴侣" [ref=e388] [cursor=pointer]:
+            - img "卡通学习伴侣" [ref=e389]
